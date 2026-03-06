@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { supabase, type Profile } from '@/lib/supabase'
 import { PHASES, getLevelInfo, getXPToNextLevel, LEVELS } from '@/lib/game-data'
-import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
+import { AvatarIcon, InitialsAvatar, AVATARS, type AvatarId } from '@/components/Avatars'
 
 export default function PerfilPage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [completedCount, setCompletedCount] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false)
+  const [savingAvatar, setSavingAvatar] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -27,6 +29,15 @@ export default function PerfilPage() {
     }
     load()
   }, [])
+
+  async function handleAvatarChange(avatarId: AvatarId) {
+    if (!profile) return
+    setSavingAvatar(true)
+    await supabase.from('academy_profiles').update({ avatar_id: avatarId }).eq('id', profile.id)
+    setProfile(prev => prev ? { ...prev, avatar_id: avatarId } : null)
+    setShowAvatarPicker(false)
+    setSavingAvatar(false)
+  }
 
   if (loading || !profile) {
     return (
@@ -54,12 +65,28 @@ export default function PerfilPage() {
         background: 'linear-gradient(135deg, rgba(59,91,219,0.08) 0%, rgba(10,10,20,0.9) 100%)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
-          {/* Avatar */}
-          {profile.avatar_id ? (
-            <AvatarIcon id={profile.avatar_id as AvatarId} size={80} />
-          ) : (
-            <InitialsAvatar name={profile.display_name || profile.username} size={80} />
-          )}
+          {/* Avatar com botão de trocar */}
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            {profile.avatar_id ? (
+              <AvatarIcon id={profile.avatar_id as AvatarId} size={80} />
+            ) : (
+              <InitialsAvatar name={profile.display_name || profile.username} size={80} />
+            )}
+            <button
+              onClick={() => setShowAvatarPicker(v => !v)}
+              style={{
+                position: 'absolute', bottom: -4, right: -4,
+                width: 26, height: 26, borderRadius: '50%',
+                background: '#3B5BDB', border: '2px solid #0a0a14',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+          </div>
           <div>
             <div style={{
               fontFamily: 'Space Grotesk, sans-serif',
@@ -77,8 +104,62 @@ export default function PerfilPage() {
             }}>
               Nível {profile.level} — {profile.title}
             </div>
+            <div style={{ marginTop: 8 }}>
+              <button
+                onClick={() => setShowAvatarPicker(v => !v)}
+                style={{
+                  background: 'transparent', border: '1px solid rgba(59,91,219,0.3)',
+                  borderRadius: 8, padding: '5px 12px',
+                  color: '#6B7A9E', fontSize: 12, cursor: 'pointer',
+                  fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600,
+                }}
+              >
+                {showAvatarPicker ? 'Cancelar' : 'Trocar avatar'}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Avatar picker */}
+        {showAvatarPicker && (
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 12, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', marginBottom: 12 }}>
+              ESCOLHA SEU AVATAR
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+              {AVATARS.map(avatar => {
+                const isSelected = profile.avatar_id === avatar.id
+                return (
+                  <button
+                    key={avatar.id}
+                    onClick={() => handleAvatarChange(avatar.id)}
+                    disabled={savingAvatar}
+                    style={{
+                      background: isSelected ? `${avatar.color}18` : 'rgba(10,10,20,0.6)',
+                      border: `2px solid ${isSelected ? avatar.color : 'rgba(12,21,102,0.5)'}`,
+                      borderRadius: 12, padding: '12px 8px',
+                      cursor: savingAvatar ? 'wait' : 'pointer',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+                      transition: 'all 0.15s',
+                      boxShadow: isSelected ? `0 0 14px ${avatar.color}40` : 'none',
+                      opacity: savingAvatar ? 0.6 : 1,
+                    }}
+                  >
+                    <AvatarIcon id={avatar.id} size={44} selected={isSelected} />
+                    <span style={{
+                      fontSize: 10, fontWeight: 700,
+                      fontFamily: 'Space Grotesk, sans-serif',
+                      color: isSelected ? avatar.color : '#6B7A9E',
+                      letterSpacing: '0.04em',
+                    }}>
+                      {avatar.label.toUpperCase()}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* XP section */}
         <div>
