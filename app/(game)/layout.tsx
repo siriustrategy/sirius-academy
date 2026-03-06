@@ -1,0 +1,206 @@
+'use client'
+
+import { useEffect, useState, useCallback } from 'react'
+import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
+import { supabase, type Profile } from '@/lib/supabase'
+import { getLevelInfo, getXPToNextLevel } from '@/lib/game-data'
+import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
+import OnboardingModal from '@/components/OnboardingModal'
+import { LayoutDashboard, User, LogOut } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+const StarfieldCanvas = dynamic(() => import('@/components/StarfieldCanvas'), { ssr: false })
+
+// ── Sirius Constellation Logo ──────────────────────────────────
+function SiriusLogo() {
+  return (
+    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" className="sirius-logo">
+      <defs>
+        <filter id="sg1" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="1.6" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id="sg2" x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      {/* Constellation lines */}
+      <line x1="19" y1="8"  x2="28" y2="17" stroke="rgba(93,130,255,0.3)" strokeWidth="0.7"/>
+      <line x1="19" y1="8"  x2="10" y2="17" stroke="rgba(93,130,255,0.3)" strokeWidth="0.7"/>
+      <line x1="28" y1="17" x2="24" y2="27" stroke="rgba(93,130,255,0.3)" strokeWidth="0.7"/>
+      <line x1="10" y1="17" x2="14" y2="27" stroke="rgba(93,130,255,0.3)" strokeWidth="0.7"/>
+      <line x1="14" y1="27" x2="24" y2="27" stroke="rgba(93,130,255,0.3)" strokeWidth="0.7"/>
+      <line x1="19" y1="8"  x2="19" y2="3"  stroke="rgba(93,130,255,0.2)" strokeWidth="0.6"/>
+      <line x1="28" y1="17" x2="34" y2="13" stroke="rgba(93,130,255,0.18)" strokeWidth="0.6"/>
+      {/* Stars */}
+      <circle cx="10" cy="17" r="1.3" fill="#7B9FFF" filter="url(#sg1)" />
+      <circle cx="28" cy="17" r="1.3" fill="#7B9FFF" filter="url(#sg1)" />
+      <circle cx="14" cy="27" r="1.1" fill="#5C7FFF" filter="url(#sg1)" />
+      <circle cx="24" cy="27" r="1.1" fill="#5C7FFF" filter="url(#sg1)" />
+      <circle cx="19" cy="3"  r="0.9" fill="#4A6AFF" />
+      <circle cx="34" cy="13" r="0.7" fill="#4A6AFF" />
+      {/* Sirius — principal */}
+      <circle cx="19" cy="8" r="3.2" fill="#3B5BDB" filter="url(#sg2)" />
+      <circle cx="19" cy="8" r="1.6" fill="#E8EEFF" />
+    </svg>
+  )
+}
+
+export default function GameLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  const loadProfile = useCallback(async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) { router.push('/login'); return }
+    const { data } = await supabase.from('academy_profiles').select('*').eq('id', session.user.id).single()
+    if (!data) { router.push('/login'); return }
+    setProfile(data)
+    if (!data.onboarding_complete) setShowOnboarding(true)
+    setLoading(false)
+  }, [router])
+
+  useEffect(() => { loadProfile() }, [loadProfile])
+
+  async function handleOnboardingComplete(displayName: string, avatarId: AvatarId) {
+    if (!profile) return
+    await supabase.from('academy_profiles').update({ onboarding_complete: true, display_name: displayName, avatar_id: avatarId }).eq('id', profile.id)
+    setProfile(prev => prev ? { ...prev, display_name: displayName, avatar_id: avatarId, onboarding_complete: true } : null)
+    setShowOnboarding(false)
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
+        <div style={{ width: 32, height: 32, border: '3px solid var(--border)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+      </div>
+    )
+  }
+
+  const levelInfo = profile ? getLevelInfo(profile.xp) : null
+  const xpInfo   = profile ? getXPToNextLevel(profile.xp) : null
+  const displayName = profile?.display_name || profile?.username || 'Jogador'
+  const avatarId    = profile?.avatar_id as AvatarId | null
+
+  const navItems = [
+    { href: '/dashboard', icon: LayoutDashboard, label: 'Hub de Aprendizado', color: '#3B5BDB' },
+    { href: '/perfil',    icon: User,            label: 'Meu Perfil',          color: '#7C3AED' },
+  ]
+
+  return (
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
+      {/* Starfield (canvas, sem interação) */}
+      <StarfieldCanvas />
+
+      {showOnboarding && profile && (
+        <OnboardingModal userId={profile.id} onComplete={handleOnboardingComplete} />
+      )}
+
+      {/* ── Sidebar ── */}
+      <aside style={{
+        width: 220,
+        background: 'rgba(8,12,24,0.9)',
+        borderRight: '1px solid var(--sidebar-border)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '22px 12px',
+        position: 'fixed',
+        top: 0, bottom: 0, left: 0,
+        zIndex: 50,
+        overflowY: 'auto',
+        backdropFilter: 'blur(12px)',
+      }}>
+        {/* Logo */}
+        <Link href="/dashboard" style={{ textDecoration: 'none', marginBottom: 28, display: 'block' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '4px 6px' }}>
+            <SiriusLogo />
+            <div>
+              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 15, color: 'var(--text-primary)', letterSpacing: '0.05em', lineHeight: 1.1 }}>
+                SIRIUS
+              </div>
+              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 10, color: 'var(--text-secondary)', letterSpacing: '0.14em' }}>
+                ACADEMY
+              </div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Player card */}
+        {profile && levelInfo && xpInfo && (
+          <div style={{
+            background: 'rgba(59,91,219,0.07)',
+            border: '1px solid rgba(59,91,219,0.14)',
+            borderRadius: 10, padding: '12px 14px', marginBottom: 22,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+              {avatarId ? <AvatarIcon id={avatarId} size={36} /> : <InitialsAvatar name={displayName} size={36} />}
+              <div style={{ overflow: 'hidden', flex: 1 }}>
+                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {displayName}
+                </div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: levelInfo.color, marginTop: 1 }}>
+                  Nv.{profile.level} — {profile.title}
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
+              <span style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.06em' }}>XP</span>
+              <span style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>{profile.xp}</span>
+            </div>
+            <div style={{ background: 'var(--border)', borderRadius: 3, height: 4, overflow: 'hidden' }}>
+              <div className="xp-bar" style={{ width: `${xpInfo.percent}%`, height: '100%' }} />
+            </div>
+          </div>
+        )}
+
+        <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.14em', textTransform: 'uppercase', padding: '0 6px', marginBottom: 6 }}>
+          Menu
+        </div>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+          {navItems.map(item => {
+            const active = pathname === item.href
+            const Icon = item.icon
+            return (
+              <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
+                <div className={`nav-pill ${active ? 'active' : ''}`}>
+                  <div className="nav-icon" style={{
+                    background: active ? `${item.color}18` : 'var(--muted-bg)',
+                    border: `1px solid ${active ? item.color + '30' : 'var(--border)'}`,
+                  }}>
+                    <Icon size={15} color={active ? item.color : 'var(--text-secondary)'} strokeWidth={2} />
+                  </div>
+                  <span>{item.label}</span>
+                </div>
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div style={{ height: 1, background: 'var(--border)', margin: '14px 0' }} />
+
+        <button onClick={handleLogout} className="nav-pill" style={{ border: 'none' }}>
+          <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
+            <LogOut size={14} color="var(--text-secondary)" strokeWidth={2} />
+          </div>
+          <span>Sair</span>
+        </button>
+      </aside>
+
+      {/* ── Main ── */}
+      <main style={{ marginLeft: 220, flex: 1, minHeight: '100vh' }}>
+        {children}
+      </main>
+    </div>
+  )
+}
