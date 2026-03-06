@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { PHASES, type Module, type QuizQuestion } from '@/lib/game-data'
-import { CheckCircle2, ArrowRight, Trophy, TrendingUp, Target, Lightbulb } from 'lucide-react'
+import { CheckCircle2, ArrowRight, Trophy, TrendingUp, Target, Lightbulb, Copy, Check } from 'lucide-react'
 
 function findModule(id: string): { module: Module; phaseId: number } | null {
   for (const phase of PHASES) {
@@ -174,13 +174,47 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
 
 // ── Terminal Block Component ─────────────────────────────────
 function TerminalBlock({ label, children }: { label?: string; children: string }) {
+  const [copied, setCopied] = useState(false)
+
+  function handleCopy() {
+    navigator.clipboard.writeText(children).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   return (
     <div className="terminal-block">
-      <div className="terminal-header">
-        <div className="terminal-dot red" />
-        <div className="terminal-dot yellow" />
-        <div className="terminal-dot green" />
-        {label && <span className="terminal-label">{label}</span>}
+      <div className="terminal-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div className="terminal-dot red" />
+          <div className="terminal-dot yellow" />
+          <div className="terminal-dot green" />
+          {label && <span className="terminal-label">{label}</span>}
+        </div>
+        <button
+          onClick={handleCopy}
+          title="Copiar prompt"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(59,91,219,0.12)',
+            border: `1px solid ${copied ? 'rgba(16,185,129,0.4)' : 'rgba(59,91,219,0.25)'}`,
+            borderRadius: 6,
+            padding: '3px 10px',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            fontSize: 11,
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 700,
+            letterSpacing: '0.05em',
+            color: copied ? '#10b981' : '#7B9FFF',
+          }}
+        >
+          {copied
+            ? <><Check size={12} strokeWidth={2.5} /> Copiado</>
+            : <><Copy size={12} strokeWidth={2} /> Copiar</>
+          }
+        </button>
       </div>
       <div className="terminal-body">{children}</div>
     </div>
