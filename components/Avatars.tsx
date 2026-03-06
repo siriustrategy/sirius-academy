@@ -19,19 +19,20 @@ export const AVATARS: { id: AvatarId; label: string; color: string; bg: string }
   { id: 'zenith',  label: 'Zenith',  color: '#16A34A', bg: '0a2a12' },
 ]
 
-function dicebearUrl(id: AvatarId, size: number) {
-  const meta = AVATARS.find(a => a.id === id)!
-  return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${id}&size=${size}&backgroundColor=${meta.bg}&backgroundType=solid`
+const FALLBACK: typeof AVATARS[0] = AVATARS[0]
+
+function dicebearUrl(seed: string, bg: string, size: number) {
+  return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${seed}&size=${size}&backgroundColor=${bg}&backgroundType=solid`
 }
 
 type AvatarIconProps = {
-  id: AvatarId
+  id: string
   size?: number
   selected?: boolean
 }
 
 export function AvatarIcon({ id, size = 48, selected = false }: AvatarIconProps) {
-  const meta = AVATARS.find(a => a.id === id)!
+  const meta = AVATARS.find(a => a.id === id) ?? FALLBACK
   return (
     <div style={{
       width: size, height: size,
@@ -43,7 +44,7 @@ export function AvatarIcon({ id, size = 48, selected = false }: AvatarIconProps)
       background: `#${meta.bg}`,
     }}>
       <img
-        src={dicebearUrl(id, size)}
+        src={dicebearUrl(id, meta.bg, size)}
         alt={meta.label}
         width={size}
         height={size}
