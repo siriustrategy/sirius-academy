@@ -43,6 +43,7 @@ export default function CadastroPage() {
       const { error: profileError } = await supabase.from('academy_profiles').insert({
         id: data.user.id,
         username,
+        email,
         xp: 0,
         level: 1,
         title: 'Iniciante',

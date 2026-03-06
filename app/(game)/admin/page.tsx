@@ -236,7 +236,7 @@ export default function AdminPage() {
       const userData: UserData[] = profiles.map(profile => ({
         profile,
         progress: (allProgress || []).filter(p => p.user_id === profile.id),
-        email: profile.username, // fallback — veja nota abaixo
+        email: profile.email || profile.username,
       }))
 
       setUsers(userData)
