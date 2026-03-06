@@ -83,7 +83,7 @@ export const PHASES: Phase[] = [
     id: 1,
     title: 'O Despertar',
     subtitle: 'Fundamentos de IA — do zero ao consciente',
-    icon: '🌌',
+    icon: 'cosmos',
     color: '#3B5BDB',
     xpBonus: 200,
     modules: [
@@ -189,7 +189,7 @@ export const PHASES: Phase[] = [
     id: 2,
     title: 'O Maestro',
     subtitle: 'Dominando o Claude — da conta ao prompt perfeito',
-    icon: '🧠',
+    icon: 'brain',
     color: '#7C3AED',
     xpBonus: 200,
     modules: [
@@ -344,7 +344,7 @@ export const PHASES: Phase[] = [
     id: 3,
     title: 'O Criador',
     subtitle: 'Marketing para Instagram e TikTok com IA',
-    icon: '📱',
+    icon: 'mobile',
     color: '#DC2626',
     xpBonus: 250,
     modules: [
@@ -444,7 +444,7 @@ export const PHASES: Phase[] = [
     id: 4,
     title: 'O Artista',
     subtitle: 'Criando imagens incríveis com Gemini (Nano Banana)',
-    icon: '🎨',
+    icon: 'palette',
     color: '#059669',
     xpBonus: 250,
     modules: [
@@ -534,7 +534,7 @@ export const PHASES: Phase[] = [
     id: 5,
     title: 'O Diretor',
     subtitle: 'Vídeos virais com Higgsfield e Kling',
-    icon: '🎬',
+    icon: 'video',
     color: '#D97706',
     xpBonus: 300,
     modules: [
@@ -629,7 +629,7 @@ export const PHASES: Phase[] = [
     id: 6,
     title: 'O Arquiteto',
     subtitle: 'Avatares, personagens e identidade visual consistente',
-    icon: '🤖',
+    icon: 'robot',
     color: '#7C3AED',
     xpBonus: 250,
     modules: [
@@ -680,7 +680,7 @@ export const PHASES: Phase[] = [
     id: 7,
     title: 'O Construtor',
     subtitle: 'BONUS: Criando apps e sites com Lovable',
-    icon: '🏗️',
+    icon: 'build',
     color: '#DC2626',
     xpBonus: 400,
     modules: [

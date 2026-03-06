@@ -123,7 +123,7 @@ export default function OnboardingModal({ userId, onComplete }: Props) {
         ) : (
           <>
             <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 26, fontWeight: 700, marginBottom: 8 }}>
-              Olá, {displayName}! 👋
+              Olá, {displayName}!
             </h2>
             <p style={{ color: '#6B7A9E', fontSize: 16, marginBottom: 28 }}>
               Escolha seu avatar — ele vai representar você na academia.
