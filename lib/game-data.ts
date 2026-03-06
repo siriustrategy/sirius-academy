@@ -45,6 +45,8 @@ export type QuizQuestion = {
 
 export type Phase = {
   id: number
+  area?: string
+  level?: string
   title: string
   subtitle: string
   icon: string
@@ -723,5 +725,617 @@ export const PHASES: Phase[] = [
         }
       }
     ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────
+  // VENDAS — BÁSICO (Fase 10)
+  // ─────────────────────────────────────────────────────────────────
+  {
+    id: 10,
+    area: 'vendas',
+    level: 'basico',
+    title: 'O Vendedor Aumentado',
+    subtitle: 'IA aplicada ao processo comercial do início ao fim',
+    icon: 'trending',
+    color: '#059669',
+    xpBonus: 250,
+    modules: [
+      {
+        id: 'v1-m1',
+        title: 'IA no processo de vendas: onde usar de verdade',
+        subtitle: 'O mapa completo de como IA se encaixa na sua rotina comercial',
+        duration: '10 min',
+        xp: 60,
+        type: 'leitura',
+        content: {
+          intro: 'A IA já está transformando a forma como equipes de vendas trabalham. Não é papo de futuro — é presente. Aqui você vai entender onde encaixar IA no seu dia a dia de vendas sem virar um técnico.',
+          sections: [
+            {
+              title: 'O mapa do processo comercial com IA',
+              body: `Todo processo de vendas tem etapas. A IA pode ajudar em todas — mas em algumas ela brilha de verdade.\n\n**Prospecção:** Pesquisar leads, entender o perfil ideal, encontrar empresas novas → IA economiza horas\n\n**Abordagem:** Cold emails, scripts de cold call, personalização em escala → IA multiplica resultados\n\n**Qualificação:** Perguntas certas, análise de fit, priorizar leads quentes → IA ajuda a não perder tempo\n\n**Proposta:** Apresentações adaptadas por cliente, cálculo de ROI, argumentação → IA gera rascunhos em segundos\n\n**Follow-up:** Sequências de mensagens, lembretes, reativação de leads frios → IA automatiza sem perder o toque humano\n\n**Fechamento:** Preparação para objeções, simulação de negociação → IA treina você antes da reunião real`,
+              tip: 'Comece onde dói mais. Se sua maior perda de tempo é pesquisa de prospects, comece aí. Se é no follow-up, comece aí. IA serve onde você mais precisa.'
+            },
+            {
+              title: 'O que a IA faz muito bem em vendas',
+              body: `**1. Personalização em escala:** Antes, personalizar exigia tempo. Com IA, você personaliza 50 emails em 30 minutos.\n\n**2. Pesquisa de prospects:** Em 5 minutos, IA monta um briefing completo de qualquer empresa ou pessoa.\n\n**3. Scripts adaptativos:** IA cria scripts diferentes para CEO, Diretor e Analista — cada um com a linguagem certa.\n\n**4. Simulação de objeções:** IA faz o papel do cliente mais difícil para você treinar respostas antes da reunião real.\n\n**5. Análise de histórico:** "Analise essas 10 propostas perdidas e me diga o padrão de rejeição." IA identifica o que você não vê.`,
+            },
+            {
+              title: 'O que a IA NÃO faz — e por que isso é bom para você',
+              body: `IA não fecha vendas. Você fecha.\n\nRelacionamento genuíno, empatia, leitura de linguagem corporal, o timing certo de uma piada, sentir quando o cliente está prestes a ceder — isso é seu.\n\nIA amplifica sua capacidade. O vendedor que usa IA tem mais tempo para o que realmente importa: construir relacionamentos e fechar negócios.\n\n**A lógica:** IA tira de você as 4 horas de pesquisa e preparação. Sobram 4 horas a mais para estar na frente do cliente.`,
+              tip: '"O vendedor que usa IA não é substituído pela IA. É promovido para o nível que outros vendedores não conseguem alcançar." — Esta é a vantagem competitiva que você está construindo agora.'
+            }
+          ],
+          quiz: [
+            {
+              question: 'Em qual etapa do processo de vendas a IA tem MENOR impacto?',
+              options: [
+                'Pesquisa e qualificação de prospects',
+                'Criação de cold emails personalizados',
+                'Leitura emocional e empatia na reunião presencial',
+                'Preparação de scripts e respostas a objeções'
+              ],
+              correct: 2,
+              explanation: 'IA é excelente em tarefas analíticas, textuais e de preparação. Mas a conexão humana genuína, empatia e leitura emocional ao vivo continuam sendo seu maior diferencial.'
+            },
+            {
+              question: 'Qual é a principal vantagem de usar IA na personalização de abordagens?',
+              options: [
+                'Eliminar a necessidade de um time de vendas',
+                'Personalizar em escala — o que antes levaria dias, agora leva minutos',
+                'Garantir que todos os emails sejam idênticos',
+                'Substituir o CRM da empresa'
+              ],
+              correct: 1,
+              explanation: 'Personalização em escala é o superpoder de IA em vendas. Você mantém a qualidade de um email altamente personalizado, mas produz em volume.'
+            }
+          ]
+        }
+      },
+      {
+        id: 'v1-m2',
+        title: 'Cold email irresistível com IA em 5 minutos',
+        subtitle: 'A técnica de escrever emails que realmente abrem portas',
+        duration: '15 min',
+        xp: 70,
+        type: 'pratica',
+        content: {
+          intro: 'Cold email é a habilidade mais subestimada de vendas. Um bom email abre portas que nenhuma cold call consegue. Com IA, você cria emails personalizados e eficazes em escala — sem soar robótico.',
+          sections: [
+            {
+              title: 'A anatomia de um cold email que funciona',
+              body: `Um cold email que converte tem exatamente 5 elementos. Nenhum a mais, nenhum a menos.\n\n**1. Assunto (linha mais importante):**\nDeve parecer que você conhece a pessoa. Fuja de "Parceria Estratégica" e "Oportunidade Única".\nBom: "Vi que vocês estão expandindo para o nordeste" / "Pergunta rápida sobre [problema específico]"\n\n**2. Abertura personalizada (2 frases sobre ELES):**\nMostre que fez o dever de casa. Uma observação específica sobre a empresa ou a pessoa.\nBom: "Vi a entrevista do [CEO] no Podcast X falando sobre o desafio de [X]. Fez muito sentido para mim."\n\n**3. Proposta de valor (o problema que você resolve):**\nUma frase clara. Não fale de você — fale do problema deles que você resolve.\n\n**4. Prova social (resultado rápido):**\nUm número concreto ou um cliente conhecido. "Ajudei [Empresa Similar] a [resultado] em [tempo]."\n\n**5. CTA único e fácil:**\nUma pergunta simples. "Faz sentido conversar 20 minutos essa semana?"`,
+              tip: 'O erro mais comum: falar sobre você ao invés de falar sobre eles. O prospect não liga para você. Ele liga para os problemas dele.'
+            },
+            {
+              title: 'Como pesquisar o prospect com IA antes de escrever',
+              body: `Antes de escrever qualquer email, você precisa de 3-5 minutos de pesquisa. Aqui está o processo:\n\n**Fontes que você vai usar:**\n- LinkedIn da pessoa (cargo, tempo na empresa, posts recentes)\n- Site da empresa (sobre, notícias, "casos de sucesso")\n- Google News: "[Nome da empresa] 2024/2025"\n\n**O que procurar (gatilhos de abordagem):**\n- Promoção/mudança de cargo recente → "Parabéns pela promoção para [cargo]"\n- Expansão de negócio → "Vi que abriram filial em [cidade]"\n- Contratação em escala → "Notei que estão crescendo o time de [área]"\n- Problema do setor → "Todo [setor] está enfrentando [desafio]"\n\n**Peça ao Claude:** "Analisando este perfil do LinkedIn [cole o texto] e este sobre da empresa [cole o texto], quais são os 3 melhores gatilhos de personalização para um cold email?"`,
+            },
+            {
+              title: 'O processo completo: pesquisa → prompt → email',
+              body: `Agora junte tudo:\n\n1. Pesquise o prospect (LinkedIn + site + Google News)\n2. Cole as informações no Claude\n3. Use o prompt modelo abaixo\n4. Ajuste o email gerado com sua voz\n5. Envie\n\nO resultado: emails que parecem escritos para aquela pessoa específica, mesmo quando você produz 20 por dia.`,
+            }
+          ],
+          prompts: [
+            {
+              label: 'Prompt RUIM — genérico e ineficaz',
+              bad: 'Escreva um cold email de vendas para um diretor de marketing.',
+              good: `Escreva um cold email para [NOME], [CARGO] na [EMPRESA].\n\nContexto sobre eles:\n- A empresa está [momento atual: expandindo / passando por mudança / enfrentando desafio X]\n- Recentemente [evento relevante: lançaram produto / abriram filial / fizeram parceria]\n- O perfil do LinkedIn mostra foco em [área de interesse]\n\nMeu contexto:\n- Empresa: [SUA EMPRESA]\n- O que faço: [PROPOSTA DE VALOR EM 1 FRASE]\n- Resultado concreto que gerei: [CASE: ajudei X empresa a Y em Z tempo]\n\nEmail deve ter:\n- Assunto personalizado (não genérico)\n- Abertura que mostra que pesquisei sobre eles (1-2 frases)\n- O problema que resolvo (foco NELES, não em mim)\n- Prova social com número\n- CTA de uma única pergunta simples\n- Tom: direto, respeitoso, sem exagero\n- Máximo 150 palavras`,
+              explanation: 'O bom prompt dá contexto específico sobre o prospect e sobre você. O resultado é um email que parece que você realmente conhece a pessoa — porque o Claude vai usar todos esses dados para personalizar.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: seus 3 primeiros cold emails com IA',
+            description: 'Escolha 3 prospects reais da sua carteira e crie um cold email personalizado para cada um usando o processo deste módulo.',
+            steps: [
+              'Escolha 3 prospects reais (ou potenciais) que você quer abordar',
+              'Para cada um: pesquise LinkedIn + site da empresa por 3 minutos',
+              'Cole as informações no Claude usando o prompt modelo deste módulo',
+              'Revise e ajuste o email com sua voz pessoal',
+              'Compare os 3 emails: qual parece mais personalizado? O que mudaria?',
+              'BÔNUS: envie um deles hoje e anote a resposta'
+            ]
+          }
+        }
+      },
+      {
+        id: 'v1-m3',
+        title: 'Pesquisa de prospects com IA',
+        subtitle: 'Saiba tudo sobre seu lead antes de fazer qualquer contato',
+        duration: '12 min',
+        xp: 65,
+        type: 'exercicio',
+        content: {
+          intro: 'Conhecer seu prospect antes de abordar é a diferença entre "mais um vendedor tentando vender" e "esse cara realmente entende do meu negócio". IA faz essa pesquisa profunda em minutos.',
+          sections: [
+            {
+              title: 'O que você precisa saber antes de abordar',
+              body: `**Sobre a empresa:**\n- Segmento e modelo de negócio\n- Tamanho (faturamento, colaboradores)\n- Momento atual: crescendo, estável, em transformação?\n- Principais desafios do setor hoje\n- Concorrentes diretos\n- Notícias recentes (últimos 90 dias)\n\n**Sobre a pessoa:**\n- Cargo e responsabilidades reais\n- Tempo na empresa e cargo anterior\n- Posts e conteúdo recente no LinkedIn (o que ela fala)\n- Projetos em andamento\n- Tom de comunicação (formal? casual? técnico?)\n\n**Contexto comercial:**\n- Já usam solução similar? Qual?\n- Qual o tamanho do problema que você resolve para eles?\n- Quem mais influencia a decisão (além da pessoa que você vai falar)?`,
+              tip: 'Você não precisa de tudo isso sempre. Para um cold email, 3-4 pontos chave já fazem diferença enorme. Para uma reunião de negociação, pesquise tudo.'
+            },
+            {
+              title: 'Criando um Briefing de Prospect com IA',
+              body: `**O processo:**\n1. Cole o texto do LinkedIn da pessoa no Claude\n2. Cole o texto do "Sobre" e "Serviços" do site da empresa\n3. Adicione o resultado de uma busca no Google News\n4. Peça ao Claude para montar um briefing estruturado\n\n**O que o briefing deve ter:**\n- Resumo da empresa (3-5 linhas)\n- Perfil da pessoa (2-3 linhas)\n- Momento atual e principais desafios (onde você encaixa)\n- 3 gatilhos de abordagem personalizados\n- Possíveis objeções antecipadas\n- Sugestão de ângulo de abordagem`,
+            },
+            {
+              title: 'Qualificando leads com IA — BANT simplificado',
+              body: `BANT é o framework clássico de qualificação: Budget (Orçamento), Authority (Autoridade), Need (Necessidade), Timeline (Prazo).\n\nUse IA para responder essas 4 perguntas antes de investir horas em um prospect:\n\n**Budget:** "Empresa do tamanho de [X] tipicamente tem budget para [solução] na faixa de?" — Claude te dá um benchmarking\n\n**Authority:** "Quem normalmente toma a decisão de contratar [tipo de solução] em empresas desse porte?" — Saiba se está falando com a pessoa certa\n\n**Need:** "Quais são os maiores desafios de [setor] em relação a [problema que você resolve] atualmente?" — Conecte seu produto ao cenário deles\n\n**Timeline:** Identifique urgência pelos sinais: expansão recente, problemas públicos, mudança de liderança — todos indicam timing favorável`,
+              tip: 'Lembre: IA dá estimativas e padrões gerais. Valide as informações mais críticas diretamente com o prospect ou via sua rede.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: Briefing completo de 3 prospects',
+            description: 'Crie um briefing profissional para 3 prospects usando o processo de IA deste módulo.',
+            steps: [
+              'Escolha 3 prospects que você quer abordar esta semana',
+              'Para cada um: acesse o LinkedIn e copie o perfil + posts recentes',
+              'Acesse o site da empresa e copie a seção "Sobre" e "Serviços"',
+              'Busque no Google: "[empresa] 2025" e copie 2-3 notícias relevantes',
+              'Cole tudo no Claude e peça: "Monte um briefing de prospect completo com o formato: Resumo da empresa, Perfil da pessoa, Momento atual, 3 gatilhos de abordagem, Possíveis objeções, Ângulo de abordagem sugerido"',
+              'Compare os 3 briefings: qual prospect tem mais fit? Priorize.'
+            ]
+          }
+        }
+      },
+      {
+        id: 'v1-m4',
+        title: 'Script de vendas personalizado com IA',
+        subtitle: 'Scripts que soam naturais para cada tipo de cliente',
+        duration: '15 min',
+        xp: 70,
+        type: 'pratica',
+        content: {
+          intro: 'Script não é decoreba — é estrutura. E IA te ajuda a ter estruturas flexíveis e adaptadas para cada cenário, cliente e objeção. Nunca mais você vai entrar numa call sem saber o que dizer.',
+          sections: [
+            {
+              title: 'Os 4 scripts essenciais que todo vendedor precisa ter',
+              body: `**1. Script de Cold Call (30, 60 e 3 minutos):**\n- 30s: Abertura + proposta de valor + uma pergunta\n- 60s: + contexto do problema + qualificação básica\n- 3 min: + histórico + interesse em próximo passo\n\n**2. Script de Demo/Apresentação:**\n- Abertura que mostra que pesquisou sobre eles\n- Estrutura: problema → agitação → solução → prova → CTA\n\n**3. Scripts de Objeção (os 5 mais comuns):**\n- "Está caro" / "Preciso de desconto"\n- "Estou satisfeito com o atual"\n- "Precisamos envolver mais pessoas"\n- "Deixa eu pensar e te retorno"\n- "Nosso concorrente cobra menos"\n\n**4. Script de Fechamento:**\n- Como criar urgência sem pressionar\n- Como confirmar compromisso e próximos passos`,
+              tip: 'Crie variações de cada script: uma para CEO, uma para Diretor técnico, uma para tomador de decisão financeiro. A linguagem certa para cada perfil muda tudo.'
+            },
+            {
+              title: 'Como criar scripts que soam 100% naturais',
+              body: `O erro mais comum: "ChatGPT, escreva um script de vendas." O resultado parece robótico porque falta contexto.\n\n**O que o Claude precisa para gerar um script excelente:**\n- **Quem você é:** sua empresa, proposta de valor, diferencial\n- **Quem é o cliente:** cargo, setor, tamanho da empresa\n- **O cenário:** cold call? Demo? Reunião de fechamento?\n- **Seu tom:** formal/casual, direto/consultivo, técnico/executivo\n- **As objeções comuns que você já ouviu:** Claude vai incluir respostas\n- **Cases reais:** os resultados que você já gerou para outros clientes\n\nQuanto mais contexto você der, mais o script vai parecer que você escreveu — não um robô.`,
+            },
+            {
+              title: 'Adaptando scripts por perfil de comprador',
+              body: `**CEO/Fundador:** Foco em impacto no negócio, crescimento, risco e retorno. Seja direto, sem rodeios. Demonstre que entende o negócio deles, não só o produto.\n\n**Diretor/VP:** Foco em resultados mensuráveis, alinhamento com estratégia do time, facilidade de implementação. Mostre como vai facilitar a vida do time dele.\n\n**Gerente/Analista:** Foco em como vai facilitar o dia a dia deles, features e funcionalidades, suporte e onboarding. Mostre que você vai estar junto na implementação.\n\n**Financeiro/Controladoria:** ROI, payback period, custo total de propriedade, riscos. Tenha números. Fale de custo de não agir.`,
+              tip: 'Antes de qualquer reunião, pergunte ao Claude: "Estou apresentando para um [cargo] em uma empresa de [segmento]. Como devo adaptar minha abordagem?"'
+            }
+          ],
+          prompts: [
+            {
+              label: 'Prompt para criar script de cold call personalizado',
+              good: `Crie um script de cold call de 60 segundos para mim.\n\nMeu contexto:\n- Empresa: [NOME] — [O QUE FAZ em 1 frase]\n- Proposta de valor: [O PROBLEMA QUE RESOLVO]\n- Case de sucesso: [RESULTADO CONCRETO com número]\n\nProspect:\n- Nome: [NOME DO PROSPECT]\n- Cargo: [CARGO] na [EMPRESA]\n- Momento da empresa: [CONTEXTO RELEVANTE]\n\nEstrutura do script:\n1. Abertura (5s): identificação + gancho de atenção personalizado\n2. Proposta de valor (15s): problema que resolvo + para quem\n3. Prova social (10s): case rápido com número\n4. Qualificação (20s): uma pergunta para validar fit\n5. CTA (10s): proposta de próximo passo claro\n\nTom: [direto / consultivo / técnico]\nEvitar: [jargões / linguagem muito formal / pressão excessiva]`,
+              explanation: 'Este prompt dá ao Claude todo o contexto necessário para criar um script que parece escrito por você — não por uma máquina. O resultado é um script que você vai realmente usar.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: Sua biblioteca de scripts',
+            description: 'Crie 3 scripts essenciais para a sua rotina de vendas usando IA.',
+            steps: [
+              'Escreva sua proposta de valor em 1 frase clara (o que você faz e para quem)',
+              'Liste os 3 tipos de cliente que você mais aborda (ex: CEO de startup, Diretor de RH de empresa média, Gerente de Marketing)',
+              'Use o prompt modelo para criar um cold call de 60s para cada perfil',
+              'Use Claude para criar respostas às 3 objeções que você mais ouve: diga "Meu produto é [X], as 3 objeções mais comuns são [liste]. Crie respostas consultivas para cada uma."',
+              'Leia os scripts em voz alta. O que soa estranho? Ajuste.',
+              'Salve em um documento: sua biblioteca de scripts está pronta.'
+            ]
+          }
+        }
+      },
+      {
+        id: 'v1-m5',
+        title: 'Preparando reuniões e negociações com IA',
+        subtitle: 'Entre em cada call 100% preparado e nunca mais improvise',
+        duration: '12 min',
+        xp: 65,
+        type: 'quiz',
+        content: {
+          intro: 'Os melhores vendedores entram em qualquer reunião com uma vantagem injusta: preparação total. IA faz esse briefing completo em 5 minutos. Você nunca mais vai entrar numa call de improviso.',
+          sections: [
+            {
+              title: 'O briefing de reunião perfeito',
+              body: `Antes de qualquer reunião, você precisa saber:\n\n**Sobre os participantes:**\n- Quem vai estar lá e qual o papel de cada um na decisão\n- Estilo de comunicação de cada pessoa\n- O que cada um precisa ouvir para avançar\n\n**Sobre o histórico:**\n- O que foi discutido nas reuniões anteriores\n- Quais objeções já surgiram e como foram tratadas\n- Qual o status atual: está avançando ou esfriando?\n\n**Sobre o momento deles:**\n- Alguma novidade na empresa que muda o contexto?\n- Alguma pressão externa (competidores, resultados, prazos)?\n\n**Para a reunião:**\n- 3 objetivos claros: o que precisa acontecer para ser um sucesso\n- Possíveis objeções e suas respostas preparadas\n- Próximos passos que você quer propor ao final`,
+              tip: 'Coloque o histórico de emails e conversas no Claude e peça: "Analise este histórico de negociação e me diga: onde está o projeto, quais são os principais riscos de perder, e o que devo focar nesta próxima reunião."'
+            },
+            {
+              title: 'Usando IA como simulador de objeções',
+              body: `Esta é uma das funcionalidades mais poderosas de IA para vendas: treinar antes da reunião real.\n\n**Como fazer:**\n1. Dê ao Claude o contexto do prospect e da reunião\n2. Peça: "Faça o papel do [cargo] desta empresa durante uma reunião de proposta. Seja cético e levante as objeções mais difíceis que esse perfil costuma ter"\n3. Responda às objeções como faria na reunião real\n4. Peça feedback: "Como foram minhas respostas? O que poderia ser melhor?"\n\nIsso é como ter um parceiro de treino disponível 24h. Você chega na reunião real já tendo respondido as objeções mais difíceis — mentalmente e verbalmente.`,
+            },
+            {
+              title: 'Adaptando sua apresentação por cliente com IA',
+              body: `Mesma proposta, abordagem completamente diferente para cada cliente.\n\n**Diga ao Claude:**\n"Tenho uma apresentação padrão sobre [produto/serviço]. Vou apresentar para [cargo] de uma empresa de [setor] que está [situação/desafio]. Como devo adaptar minha abertura, o destaque de benefícios e o CTA para este perfil específico?"\n\n**Claude vai sugerir:**\n- Como abrir para capturar atenção deste perfil\n- Quais benefícios destacar primeiro (financeiro? operacional? estratégico?)\n- Qual tom usar (executivo direto? técnico detalhado? consultivo?)\n- Como propor o próximo passo de forma natural`,
+            }
+          ],
+          quiz: [
+            {
+              question: 'Qual é o melhor uso de IA para preparação de reuniões de vendas?',
+              options: [
+                'Substituir totalmente a preparação humana',
+                'Gerar briefing de prospect, simular objeções e adaptar a abordagem para o perfil',
+                'Enviar a reunião por email e cancelar o presencial',
+                'Criar apresentações com muitos slides detalhados'
+              ],
+              correct: 1,
+              explanation: 'IA é uma ferramenta de amplificação da sua preparação. Briefing de prospect, simulação de objeções e adaptação de abordagem são as três aplicações de maior impacto.'
+            },
+            {
+              question: 'Ao usar IA para simular objeções antes de uma reunião, qual é a prática mais eficaz?',
+              options: [
+                'Pedir ao Claude para ser gentil e não complicar',
+                'Dar contexto detalhado do prospect e pedir que Claude seja cético e levante as objeções mais difíceis',
+                'Usar um script genérico sem contexto',
+                'Ignorar objeções e focar só nos pontos positivos'
+              ],
+              correct: 1,
+              explanation: 'Quanto mais realista o simulador, melhor o treino. Dar contexto detalhado e pedir que Claude seja cético é o que torna o treino realmente útil — você vai ouvir as objeções difíceis antes de enfrentá-las ao vivo.'
+            },
+            {
+              question: 'Por que adaptar sua apresentação por perfil de comprador é importante?',
+              options: [
+                'Para que cada cliente acredite que a proposta é exclusiva para ele',
+                'Porque CEOs, Diretores e Gerentes têm motivações e preocupações diferentes — a linguagem certa para cada um aumenta a taxa de conversão',
+                'Para impressionar com variedade de conteúdo',
+                'Porque é exigência legal para propostas comerciais'
+              ],
+              correct: 1,
+              explanation: 'Um CEO quer impacto no negócio, um Diretor quer facilitar a gestão do time, um Gerente quer facilidade de uso. Falar a linguagem certa para cada perfil não é manipulação — é comunicação eficaz.'
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────────────────────────────
+  // FINANCEIRO — BÁSICO (Fase 20)
+  // ─────────────────────────────────────────────────────────────────
+  {
+    id: 20,
+    area: 'financeiro',
+    level: 'basico',
+    title: 'O Analista Inteligente',
+    subtitle: 'IA para transformar dados em decisões no financeiro',
+    icon: 'chart',
+    color: '#D97706',
+    xpBonus: 250,
+    modules: [
+      {
+        id: 'f1-m1',
+        title: 'IA para análise de planilhas e dados financeiros',
+        subtitle: 'Transforme horas de análise em minutos com IA',
+        duration: '10 min',
+        xp: 60,
+        type: 'leitura',
+        content: {
+          intro: 'O departamento financeiro é o que mais tem a ganhar com IA. Dados, números, padrões, anomalias — exatamente onde IA brilha. Veja como transformar sua rotina analítica.',
+          sections: [
+            {
+              title: 'O problema com planilhas hoje',
+              body: `A maioria das equipes financeiras passa 60-70% do tempo coletando e organizando dados — e apenas 30-40% analisando e decidindo. IA inverte essa proporção.\n\n**O que toma mais tempo hoje:**\n- Consoldar dados de múltiplas fontes manualmente\n- Criar fórmulas complexas para cada análise\n- Formatar relatórios para diferentes públicos (board, gestores, operacional)\n- Verificar inconsistências linha por linha\n- Explicar números para não financeiros\n\n**O que IA faz por você:**\n- Analisa planilhas inteiras em segundos\n- Identifica padrões e anomalias automaticamente\n- Gera narrativas sobre os números\n- Responde perguntas em linguagem natural ("qual o custo por cliente?")`,
+              tip: 'Você não precisa saber programação. O ChatGPT e o Claude entendem planilhas coladas diretamente na conversa — copie e cole os dados, faça perguntas.'
+            },
+            {
+              title: 'As ferramentas e como usá-las',
+              body: `**ChatGPT + Advanced Data Analysis:**\n- Envie arquivos Excel/CSV diretamente\n- Peça análises, gráficos, comparações\n- Funciona com Python por baixo — mas você só pergunta em português\n\n**Claude + dados colados:**\n- Copie os dados da planilha (até 100k linhas funciona bem)\n- Faça perguntas livres: "Qual mês teve pior desempenho de margem?"\n- Peça narrativas: "Escreva um parágrafo explicando estes resultados para o conselho"\n\n**Google Sheets + Fórmulas de IA:**\n- Use Claude para criar fórmulas complexas em linguagem natural\n- "Crie uma fórmula que calcule o crescimento MoM considerando meses com zero venda"\n\n**Excel + Copilot (Microsoft 365):**\n- IA integrada diretamente no Excel\n- Análise, gráficos e insights sem sair da ferramenta`,
+            },
+            {
+              title: 'Tipos de análise que você pode fazer com IA hoje',
+              body: `**Análise descritiva (o que aconteceu):**\n- Variações de receita, custo, margem por período\n- Comparativos: mês a mês, ano a ano, vs. orçamento\n- Ranking de produtos/clientes por rentabilidade\n\n**Análise diagnóstica (por que aconteceu):**\n- "Qual a principal causa da queda de margem em março?"\n- Correlações entre variáveis (aumento de custo X queda de volume)\n\n**Análise preditiva (o que pode acontecer):**\n- Projeções de fluxo de caixa baseadas em histórico\n- "Se a inadimplência seguir essa tendência, qual o impacto no caixa em 60 dias?"\n\n**Análise prescritiva (o que fazer):**\n- "Dado este cenário de custos, quais as 3 alavancas de maior impacto para melhorar EBITDA?"`,
+              tip: 'Comece pela análise descritiva — é onde você ganha tempo imediato. Depois evolua para análises mais complexas à medida que ganha confiança com a ferramenta.'
+            }
+          ],
+          quiz: [
+            {
+              question: 'Qual é o principal benefício de usar IA na análise financeira?',
+              options: [
+                'Eliminar a necessidade de profissionais de finanças',
+                'Inverter o tempo gasto: menos coleta/formatação, mais análise e decisão',
+                'Substituir o sistema ERP da empresa',
+                'Tornar os números mais imprecisos para simplificar'
+              ],
+              correct: 1,
+              explanation: 'IA não substitui o profissional financeiro — amplifica seu tempo para o que realmente importa: análise estratégica e tomada de decisão.'
+            },
+            {
+              question: 'Como você pode usar Claude para analisar uma planilha sem saber programação?',
+              options: [
+                'É impossível sem saber Python',
+                'Precisa instalar um plugin especial',
+                'Copie e cole os dados da planilha na conversa e faça perguntas em português',
+                'Apenas com arquivos .csv de no máximo 10 linhas'
+              ],
+              correct: 2,
+              explanation: 'Claude e ChatGPT entendem dados em texto. Basta copiar os dados da planilha, colar na conversa e fazer perguntas em linguagem natural — sem nenhum conhecimento técnico.'
+            }
+          ]
+        }
+      },
+      {
+        id: 'f1-m2',
+        title: 'Relatórios financeiros em minutos com ChatGPT',
+        subtitle: 'Do dado bruto ao relatório executivo em tempo recorde',
+        duration: '15 min',
+        xp: 70,
+        type: 'pratica',
+        content: {
+          intro: 'Criar relatórios financeiros claros e bem escritos costuma levar horas. Com IA, você vai do dado bruto a um relatório executivo completo em minutos — mantendo qualidade profissional.',
+          sections: [
+            {
+              title: 'Os tipos de relatório que IA gera muito bem',
+              body: `**Relatório de DRE (Demonstrativo de Resultado):**\nIA transforma os números em narrativa: "A receita cresceu X%, impulsionada por Y, enquanto os custos de Z aumentaram por causa de W. O EBITDA ficou em [%], acima/abaixo do orçado em função de..."\n\n**Relatório de Fluxo de Caixa:**\n"O saldo final foi de R$ X. Os principais consumidores de caixa foram... As entradas vieram majoritariamente de... A empresa tem X dias de caixa operacional."\n\n**Relatório de Inadimplência:**\n"A inadimplência em [período] foi de X%, [aumento/queda] de Y pp em relação ao mês anterior. Os segmentos mais impactados foram..."\n\n**Report executivo para conselho/sócios:**\nIA adapta a linguagem técnica para executiva, destaca o que mais importa para esse público e sugere formatação clara.`,
+              tip: 'A chave: diga ao Claude PARA QUEM é o relatório. Um relatório para o CFO é diferente de um para o conselho, que é diferente de um para gestores operacionais.'
+            },
+            {
+              title: 'O processo: dado → análise → relatório',
+              body: `**Passo 1 — Prepare os dados:**\nOrganize em uma tabela simples: período, métricas principais. Não precisa ser perfeito.\n\n**Passo 2 — Cole no Claude com contexto:**\n"Aqui estão os dados financeiros de [período]. Nossa empresa é [tipo], segmento [X]. O orçado era [Y]."\n\n**Passo 3 — Peça a análise:**\n"Analise estes resultados e me aponte: 3 pontos de destaque positivo, 3 alertas/riscos, e a principal recomendação."\n\n**Passo 4 — Peça o relatório:**\n"Agora escreva um relatório executivo de 1 página com: resumo executivo (3 frases), análise de receita, análise de custos, resultado líquido, e 3 próximos passos recomendados. Tom: executivo direto."\n\n**Passo 5 — Revise e finalize:**\nVerifique os números, ajuste o tom, personalize. 10 minutos de revisão vs. 3 horas de criação.`,
+            },
+            {
+              title: 'Adaptando a linguagem para diferentes públicos',
+              body: `O mesmo resultado financeiro precisa de comunicações completamente diferentes:\n\n**Para o conselho/sócios:** visão estratégica, impacto no valuation, decisões necessárias\n\n**Para gestores:** o que está sob controle deles, variações vs. orçado, ações corretivas\n\n**Para a equipe operacional:** metas, o que está funcionando, o que mudar\n\n**Para o banco/financiadores:** saúde financeira, capacidade de pagamento, perspectivas\n\nUse o Claude para adaptar: "Tenho este relatório financeiro. Adapte-o para [público], focando no que é mais relevante para eles, com tom [executivo/direto/técnico/acessível]."`,
+              tip: 'Nunca envie o mesmo relatório para públicos diferentes sem adaptação. IA torna essa adaptação instantânea — você cria uma vez e distribui versões customizadas.'
+            }
+          ],
+          prompts: [
+            {
+              label: 'Prompt para gerar relatório executivo financeiro',
+              good: `Analise os dados financeiros abaixo e gere um relatório executivo completo.\n\n[COLE OS DADOS AQUI — pode ser tabela, lista, ou os números diretamente]\n\nContexto:\n- Empresa: [segmento e modelo de negócio]\n- Período: [mês/trimestre/ano]\n- Comparativo: [vs mês anterior / vs mesmo período ano anterior / vs orçado]\n- Público do relatório: [conselho / diretoria / gestores / banco]\n\nO relatório deve conter:\n1. Resumo executivo (3-5 frases, linguagem clara e direta)\n2. Análise de receita (variações, principais drivers)\n3. Análise de custos (desvios, alertas)\n4. Resultado líquido e EBITDA (vs comparativo)\n5. Principais riscos e oportunidades\n6. Recomendações (3 ações concretas)\n\nTom: executivo, direto, sem jargão excessivo\nFormato: use títulos e bullet points para facilitar leitura`,
+              explanation: 'Com este prompt, o Claude tem todo o contexto para gerar um relatório que parece escrito por um analista sênior. O segredo é especificar o público — isso muda completamente o tom e o foco do relatório.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: Seu primeiro relatório com IA',
+            description: 'Crie um relatório executivo real usando dados financeiros da sua empresa ou de um exemplo.',
+            steps: [
+              'Escolha um relatório que você faz regularmente (DRE, fluxo de caixa, inadimplência)',
+              'Reúna os dados do último mês (pode ser um exemplo fictício se preferir)',
+              'Cole os dados no Claude com o contexto da empresa e público-alvo',
+              'Use o prompt modelo deste módulo para gerar o relatório',
+              'Compare com o relatório que você criaria manualmente: o que ficou melhor? O que precisaria ajustar?',
+              'BÔNUS: Peça ao Claude para criar 3 versões do mesmo relatório para 3 públicos diferentes'
+            ]
+          }
+        }
+      },
+      {
+        id: 'f1-m3',
+        title: 'Identificando padrões e anomalias com IA',
+        subtitle: 'Detecte o que os olhos humanos deixam passar',
+        duration: '12 min',
+        xp: 65,
+        type: 'exercicio',
+        content: {
+          intro: 'Anomalias financeiras — fraudes, erros, ineficiências, oportunidades escondidas — frequentemente se escondem em dados que analistas humanos revisam rápido demais. IA lê esses padrões em segundos.',
+          sections: [
+            {
+              title: 'O que IA detecta que humanos perdem',
+              body: `**Anomalias de gasto:**\n- Fornecedor com valores que crescem mais rápido que o volume contratado\n- Despesas duplicadas (mesmo valor, mesmo fornecedor, datas próximas)\n- Compras fora do padrão histórico de um departamento\n- Sazonalidade quebrada: meses que deveriam ser altos mas estão baixos\n\n**Padrões de receita:**\n- Concentração excessiva em poucos clientes (risco de churn)\n- Clientes com queda progressiva de compra (churn em câmera lenta)\n- Produtos com margem caindo consistentemente\n- Ciclos de receita que indicam problema de recorrência\n\n**Riscos de inadimplência:**\n- Clientes com padrão de atraso crescente\n- Concentração de vencimentos em datas críticas\n- Exposição a setores em dificuldade`,
+              tip: 'Quanto maior o volume de dados, mais valiosa é a IA. Com 100 linhas, humano consegue revisar. Com 10.000 linhas, IA encontra o que humano perderia.'
+            },
+            {
+              title: 'Técnicas de análise por padrão com IA',
+              body: `**Análise de tendência:**\n"Olhando estes dados dos últimos 12 meses, identifique as 3 principais tendências — positivas e negativas — e o que elas indicam para os próximos 3 meses."\n\n**Detecção de outliers:**\n"Analise estes dados de despesas. Identifique qualquer valor que fuja significativamente do padrão histórico e me explique o que pode indicar."\n\n**Análise de correlação:**\n"Existe correlação entre [variável A] e [variável B] nestes dados? Se sim, é positiva ou negativa? O que isso significa operacionalmente?"\n\n**Benchmarking interno:**\n"Compare o desempenho destes 10 departamentos nas métricas de custo por entrega. Quais estão acima da média? Qual é o padrão dos que têm melhor performance?"`,
+            },
+            {
+              title: 'Criando alertas inteligentes com IA',
+              body: `Você pode usar IA para criar sistemas simples de alerta financeiro:\n\n**Alerta de fluxo de caixa:**\n"Com base no histórico deste fluxo de caixa, crie uma fórmula de alerta que dispara quando o saldo projetado cair abaixo de X dias de caixa operacional."\n\n**Alerta de margem:**\n"Crie uma regra condicional para esta planilha que destaque em vermelho qualquer produto/serviço com margem abaixo de X% por mais de 2 meses consecutivos."\n\n**Alerta de concentração:**\n"Identifique quando a concentração de receita nos 5 maiores clientes ultrapassar Y% do total — e me avise sobre o risco."\n\nClaud gera as fórmulas para Excel/Google Sheets, você só aplica.`,
+              tip: 'Lembre: IA identifica padrões, mas você valida. Antes de tomar ações baseadas em anomalias detectadas por IA, confirme com a operação se há uma explicação legítima.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: Caçada de padrões nos seus dados',
+            description: 'Use IA para analisar dados reais da sua empresa e encontrar pelo menos 3 insights que você não havia identificado.',
+            steps: [
+              'Pegue uma planilha financeira real: extrato bancário, DRE dos últimos 6 meses, ou relatório de despesas',
+              'Remova dados sensíveis se necessário (substitua nomes de clientes por Empresa A, B, C)',
+              'Cole os dados no Claude e diga: "Analise estes dados financeiros e identifique: anomalias, tendências preocupantes, e oportunidades de melhoria"',
+              'Peça um segundo nível: "Destes achados, quais os 3 que merecem ação imediata e por quê?"',
+              'Documente os 3 insights mais relevantes e valide com a operação se fazem sentido',
+              'BÔNUS: Peça ao Claude para criar uma fórmula de alerta para o risco mais crítico identificado'
+            ]
+          }
+        }
+      },
+      {
+        id: 'f1-m4',
+        title: 'Automação de tarefas repetitivas do financeiro',
+        subtitle: 'Elimine o trabalho manual que consome horas toda semana',
+        duration: '15 min',
+        xp: 70,
+        type: 'pratica',
+        content: {
+          intro: 'Conciliação bancária, lançamentos manuais, formatação de relatórios, consolidação de planilhas — são tarefas essenciais, mas não precisam consumir seu tempo. IA automatiza boa parte disso.',
+          sections: [
+            {
+              title: 'Mapeie o que roubar o seu tempo',
+              body: `Antes de automatizar, mapeie:\n\n**Tarefas candidatas à automação com IA:**\n- Classificação de despesas por categoria\n- Conciliação de extrato bancário com lançamentos\n- Transformação de extratos PDF em planilhas estruturadas\n- Cálculo de impostos sobre notas fiscais\n- Geração de fórmulas Excel para análises específicas\n- Criação de templates de relatório\n- Comunicados de cobrança personalizados\n- Resposta a dúvidas frequentes da equipe sobre procedimentos\n\n**Estimativa de impacto:**\nAntes de cada tarefa que você vai automatizar, cronômetro: quanto tempo você leva hoje? Isso vira o ROI da automação.`,
+              tip: 'Comece pela tarefa que mais te irrita ou que você mais adia. É onde você vai sentir mais o impacto imediato da automação.'
+            },
+            {
+              title: 'Automatizando classificação de despesas',
+              body: `Esta é uma das tarefas mais tediosas do financeiro. IA classifica com precisão e explica o raciocínio.\n\n**Como fazer:**\n1. Cole o extrato bancário ou lista de despesas no Claude\n2. Forneça seu plano de contas (a lista de categorias que você usa)\n3. Peça: "Classifique cada linha abaixo de acordo com este plano de contas. Para itens ambíguos, explique sua classificação e pergunte."\n4. Revise apenas os itens marcados como ambíguos\n\n**Resultado:** você revisa 5-10% dos lançamentos ao invés de 100%.`,
+            },
+            {
+              title: 'IA para criar fórmulas Excel e automações de planilha',
+              body: `Você não precisa saber criar fórmulas complexas. Diga ao Claude o que você quer, ele entrega a fórmula pronta.\n\n**Exemplos que funcionam muito bem:**\n\n"Crie uma fórmula que calcule o prazo médio de recebimento considerando que às vezes há pagamentos parciais em datas diferentes"\n\n"Crie uma tabela dinâmica que consolide automaticamente os dados das abas Janeiro a Dezembro quando eu adicionar uma aba nova"\n\n"Crie uma fórmula de validação que alerte quando um valor de despesa ultrapassar 10% acima da média dos últimos 3 meses para a mesma categoria"\n\n"Monte uma estrutura de fluxo de caixa projetado usando os dados históricos de sazonalidade destas abas"\n\n**Como usar:** Copie a fórmula que o Claude gera e cole diretamente no Excel. Se não funcionar, cole o erro de volta e peça correção.`,
+              tip: 'Claude conhece Excel, Google Sheets, e também pode criar macros VBA simples. Sempre especifique qual ferramenta você usa.'
+            }
+          ],
+          prompts: [
+            {
+              label: 'Prompt para automatizar classificação de despesas',
+              good: `Preciso classificar as despesas abaixo de acordo com o meu plano de contas.\n\nMeu plano de contas:\n[liste as categorias: ex: Pessoal, Marketing, Infraestrutura, Impostos, Fornecedores, etc.]\n\nDespesas para classificar:\n[cole a lista de despesas do extrato]\n\nPara cada item, informe:\n- Categoria sugerida\n- Subcategoria (se houver)\n- Nível de certeza (alta/média/baixa)\n- Para itens de baixa certeza: explique a dúvida e sugira como eu devo decidir\n\nFormato de saída: tabela com colunas: Descrição | Categoria | Subcategoria | Certeza | Observação`,
+              explanation: 'Pedir o nível de certeza e as observações é o diferencial. Em vez de revisar tudo, você foca só nos itens marcados como "baixa certeza" — o resto está classificado automaticamente.'
+            }
+          ],
+          exercise: {
+            title: 'Exercício: Automatize uma tarefa que você faz toda semana',
+            description: 'Identifique e automatize com IA a tarefa financeira repetitiva que mais consome seu tempo.',
+            steps: [
+              'Liste 5 tarefas repetitivas que você faz toda semana ou todo mês no financeiro',
+              'Estime o tempo que cada uma leva: anote em minutos',
+              'Escolha a que mais tempo consome e que parece candidata à automação',
+              'Descreva a tarefa em detalhes para o Claude e peça uma solução de automação',
+              'Teste a solução com dados reais (ou fictícios)',
+              'Meça o tempo que levou com a automação vs. sem — e documente o resultado'
+            ]
+          }
+        }
+      },
+      {
+        id: 'f1-m5',
+        title: 'Comunicação financeira clara e objetiva com IA',
+        subtitle: 'Transforme números em histórias que qualquer um entende',
+        duration: '12 min',
+        xp: 65,
+        type: 'quiz',
+        content: {
+          intro: 'Comunicar resultados financeiros para não financeiros é uma habilidade rara e valiosa. IA te ajuda a transformar qualquer dado complexo em comunicação clara, impactante e adaptada ao público.',
+          sections: [
+            {
+              title: 'O problema da comunicação financeira tradicional',
+              body: `Você já apresentou um resultado financeiro perfeito e as pessoas ficaram com cara de interrogação?\n\nO problema não é o número — é a tradução.\n\n**Os erros mais comuns:**\n- Excesso de jargão (EBITDA, DSCR, WACC) sem explicação para o público\n- Foco em detalhes técnicos quando o executivo quer ver o impacto estratégico\n- Tabelas gigantes sem destaque para o que é relevante\n- Narrativa ausente: os números estão lá, mas ninguém sabe o que fazer com eles\n\n**O que IA resolve:**\nDada a mesma planilha, Claude escreve versões diferentes para o CEO, para o gestor comercial e para o time operacional — cada um recebendo exatamente o que precisa saber.`,
+              tip: '"Qualquer dado financeiro precisa responder 3 perguntas para o seu público: O que aconteceu? Por que aconteceu? O que fazemos agora?" — IA te ajuda a responder as 3 de forma clara.'
+            },
+            {
+              title: 'Técnicas de comunicação financeira com IA',
+              body: `**1. Transformar tabelas em narrativas:**\n"Dada esta tabela de resultados, escreva um parágrafo explicativo para o [público] que destaque os 2 pontos mais importantes e termine com uma recomendação de ação."\n\n**2. Simplificar conceitos técnicos:**\n"Como eu explico EBITDA para um gestor comercial que nunca estudou finanças, de forma que ele entenda por que essa métrica importa para o negócio dele?"\n\n**3. Criar visualizações escritas:**\n"Descreva este fluxo de caixa como se fosse uma história: começando pelo saldo do início do mês, contando o que entrou, o que saiu, e onde terminamos."\n\n**4. Antecipar perguntas difíceis:**\n"Vou apresentar estes resultados para o conselho. Quais as 5 perguntas mais difíceis que podem me fazer? Prepare respostas para cada uma."`,
+            },
+            {
+              title: 'Comunicados de cobrança humanizados com IA',
+              body: `Comunicação de cobrança é onde mais se perde relacionamento. IA ajuda a manter o tom certo: firme mas respeitoso.\n\n**Escalonamento inteligente:**\n- 1º aviso (amigável): "Percebemos que a fatura de [data] ainda não foi liquidada. Caso tenha alguma dúvida, estamos à disposição."\n- 2º aviso (mais direto): informação sobre a pendência e possibilidade de negociação\n- 3º aviso (formal): consequências e prazo final\n\n**Personalização por perfil:**\nCliente estratégico recebe um comunicado diferente de um cliente pequeno inadimplente recorrente. IA gera o tom certo para cada situação.\n\n**Como fazer:** "Crie um comunicado de cobrança para [situação específica]. Tom: profissional mas amigável, sem ameaças, com foco em resolver juntos."`,
+            }
+          ],
+          quiz: [
+            {
+              question: 'Qual é o erro mais comum na comunicação financeira para não financeiros?',
+              options: [
+                'Apresentar resultados mensalmente ao invés de diariamente',
+                'Excesso de jargão técnico sem tradução e falta de narrativa sobre o que os números significam',
+                'Usar gráficos coloridos demais',
+                'Apresentar os números cedo demais antes de terminar o mês'
+              ],
+              correct: 1,
+              explanation: 'Comunicação financeira eficaz responde "o que aconteceu, por que aconteceu e o que fazemos agora" na linguagem do público. Jargão sem explicação e dados sem narrativa criam distância entre quem faz finanças e quem toma decisões.'
+            },
+            {
+              question: 'Como IA pode ajudar a adaptar um mesmo relatório para públicos diferentes?',
+              options: [
+                'Só é possível criar relatórios idênticos com IA',
+                'IA pode reescrever o mesmo conteúdo com tom, foco e nível de detalhe diferente para cada público-alvo',
+                'IA só funciona para relatórios técnicos, não para executivos',
+                'É necessário criar planilhas separadas para cada público'
+              ],
+              correct: 1,
+              explanation: 'Essa é uma das maiores vantagens de IA na comunicação financeira: você cria uma vez, adapta para múltiplos públicos em minutos. CEO, gestores, time operacional — cada um recebe a versão certa.'
+            },
+            {
+              question: 'Qual a melhor abordagem ao usar IA para antecipar perguntas de uma apresentação financeira?',
+              options: [
+                'Pedir as perguntas mais fáceis para se preparar bem',
+                'Ignorar — o público raramente pergunta',
+                'Pedir ao Claude as perguntas mais difíceis que o público pode fazer e preparar respostas para cada uma',
+                'Evitar perguntas limitando o tempo de apresentação'
+              ],
+              correct: 2,
+              explanation: 'Simular as perguntas mais difíceis com IA é como ter um ensaio antes da apresentação real. Você chega preparado para os questionamentos mais críticos do conselho ou diretoria.'
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
+
+// ─────────────────────────────────────────────────────────────────
+// AREAS — Estrutura de Áreas e Níveis
+// ─────────────────────────────────────────────────────────────────
+
+export type AreaId = 'marketing' | 'vendas' | 'financeiro'
+export type LevelId = 'basico' | 'intermediario' | 'avancado'
+
+export type AreaDef = {
+  id: AreaId
+  title: string
+  subtitle: string
+  color: string
+  description: string
+  levels: {
+    basico: number[]
+    intermediario: number[]
+    avancado: number[]
+  }
+}
+
+export const AREAS: AreaDef[] = [
+  {
+    id: 'marketing',
+    title: 'Marketing',
+    subtitle: 'IA aplicada ao marketing digital e criação de conteúdo',
+    color: '#3B5BDB',
+    description: 'Aprenda a usar IA para criar conteúdo, automatizar campanhas e amplificar seus resultados de marketing.',
+    levels: {
+      basico: [1, 2, 3, 4, 5],
+      intermediario: [6, 7],
+      avancado: []
+    }
+  },
+  {
+    id: 'vendas',
+    title: 'Vendas',
+    subtitle: 'IA para prospecção, scripts, negociação e fechamento',
+    color: '#059669',
+    description: 'Use IA para prospectar mais rápido, personalizar abordagens e fechar mais negócios com menos esforço.',
+    levels: {
+      basico: [10],
+      intermediario: [],
+      avancado: []
+    }
+  },
+  {
+    id: 'financeiro',
+    title: 'Financeiro',
+    subtitle: 'IA para análise de dados, relatórios e decisões financeiras',
+    color: '#D97706',
+    description: 'Transforme planilhas em insights, automatize relatórios e tome decisões financeiras com apoio da IA.',
+    levels: {
+      basico: [20],
+      intermediario: [],
+      avancado: []
+    }
+  }
+]
+
+export const LEVEL_LABELS: Record<LevelId, string> = {
+  basico: 'Básico',
+  intermediario: 'Intermediário',
+  avancado: 'Avançado'
+}
+
+export function getPhaseArea(phaseId: number): { area: AreaDef; level: LevelId } | null {
+  for (const area of AREAS) {
+    for (const [level, phaseIds] of Object.entries(area.levels)) {
+      if ((phaseIds as number[]).includes(phaseId)) {
+        return { area, level: level as LevelId }
+      }
+    }
+  }
+  return null
+}
+
+export function getAreaPhases(areaId: AreaId, level?: LevelId): Phase[] {
+  const area = AREAS.find(a => a.id === areaId)
+  if (!area) return []
+  if (level) {
+    return PHASES.filter(p => area.levels[level].includes(p.id))
+  }
+  const allIds = [...area.levels.basico, ...area.levels.intermediario, ...area.levels.avancado]
+  return PHASES.filter(p => allIds.includes(p.id))
+}
+
+export function getAreaTotalModules(areaId: AreaId): number {
+  return getAreaPhases(areaId).reduce((acc, p) => acc + p.modules.length, 0)
+}
+
+export function getAreaLevelModules(areaId: AreaId, level: LevelId): number {
+  return getAreaPhases(areaId, level).reduce((acc, p) => acc + p.modules.length, 0)
+}

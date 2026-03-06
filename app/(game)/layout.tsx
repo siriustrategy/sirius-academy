@@ -7,7 +7,7 @@ import { supabase, type Profile } from '@/lib/supabase'
 import { getLevelInfo, getXPToNextLevel } from '@/lib/game-data'
 import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
-import { LayoutDashboard, User, LogOut } from 'lucide-react'
+import { LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone, BookOpen } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
 const StarfieldCanvas = dynamic(() => import('@/components/StarfieldCanvas'), { ssr: false })
@@ -93,8 +93,14 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
   const avatarId    = profile?.avatar_id as AvatarId | null
 
   const navItems = [
-    { href: '/dashboard', icon: LayoutDashboard, label: 'Hub de Aprendizado', color: '#3B5BDB' },
-    { href: '/perfil',    icon: User,            label: 'Meu Perfil',          color: '#7C3AED' },
+    { href: '/dashboard', icon: LayoutDashboard, label: 'Meu Painel', color: '#3B5BDB' },
+    { href: '/perfil',    icon: User,            label: 'Meu Perfil', color: '#7C3AED' },
+  ]
+
+  const areaItems = [
+    { href: '/area/marketing',  icon: Megaphone,  label: 'Marketing',  color: '#3B5BDB' },
+    { href: '/area/vendas',     icon: TrendingUp, label: 'Vendas',     color: '#059669' },
+    { href: '/area/financeiro', icon: BarChart2,  label: 'Financeiro', color: '#D97706' },
   ]
 
   return (
@@ -167,9 +173,38 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           Menu
         </div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {navItems.map(item => {
             const active = pathname === item.href
+            const Icon = item.icon
+            return (
+              <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
+                <div className={`nav-pill ${active ? 'active' : ''}`}>
+                  <div className="nav-icon" style={{
+                    background: active ? `${item.color}18` : 'var(--muted-bg)',
+                    border: `1px solid ${active ? item.color + '30' : 'var(--border)'}`,
+                  }}>
+                    <Icon size={15} color={active ? item.color : 'var(--text-secondary)'} strokeWidth={2} />
+                  </div>
+                  <span>{item.label}</span>
+                </div>
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div style={{ height: 1, background: 'var(--border)', margin: '14px 0 8px 0' }} />
+
+        <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.14em', textTransform: 'uppercase', padding: '0 6px', marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <BookOpen size={9} color="var(--text-muted)" strokeWidth={2} />
+            Áreas
+          </div>
+        </div>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+          {areaItems.map(item => {
+            const active = pathname.startsWith(item.href)
             const Icon = item.icon
             return (
               <Link key={item.href} href={item.href} style={{ textDecoration: 'none' }}>
