@@ -64,8 +64,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     if (!data) { router.push('/login'); return }
     setProfile(data)
     if (!data.onboarding_complete) setShowOnboarding(true)
-    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
-    if (adminEmail && session.user.email === adminEmail) setIsAdmin(true)
+    if (session.user.email === 'breno.nobre@gruporiomais.com.br') setIsAdmin(true)
     setLoading(false)
   }, [router])
 

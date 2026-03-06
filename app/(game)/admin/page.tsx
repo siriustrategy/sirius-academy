@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 
 // ── Só Breno acessa ──────────────────────────────────────────
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL
+const ADMIN_EMAIL = 'breno.nobre@gruporiomais.com.br'
 
 // ── Tipos ─────────────────────────────────────────────────────
 type UserProgress = { module_id: string; phase_id: number; completed: boolean; completed_at: string | null }
