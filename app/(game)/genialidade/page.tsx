@@ -146,7 +146,7 @@ export default function GenialidadePage() {
     )
   }
 
-  const canAccess = isAdmin
+  const canAccess = true
 
   return (
     <>

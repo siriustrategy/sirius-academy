@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import {
   Brain, Star, Target, Zap, Sparkles, Users, TrendingUp,
-  RefreshCw, ChevronDown, ChevronUp, Download,
+  RefreshCw, ChevronDown, ChevronUp, Lock, ArrowRight,
 } from 'lucide-react'
+import Link from 'next/link'
 
-const ADMIN_EMAIL = 'breno.nobre@gruporiomais.com.br'
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'breno.nobre@gruporiomais.com.br'
+const FREE_SECTIONS = 2 // quantas seções o usuário vê de graça
 
 const SECTION_META = [
   { key: 'IDENTIDADE',       color: '#7C3AED', icon: Brain,      label: 'Identidade Estratégica'     },
@@ -87,6 +89,51 @@ function renderMarkdown(text: string, color: string): React.ReactNode {
   })
 }
 
+function LockedSectionCard({ meta }: { meta: typeof SECTION_META[0] }) {
+  const Icon = meta.icon
+  return (
+    <div style={{
+      background: 'rgba(8,12,24,0.5)',
+      border: `1px solid rgba(255,255,255,0.06)`,
+      borderRadius: 14, overflow: 'hidden',
+      backdropFilter: 'blur(12px)',
+      position: 'relative',
+    }}>
+      <div style={{
+        padding: '18px 22px',
+        display: 'flex', alignItems: 'center', gap: 12,
+        opacity: 0.5,
+      }}>
+        <div style={{
+          width: 36, height: 36, borderRadius: 8, flexShrink: 0,
+          background: `${meta.color}15`, border: `1px solid ${meta.color}30`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon size={16} color={meta.color} />
+        </div>
+        <span style={{
+          fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 15,
+          color: 'var(--text-primary)',
+        }}>
+          {meta.label}
+        </span>
+        <Lock size={14} color="var(--text-muted)" style={{ marginLeft: 'auto' }} />
+      </div>
+      <div style={{
+        padding: '16px 22px 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        gap: 8,
+        borderTop: '1px solid rgba(255,255,255,0.05)',
+      }}>
+        <Lock size={13} color="#7C3AED" />
+        <span style={{ fontSize: 13, color: '#9B7FE8', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
+          Desbloqueie por R$ 12,90
+        </span>
+      </div>
+    </div>
+  )
+}
+
 function SectionCard({ meta, content }: { meta: typeof SECTION_META[0]; content: string }) {
   const [expanded, setExpanded] = useState(true)
   const Icon = meta.icon
@@ -137,14 +184,28 @@ export default function ResultadoPage() {
   const [blueprint, setBlueprint] = useState<string | null>(null)
   const [sections, setSections] = useState<{ key: string; content: string }[]>([])
   const [loading, setLoading] = useState(true)
-  const [accessDenied, setAccessDenied] = useState(false)
+  const [hasPaid, setHasPaid] = useState(false)
   const [generatedAt, setGeneratedAt] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { router.push('/login'); return }
-      if (session.user.email !== ADMIN_EMAIL) { setAccessDenied(true); setLoading(false); return }
+
+      // Verifica se pagou pelo mapeamento
+      const isAdmin = session.user.email === ADMIN_EMAIL
+      if (!isAdmin) {
+        const { data: purchase } = await supabase
+          .from('academy_purchases')
+          .select('id')
+          .eq('user_id', session.user.id)
+          .eq('produto', 'genialidade')
+          .eq('status', 'pago')
+          .maybeSingle()
+        setHasPaid(!!purchase)
+      } else {
+        setHasPaid(true)
+      }
 
       const { data } = await supabase
         .from('genius_blueprints')
@@ -171,16 +232,6 @@ export default function ResultadoPage() {
     )
   }
 
-  if (accessDenied) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Acesso restrito</div>
-        <button onClick={() => router.push('/genialidade')} style={{ background: '#7C3AED', border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>
-          Voltar
-        </button>
-      </div>
-    )
-  }
 
   const dateStr = generatedAt ? new Date(generatedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : ''
 
@@ -253,12 +304,50 @@ export default function ResultadoPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {sections.map((s, i) => {
             const meta = SECTION_META.find(m => m.key === s.key) || SECTION_META[i % SECTION_META.length]
+            const isLocked = !hasPaid && i >= FREE_SECTIONS
             return (
               <div key={s.key} style={{ animation: `fadeUp 0.4s ease ${i * 0.05}s both` }}>
-                <SectionCard meta={meta} content={s.content} />
+                {isLocked ? (
+                  <LockedSectionCard meta={meta} />
+                ) : (
+                  <SectionCard meta={meta} content={s.content} />
+                )}
               </div>
             )
           })}
+
+          {/* Banner de upgrade se não pagou */}
+          {!hasPaid && sections.length > FREE_SECTIONS && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(219,39,119,0.08) 100%)',
+              border: '1px solid rgba(124,58,237,0.3)',
+              borderRadius: 16, padding: '28px 32px',
+              textAlign: 'center', marginTop: 8,
+            }}>
+              <div style={{ fontSize: 13, color: '#9B7FE8', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 10 }}>
+                {sections.length - FREE_SECTIONS} ANÁLISES BLOQUEADAS
+              </div>
+              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 10 }}>
+                Desbloqueie o mapeamento completo
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 20, lineHeight: 1.6 }}>
+                Veja todas as {sections.length} análises do seu Genius Zone Blueprint por apenas <strong style={{ color: '#7C3AED' }}>R$ 12,90</strong>
+              </p>
+              <Link href="/checkout?produto=genialidade" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
+                  border: 'none', borderRadius: 12, padding: '14px 28px',
+                  color: '#fff', fontWeight: 800, fontSize: 16,
+                  fontFamily: 'Space Grotesk, sans-serif', cursor: 'pointer',
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                }}>
+                  <Sparkles size={16} />
+                  Desbloquear por R$ 12,90
+                  <ArrowRight size={16} />
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       )}
 

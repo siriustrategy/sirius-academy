@@ -6,8 +6,6 @@ import { supabase } from '@/lib/supabase'
 import { QUIZ_SECTIONS, getSectionProgress, TOTAL_QUESTIONS } from '@/lib/genius-quiz-data'
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react'
 
-const ADMIN_EMAIL = 'breno.nobre@gruporiomais.com.br'
-
 type Answers = Record<string, string | string[]>
 
 export default function GeniusQuizPage() {
@@ -17,14 +15,12 @@ export default function GeniusQuizPage() {
   const [questionIdx, setQuestionIdx] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [submitting, setSubmitting] = useState(false)
-  const [accessDenied, setAccessDenied] = useState(false)
   const [animating, setAnimating] = useState(false)
 
   useEffect(() => {
     async function check() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { router.push('/login'); return }
-      if (session.user.email !== ADMIN_EMAIL) { setAccessDenied(true); return }
       setUserId(session.user.id)
     }
     check()
@@ -100,18 +96,6 @@ export default function GeniusQuizPage() {
       alert('Erro ao salvar. Tente novamente.')
       setSubmitting(false)
     }
-  }
-
-  if (accessDenied) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Acesso restrito</div>
-        <div style={{ color: 'var(--text-secondary)' }}>Esta funcionalidade ainda não está disponível para todos os usuários.</div>
-        <button onClick={() => router.push('/genialidade')} style={{ background: 'var(--accent)', border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>
-          Voltar
-        </button>
-      </div>
-    )
   }
 
   if (!userId || !question) {

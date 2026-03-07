@@ -21,7 +21,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState('')
 
   async function handleLogin(e: React.FormEvent) {
@@ -38,18 +37,6 @@ export default function LoginPage() {
     }
 
     router.push('/dashboard')
-  }
-
-  async function handleGoogleLogin() {
-    setGoogleLoading(true)
-    setError('')
-    const base = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${base}/auth/callback`,
-      },
-    })
   }
 
   return (
@@ -81,35 +68,6 @@ export default function LoginPage() {
           <p style={{ color: '#6B7A9E', fontSize: 15, marginBottom: 32 }}>
             Continue de onde parou
           </p>
-
-          {/* Google Login */}
-          <button
-            onClick={handleGoogleLogin}
-            disabled={googleLoading}
-            style={{
-              width: '100%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              borderRadius: 10, padding: '13px 20px',
-              color: '#E8EEFF',
-              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 15,
-              cursor: googleLoading ? 'not-allowed' : 'pointer',
-              opacity: googleLoading ? 0.7 : 1,
-              marginBottom: 20,
-              transition: 'all 0.2s',
-            }}
-          >
-            <GoogleIcon />
-            {googleLoading ? 'Redirecionando...' : 'Entrar com Google'}
-          </button>
-
-          {/* Divider */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(59,91,219,0.15)' }} />
-            <span style={{ color: '#4A5680', fontSize: 12, fontFamily: 'Space Grotesk, sans-serif' }}>ou com email</span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(59,91,219,0.15)' }} />
-          </div>
 
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>

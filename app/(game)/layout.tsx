@@ -9,7 +9,7 @@ import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
 import {
   LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone,
-  BookOpen, ShieldCheck, Sparkles, Lock, Zap, Menu, X, DollarSign,
+  BookOpen, ShieldCheck, Sparkles, Zap, Menu, X, DollarSign,
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
@@ -288,12 +288,9 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             background: pathname.startsWith('/genialidade') ? 'rgba(124,58,237,0.18)' : 'var(--muted-bg)',
             border: `1px solid ${pathname.startsWith('/genialidade') ? 'rgba(124,58,237,0.3)' : 'var(--border)'}`,
           }}>
-            {isAdmin
-              ? <Sparkles size={15} color={pathname.startsWith('/genialidade') ? '#7C3AED' : 'var(--text-secondary)'} strokeWidth={2} />
-              : <Lock size={15} color="var(--text-muted)" strokeWidth={2} />
-            }
+            <Sparkles size={15} color={pathname.startsWith('/genialidade') ? '#7C3AED' : 'var(--text-secondary)'} strokeWidth={2} />
           </div>
-          <span style={{ color: isAdmin ? undefined : 'var(--text-muted)' }}>Zona de Genio</span>
+          <span>Zona de Genialidade</span>
         </div>
       </Link>
 
