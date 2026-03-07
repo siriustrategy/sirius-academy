@@ -14,7 +14,7 @@ import {
 } from '@/lib/game-data'
 import {
   Activity, Award, Layers, TrendingUp, BarChart2,
-  Megaphone, ArrowRight, Lock, Star, CheckCircle2,
+  Megaphone, ArrowRight, Lock, Star, CheckCircle2, Sparkles, ChevronRight,
 } from 'lucide-react'
 
 type Progress = { module_id: string; completed: boolean }
@@ -36,17 +36,22 @@ export default function DashboardPage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [progress, setProgress] = useState<Progress[]>([])
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [hasBlueprint, setHasBlueprint] = useState(false)
 
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
-      const [profileRes, progressRes] = await Promise.all([
+      const [profileRes, progressRes, bpRes] = await Promise.all([
         supabase.from('academy_profiles').select('*').eq('id', session.user.id).single(),
         supabase.from('academy_progress').select('module_id, completed').eq('user_id', session.user.id),
+        supabase.from('genius_blueprints').select('id').eq('user_id', session.user.id).single(),
       ])
       if (profileRes.data) setProfile(profileRes.data)
       if (progressRes.data) setProgress(progressRes.data)
+      if (session.user.email === 'breno.nobre@gruporiomais.com.br') setIsAdmin(true)
+      if (bpRes.data) setHasBlueprint(true)
       setLoading(false)
     }
     load()
@@ -207,6 +212,58 @@ export default function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* ── Zona de Genialidade Card ── */}
+      <Link href="/genialidade" style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.14) 0%, rgba(219,39,119,0.08) 100%)',
+          border: '1px solid rgba(124,58,237,0.3)',
+          borderRadius: 14, padding: '20px 24px',
+          display: 'flex', alignItems: 'center', gap: 18,
+          cursor: 'pointer', position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute', top: -20, right: -20,
+            width: 100, height: 100, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(219,39,119,0.08), transparent)',
+          }} />
+          <div style={{
+            width: 52, height: 52, flexShrink: 0,
+            background: 'rgba(124,58,237,0.2)',
+            border: '1px solid rgba(124,58,237,0.4)',
+            borderRadius: 12,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {isAdmin ? <Sparkles size={24} color="#7C3AED" /> : <Lock size={22} color="#7C3AED" />}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#7C3AED', letterSpacing: '0.1em', marginBottom: 4, fontFamily: 'Space Grotesk, sans-serif' }}>
+              ZONA DE GENIALIDADE
+            </div>
+            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 16, color: '#E8EEFF', marginBottom: 3 }}>
+              {hasBlueprint ? 'Meu Blueprint de Gênio' : 'Descobrir minha Zona de Gênio'}
+            </div>
+            <div style={{ fontSize: 13, color: '#6B7A9E' }}>
+              {isAdmin
+                ? hasBlueprint
+                  ? '7 frameworks analisados — Blueprint disponível'
+                  : 'Gay Hendricks · CliftonStrengths · Wealth Dynamics · e mais 4'
+                : 'Premium · Em breve disponível para todos'
+              }
+            </div>
+          </div>
+          <div style={{
+            background: isAdmin ? '#7C3AED' : 'rgba(124,58,237,0.3)',
+            borderRadius: 8, padding: '8px 16px',
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 700, fontSize: 13, color: '#fff',
+            flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6,
+          }}>
+            {isAdmin ? (hasBlueprint ? 'Ver Blueprint' : 'Iniciar') : 'Em Breve'}
+            {isAdmin && <ChevronRight size={14} />}
+          </div>
+        </div>
+      </Link>
 
       {/* ── Minha Evolução por Área ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>

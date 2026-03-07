@@ -7,7 +7,7 @@ import { supabase, type Profile } from '@/lib/supabase'
 import { getLevelInfo, getXPToNextLevel } from '@/lib/game-data'
 import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
-import { LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone, BookOpen, ShieldCheck } from 'lucide-react'
+import { LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone, BookOpen, ShieldCheck, Sparkles, Lock } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
 const StarfieldCanvas = dynamic(() => import('@/components/StarfieldCanvas'), { ssr: false })
@@ -244,6 +244,30 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
             </Link>
           </>
         )}
+
+        <div style={{ height: 1, background: 'var(--border)', margin: '14px 0 8px 0' }} />
+
+        <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.14em', textTransform: 'uppercase', padding: '0 6px', marginBottom: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Sparkles size={9} color="var(--text-muted)" strokeWidth={2} />
+            Ferramentas
+          </div>
+        </div>
+
+        <Link href="/genialidade" style={{ textDecoration: 'none' }}>
+          <div className={`nav-pill ${pathname.startsWith('/genialidade') ? 'active' : ''}`}>
+            <div className="nav-icon" style={{
+              background: pathname.startsWith('/genialidade') ? 'rgba(124,58,237,0.18)' : 'var(--muted-bg)',
+              border: `1px solid ${pathname.startsWith('/genialidade') ? 'rgba(124,58,237,0.3)' : 'var(--border)'}`,
+            }}>
+              {isAdmin
+                ? <Sparkles size={15} color={pathname.startsWith('/genialidade') ? '#7C3AED' : 'var(--text-secondary)'} strokeWidth={2} />
+                : <Lock size={15} color="var(--text-muted)" strokeWidth={2} />
+              }
+            </div>
+            <span style={{ color: isAdmin ? undefined : 'var(--text-muted)' }}>Zona de Gênio</span>
+          </div>
+        </Link>
 
         <div style={{ height: 1, background: 'var(--border)', margin: '14px 0' }} />
 
