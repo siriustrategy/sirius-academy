@@ -306,7 +306,7 @@ export default function GeniusQuizPage() {
               <textarea
                 value={(answer as string) ?? ''}
                 onChange={e => setAnswer(e.target.value)}
-                placeholder="Digite sua resposta aqui..."
+                placeholder={question.placeholder ?? 'Digite sua resposta aqui...'}
                 rows={3}
                 style={{
                   width: '100%', background: 'var(--muted-bg)',

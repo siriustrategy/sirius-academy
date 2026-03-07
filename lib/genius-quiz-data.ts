@@ -7,6 +7,7 @@ export type Question = {
   options?: string[]
   maxSelect?: number
   scaleLabels?: [string, string]
+  placeholder?: string
 }
 
 export type QuizSection = {
@@ -34,6 +35,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 'h1',
         text: 'Em quais tipos de atividade o tempo "passa voando" sem você perceber, e você sai com mais energia do que entrou?',
         type: 'text',
+        placeholder: 'Ex: quando estou criando estratégias, explicando ideias para outras pessoas, resolvendo problemas complexos, escrevendo...',
       },
       {
         id: 'h2',
@@ -72,6 +74,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 'h5',
         text: 'O que você faz com tanta naturalidade que chega a subestimar como valor — algo que as pessoas te pedem ajuda constantemente?',
         type: 'text',
+        placeholder: 'Ex: as pessoas sempre me pedem para organizar projetos, simplificar ideias confusas, dar clareza em decisões difíceis...',
       },
       {
         id: 'h6',
@@ -150,6 +153,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 'c5',
         text: 'Qual é seu maior diferencial percebido pelas pessoas ao seu redor?',
         type: 'text',
+        placeholder: 'Ex: minha clareza para enxergar o problema real por trás do que as pessoas descrevem, minha capacidade de conectar pessoas certas...',
       },
       {
         id: 'c6',
@@ -177,11 +181,13 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 's1',
         text: 'O que você faz com tão pouco esforço que chega a subestimar — algo que surpreende as pessoas pela qualidade?',
         type: 'text',
+        placeholder: 'Ex: criar apresentações que convencem, estruturar processos do zero, identificar oportunidades que ninguém viu, liderar conversas difíceis...',
       },
       {
         id: 's2',
         text: 'Se você pudesse trabalhar em apenas UMA atividade pelo resto da vida e seria completamente realizado(a), qual seria?',
         type: 'text',
+        placeholder: 'Ex: ajudar empresas a crescerem usando IA, construir produtos que impactam milhares de pessoas, ensinar e desenvolver líderes...',
       },
       {
         id: 's3',
@@ -219,6 +225,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 's6',
         text: 'Quais compromissos você jamais se cansa de honrar, mesmo quando está cansado?',
         type: 'text',
+        placeholder: 'Ex: sempre entrego o que prometo, nunca abandono um projeto no meio, sempre apareço para minha equipe quando precisam de mim...',
       },
     ],
   },
@@ -398,6 +405,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 'v6',
         text: 'Descreva seu maior resultado entregue a um cliente ou organização:',
         type: 'text',
+        placeholder: 'Ex: reduzi o custo operacional em 40% implementando automações, aumentei as vendas em 3x em 6 meses, criei um processo que eliminou retrabalho...',
       },
     ],
   },
@@ -547,6 +555,7 @@ export const QUIZ_SECTIONS: QuizSection[] = [
         id: 'f5',
         text: 'O que te torna inesquecível para quem te conhece?',
         type: 'text',
+        placeholder: 'Ex: minha intensidade e comprometimento, a forma como simplifico o complexo, minha energia que contagia o ambiente, minha precisão em diagnósticos...',
       },
       {
         id: 'f6',
