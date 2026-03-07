@@ -206,6 +206,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [notAdmin, setNotAdmin] = useState(false)
+  const [rlsBlocked, setRlsBlocked] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -213,19 +214,26 @@ export default function AdminPage() {
       if (!session) { router.push('/login'); return }
 
       // Proteção: só o admin acessa
-      if (ADMIN_EMAIL && session.user.email !== ADMIN_EMAIL) {
+      if (session.user.email !== ADMIN_EMAIL) {
         setNotAdmin(true)
         setLoading(false)
         return
       }
 
       // Busca todos os perfis
-      const { data: profiles } = await supabase
+      const { data: profiles, error: profilesError } = await supabase
         .from('academy_profiles')
         .select('*')
         .order('xp', { ascending: false })
 
-      if (!profiles?.length) { setLoading(false); return }
+      if (profilesError) console.error('Profiles error:', profilesError)
+
+      // Se retornou vazio mas o próprio admin existe, é bloqueio de RLS
+      if (!profiles || profiles.length === 0) {
+        setRlsBlocked(true)
+        setLoading(false)
+        return
+      }
 
       // Busca todo o progresso de todos os usuários
       const { data: allProgress } = await supabase
@@ -261,6 +269,57 @@ export default function AdminPage() {
           Acesso restrito
         </div>
         <div style={{ color: '#6B7A9E', fontSize: 14 }}>Esta área é exclusiva para administradores.</div>
+      </div>
+    )
+  }
+
+  if (rlsBlocked) {
+    return (
+      <div style={{ padding: '48px', maxWidth: 700, margin: '0 auto' }}>
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 700, color: '#E8EEFF', marginBottom: 8 }}>
+          Painel de Alunos
+        </div>
+        <div style={{
+          background: 'rgba(245,158,11,0.08)',
+          border: '1px solid rgba(245,158,11,0.3)',
+          borderRadius: 12, padding: '24px 28px', marginTop: 24,
+        }}>
+          <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 15, color: '#fcd34d', marginBottom: 12 }}>
+            Configure o Supabase para liberar o acesso
+          </div>
+          <p style={{ color: '#C5CCEE', fontSize: 14, lineHeight: 1.7, marginBottom: 16 }}>
+            O banco de dados está bloqueando a visualização de outros usuários (proteção RLS). Para liberar, rode o SQL abaixo no <strong>Supabase SQL Editor</strong>:
+          </p>
+          <div style={{
+            background: 'rgba(5,7,16,0.9)',
+            border: '1px solid rgba(59,91,219,0.25)',
+            borderRadius: 8, padding: '16px 18px',
+            fontFamily: 'JetBrains Mono, monospace',
+            fontSize: 12, color: '#93c5fd',
+            lineHeight: 1.8,
+            whiteSpace: 'pre-wrap',
+            marginBottom: 16,
+          }}>
+{`-- Cole e execute no Supabase → SQL Editor
+
+CREATE POLICY "Admin ve todos perfis"
+ON academy_profiles FOR SELECT
+USING (
+  auth.uid() = id
+  OR auth.jwt() ->> 'email' = 'breno.nobre@gruporiomais.com.br'
+);
+
+CREATE POLICY "Admin ve todo progresso"
+ON academy_progress FOR SELECT
+USING (
+  auth.uid() = user_id
+  OR auth.jwt() ->> 'email' = 'breno.nobre@gruporiomais.com.br'
+);`}
+          </div>
+          <p style={{ color: '#6B7A9E', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+            Após rodar o SQL, recarregue esta página. Os alunos vão aparecer.
+          </p>
+        </div>
       </div>
     )
   }
