@@ -763,9 +763,21 @@ export default function Home() {
             Sirius Academy
           </span>
         </div>
-        <span style={{ fontSize: 12, color: '#4A5270' }}>
-          Feito para profissionais que não param de evoluir.
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+          <Link href="/termos" style={{ fontSize: 12, color: '#4A5270', textDecoration: 'none' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#6B7A9E')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#4A5270')}>
+            Termos de Uso
+          </Link>
+          <Link href="/privacidade" style={{ fontSize: 12, color: '#4A5270', textDecoration: 'none' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#6B7A9E')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#4A5270')}>
+            Política de Privacidade
+          </Link>
+          <span style={{ fontSize: 12, color: '#4A5270' }}>
+            Feito para profissionais que não param de evoluir.
+          </span>
+        </div>
       </footer>
 
     </main>
