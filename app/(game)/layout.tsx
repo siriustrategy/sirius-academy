@@ -9,7 +9,7 @@ import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
 import {
   LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone,
-  BookOpen, ShieldCheck, Sparkles, Lock, Zap, Menu, X,
+  BookOpen, ShieldCheck, Sparkles, Lock, Zap, Menu, X, DollarSign,
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
@@ -239,7 +239,15 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
               }}>
                 <ShieldCheck size={15} color={pathname === '/admin' ? '#f59e0b' : 'var(--text-secondary)'} strokeWidth={2} />
               </div>
-              <span>Painel de Alunos</span>
+              <span>Alunos</span>
+            </div>
+          </Link>
+          <Link href="/admin#vendas" style={{ textDecoration: 'none' }}>
+            <div className="nav-pill">
+              <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
+                <DollarSign size={15} color="var(--text-secondary)" strokeWidth={2} />
+              </div>
+              <span>Vendas</span>
             </div>
           </Link>
         </>

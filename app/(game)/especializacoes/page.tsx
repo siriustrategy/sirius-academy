@@ -183,17 +183,19 @@ function CursoCard({ curso, isAdmin }: { curso: CursoDef; isAdmin: boolean }) {
         {/* CTA */}
         <div style={{ flexShrink: 0 }}>
           {isFullyLocked ? (
-            <button disabled style={{
-              background: 'rgba(107,122,158,0.08)',
-              border: '1px solid rgba(107,122,158,0.2)',
-              borderRadius: 9, padding: '10px 18px',
-              color: 'var(--text-muted)', fontWeight: 700, fontSize: 13,
-              fontFamily: 'Space Grotesk, sans-serif', cursor: 'not-allowed',
-              display: 'flex', alignItems: 'center', gap: 6,
-            }}>
-              <Lock size={13} />
-              Adquirir
-            </button>
+            <Link href={`/checkout?produto=curso&id=${curso.id}`} style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: `linear-gradient(135deg, ${curso.color}, ${curso.color}bb)`,
+                border: 'none',
+                borderRadius: 9, padding: '10px 18px',
+                color: '#fff', fontWeight: 700, fontSize: 13,
+                fontFamily: 'Space Grotesk, sans-serif', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}>
+                <Lock size={13} />
+                Adquirir — R$ 4,90
+              </button>
+            </Link>
           ) : (
             <Link href={`/curso/${curso.id}`} style={{ textDecoration: 'none' }}>
               <button style={{

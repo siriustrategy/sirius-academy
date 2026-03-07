@@ -466,34 +466,35 @@ export default function GenialidadePage() {
                 border: '1px solid rgba(124,58,237,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <Lock size={20} color="#7C3AED" />
+                <Sparkles size={20} color="#7C3AED" />
               </div>
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 16, color: 'var(--text-primary)', marginBottom: 5 }}>
-                  Conteúdo Premium — Em breve disponível
+                  Mapeamento Premium — R$ 12,90
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  O Mapeamento de Zona de Genialidade estará disponível como parte da assinatura premium da Sirius Academy.
+                  Acesso completo ao quiz de 42 perguntas + Blueprint personalizado gerado por IA com base nas 7 metodologias.
                 </div>
               </div>
             </div>
-            <button
-              disabled
-              style={{
-                width: '100%',
-                background: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
-                border: 'none',
-                borderRadius: 14, padding: '18px 28px',
-                color: '#fff', fontWeight: 800, fontSize: 17,
-                fontFamily: 'Space Grotesk, sans-serif', cursor: 'not-allowed',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                opacity: 0.4,
-              }}
-            >
-              <Lock size={18} />
-              Iniciar Mapeamento de Genialidade
-              <ArrowRight size={18} />
-            </button>
+            <Link href="/checkout?produto=genialidade" style={{ textDecoration: 'none' }}>
+              <button
+                className="neon-btn"
+                style={{
+                  width: '100%',
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
+                  border: 'none',
+                  borderRadius: 14, padding: '18px 28px',
+                  color: '#fff', fontWeight: 800, fontSize: 17,
+                  fontFamily: 'Space Grotesk, sans-serif', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                }}
+              >
+                <Sparkles size={18} />
+                Desbloquear Mapeamento — R$ 12,90
+                <ArrowRight size={18} />
+              </button>
+            </Link>
           </div>
         )}
       </div>

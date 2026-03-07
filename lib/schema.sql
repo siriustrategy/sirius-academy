@@ -2,11 +2,58 @@
 -- Execute este SQL no Supabase SQL Editor
 
 -- ============================================================================
+-- COMPRAS (Desbloqueio de Genialidade e Cursos)
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS academy_purchases (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  produto_tipo TEXT NOT NULL CHECK (produto_tipo IN ('genialidade', 'curso')),
+  curso_id TEXT,                          -- null para genialidade
+  status TEXT NOT NULL DEFAULT 'pendente' CHECK (status IN ('pendente', 'pago', 'falhou')),
+  valor NUMERIC NOT NULL,
+  metodo_pagamento TEXT NOT NULL,         -- card | pix | boleto
+  asaas_payment_id TEXT,
+  asaas_customer_id TEXT,
+  paid_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE academy_purchases ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users view own purchases" ON academy_purchases
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Admin pode ver tudo (via service role — sem RLS)
+CREATE INDEX IF NOT EXISTS idx_purchases_user ON academy_purchases(user_id);
+CREATE INDEX IF NOT EXISTS idx_purchases_asaas ON academy_purchases(asaas_payment_id);
+
+-- ============================================================================
+-- LEADS DO CHECKOUT (quem chegou na etapa de pagamento)
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS academy_checkout_leads (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  nome TEXT NOT NULL,
+  email TEXT NOT NULL,
+  telefone TEXT,
+  produto_tipo TEXT NOT NULL,  -- 'genialidade' | 'curso'
+  curso_id TEXT,               -- null para genialidade
+  converted BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE academy_checkout_leads ENABLE ROW LEVEL SECURITY;
+
+-- Só o admin (via service role) pode ver — anon não acessa
+-- Inserção via API server-side (service role), sem policy de INSERT para anon
+
+-- ============================================================================
 -- PROFILES (Perfis dos jogadores)
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS academy_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   username TEXT UNIQUE NOT NULL,
+  email TEXT,
   display_name TEXT,
   avatar_id TEXT DEFAULT 'wolf',
   xp INTEGER DEFAULT 0 NOT NULL,
@@ -16,6 +63,9 @@ CREATE TABLE IF NOT EXISTS academy_profiles (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Se a tabela já existe, adicionar coluna email:
+-- ALTER TABLE academy_profiles ADD COLUMN IF NOT EXISTS email TEXT;
 
 -- ============================================================================
 -- PROGRESSO DOS MÓDULOS

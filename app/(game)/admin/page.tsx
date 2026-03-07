@@ -7,8 +7,8 @@ import { PHASES } from '@/lib/game-data'
 import { getLevelInfo } from '@/lib/game-data'
 import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import {
-  Users, Activity, BookOpen, TrendingUp, ChevronDown, ChevronUp,
-  Search, Award,
+  Users, Activity, BookOpen, ChevronDown, ChevronUp,
+  Search, Award, ShoppingCart, DollarSign, TrendingUp, BarChart2, Package,
 } from 'lucide-react'
 
 // ── Só Breno acessa ──────────────────────────────────────────
@@ -21,6 +21,31 @@ type UserData = {
   profile: Profile
   progress: UserProgress[]
   email: string
+}
+
+type CheckoutLead = {
+  id: string
+  user_id: string | null
+  nome: string
+  email: string
+  telefone: string | null
+  produto_tipo: string
+  curso_id: string | null
+  converted: boolean
+  created_at: string
+}
+
+type Purchase = {
+  id: string
+  user_id: string
+  produto_tipo: string
+  curso_id: string | null
+  status: string
+  valor: number
+  metodo_pagamento: string
+  asaas_payment_id: string | null
+  paid_at: string | null
+  created_at: string
 }
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -199,6 +224,280 @@ function UserRow({ user }: { user: UserData }) {
   )
 }
 
+// ── Helpers de formatação ──────────────────────────────────────
+const fmt = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+
+// ── SalesTab ───────────────────────────────────────────────────
+function SalesTab({ leads, purchases }: { leads: CheckoutLead[]; purchases: Purchase[] }) {
+  const [salesSearch, setSalesSearch] = useState('')
+
+  const totalLeads = leads.length
+  const totalPaid = purchases.filter(p => p.status === 'pago').length
+  const totalPending = purchases.filter(p => p.status === 'pendente').length
+  const totalRevenue = purchases.filter(p => p.status === 'pago').reduce((acc, p) => acc + Number(p.valor), 0)
+  const convRate = totalLeads > 0 ? Math.round((totalPaid / totalLeads) * 100) : 0
+
+  // Mapa de user_id → purchase
+  const purchaseByUser = new Map<string, Purchase>()
+  purchases.forEach(p => purchaseByUser.set(`${p.user_id}:${p.produto_tipo}`, p))
+
+  const filteredLeads = leads.filter(l => {
+    const q = salesSearch.toLowerCase()
+    return !q || l.nome.toLowerCase().includes(q) || l.email.toLowerCase().includes(q) || (l.telefone ?? '').includes(q)
+  })
+
+  const statusBadge = (lead: CheckoutLead) => {
+    const key = `${lead.user_id}:${lead.produto_tipo}`
+    const purchase = lead.user_id ? purchaseByUser.get(key) : null
+    if (purchase?.status === 'pago') {
+      return { label: 'Pago', color: '#10b981', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.25)' }
+    }
+    if (purchase?.status === 'pendente') {
+      return { label: 'Pendente', color: '#f59e0b', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.25)' }
+    }
+    return { label: 'No carrinho', color: '#7A8AAE', bg: 'rgba(122,138,174,0.08)', border: 'rgba(122,138,174,0.2)' }
+  }
+
+  const produtoLabel = (tipo: string, cursoId: string | null) =>
+    tipo === 'genialidade' ? 'Zona de Genialidade' : `Curso: ${cursoId ?? '-'}`
+
+  const metodoLabel = (m: string) =>
+    m === 'card' ? 'Cartão' : m === 'pix' ? 'Pix' : 'Boleto'
+
+  const card = (label: string, value: string | number, Icon: React.ElementType, color: string) => (
+    <div key={label} className="glass-card" style={{ padding: '18px 20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <div style={{ width: 32, height: 32, borderRadius: 8, background: `${color}15`, border: `1px solid ${color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon size={15} color={color} strokeWidth={1.8} />
+        </div>
+        <span style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' as const }}>
+          {label}
+        </span>
+      </div>
+      <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700, color }}>{value}</div>
+    </div>
+  )
+
+  return (
+    <div>
+      {/* Stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 32 }}>
+        {card('Leads no carrinho', totalLeads, ShoppingCart, '#3B5BDB')}
+        {card('Pagamentos confirmados', totalPaid, Award, '#10b981')}
+        {card('Aguardando pagamento', totalPending, Activity, '#f59e0b')}
+        {card('Taxa de conversão', `${convRate}%`, TrendingUp, '#7C3AED')}
+        {card('Receita confirmada', fmt(totalRevenue), DollarSign, '#0ea5e9')}
+      </div>
+
+      {/* Search */}
+      <div style={{ position: 'relative', marginBottom: 16, maxWidth: 360 }}>
+        <Search size={15} color="#6B7A9E" strokeWidth={2} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+        <input
+          className="input-field"
+          placeholder="Buscar por nome, email ou telefone..."
+          value={salesSearch}
+          onChange={e => setSalesSearch(e.target.value)}
+          style={{ paddingLeft: 36, width: '100%' }}
+        />
+      </div>
+
+      {/* Tabela de leads */}
+      <div style={{ marginBottom: 8 }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 2fr 1.2fr 1.5fr 1.2fr 1fr',
+          padding: '8px 16px',
+          fontSize: 10, fontWeight: 700, color: '#6B7A9E',
+          fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' as const,
+        }}>
+          <div>Nome</div>
+          <div>Email / Telefone</div>
+          <div>Produto</div>
+          <div>Método</div>
+          <div>Data</div>
+          <div>Status</div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {filteredLeads.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 40, color: '#6B7A9E' }}>
+              {salesSearch ? 'Nenhum resultado.' : 'Ainda não há leads. Assim que alguém preencher o carrinho, aparecerá aqui.'}
+            </div>
+          ) : filteredLeads.map(lead => {
+            const badge = statusBadge(lead)
+            const key = `${lead.user_id}:${lead.produto_tipo}`
+            const purchase = lead.user_id ? purchaseByUser.get(key) : null
+
+            return (
+              <div key={lead.id} style={{
+                background: 'rgba(8,12,24,0.7)',
+                border: '1px solid rgba(59,91,219,0.12)',
+                borderRadius: 10,
+                display: 'grid',
+                gridTemplateColumns: '2fr 2fr 1.2fr 1.5fr 1.2fr 1fr',
+                alignItems: 'center',
+                padding: '13px 16px',
+                gap: 8,
+              }}>
+                {/* Nome */}
+                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 13, color: '#E8EEFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {lead.nome}
+                </div>
+
+                {/* Email + telefone */}
+                <div>
+                  <div style={{ fontSize: 12, color: '#C5CCEE', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {lead.email}
+                  </div>
+                  {lead.telefone && (
+                    <div style={{ fontSize: 11, color: '#6B7A9E', marginTop: 2 }}>{lead.telefone}</div>
+                  )}
+                </div>
+
+                {/* Produto */}
+                <div style={{ fontSize: 12, color: '#7A8AAE' }}>
+                  {produtoLabel(lead.produto_tipo, lead.curso_id)}
+                </div>
+
+                {/* Método + valor */}
+                <div>
+                  {purchase ? (
+                    <>
+                      <div style={{ fontSize: 12, color: '#C5CCEE' }}>{metodoLabel(purchase.metodo_pagamento)}</div>
+                      <div style={{ fontSize: 11, color: '#6B7A9E', fontFamily: 'JetBrains Mono, monospace' }}>{fmt(Number(purchase.valor))}</div>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: 12, color: '#4A5680' }}>—</span>
+                  )}
+                </div>
+
+                {/* Data */}
+                <div style={{ fontSize: 11, color: '#6B7A9E', fontFamily: 'JetBrains Mono, monospace' }}>
+                  {fmtDate(lead.created_at)}
+                </div>
+
+                {/* Badge */}
+                <div>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif',
+                    color: badge.color, background: badge.bg, border: `1px solid ${badge.border}`,
+                    borderRadius: 6, padding: '3px 8px', display: 'inline-block',
+                  }}>
+                    {badge.label}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ── Breakdown por produto ── */}
+      {purchases.length > 0 && (
+        <div style={{ marginTop: 40, marginBottom: 8 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.09em', textTransform: 'uppercase' as const, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Package size={13} strokeWidth={2} />
+            Análise por Produto
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
+            {(() => {
+              // Agrupar por produto_tipo + curso_id
+              const map = new Map<string, { label: string; paid: number; pending: number; revenue: number; leads: number }>()
+
+              leads.forEach(l => {
+                const key = l.produto_tipo === 'genialidade' ? 'genialidade' : `curso:${l.curso_id}`
+                const label = l.produto_tipo === 'genialidade' ? 'Zona de Genialidade' : `Curso: ${l.curso_id ?? '-'}`
+                if (!map.has(key)) map.set(key, { label, paid: 0, pending: 0, revenue: 0, leads: 0 })
+                map.get(key)!.leads += 1
+              })
+
+              purchases.forEach(p => {
+                const key = p.produto_tipo === 'genialidade' ? 'genialidade' : `curso:${p.curso_id}`
+                const label = p.produto_tipo === 'genialidade' ? 'Zona de Genialidade' : `Curso: ${p.curso_id ?? '-'}`
+                if (!map.has(key)) map.set(key, { label, paid: 0, pending: 0, revenue: 0, leads: 0 })
+                const entry = map.get(key)!
+                if (p.status === 'pago') { entry.paid += 1; entry.revenue += Number(p.valor) }
+                else if (p.status === 'pendente') entry.pending += 1
+              })
+
+              return Array.from(map.values()).map(prod => (
+                <div key={prod.label} style={{
+                  background: 'rgba(8,12,24,0.7)',
+                  border: '1px solid rgba(59,91,219,0.14)',
+                  borderRadius: 12, padding: '18px 20px',
+                }}>
+                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: '#E8EEFF', marginBottom: 14 }}>
+                    {prod.label}
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                    {[
+                      { label: 'Leads', value: prod.leads, color: '#3B5BDB' },
+                      { label: 'Pagos', value: prod.paid, color: '#10b981' },
+                      { label: 'Pendentes', value: prod.pending, color: '#f59e0b' },
+                      { label: 'Receita', value: fmt(prod.revenue), color: '#0ea5e9' },
+                    ].map(m => (
+                      <div key={m.label}>
+                        <div style={{ fontSize: 10, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', marginBottom: 3 }}>
+                          {m.label.toUpperCase()}
+                        </div>
+                        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 17, color: m.color }}>
+                          {m.value}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {prod.leads > 0 && (
+                    <div style={{ marginTop: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 10, color: '#6B7A9E' }}>
+                        <span>Conversão</span>
+                        <span style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                          {prod.leads > 0 ? Math.round((prod.paid / prod.leads) * 100) : 0}%
+                        </span>
+                      </div>
+                      <div style={{ background: 'var(--border)', borderRadius: 3, height: 4, overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%', borderRadius: 3,
+                          background: 'linear-gradient(90deg, #3B5BDB, #10b981)',
+                          width: `${prod.leads > 0 ? Math.round((prod.paid / prod.leads) * 100) : 0}%`,
+                        }} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))
+            })()}
+          </div>
+        </div>
+      )}
+
+      {/* Compras sem lead (pagamentos diretos) */}
+      {purchases.filter(p => !leads.some(l => l.user_id === p.user_id && l.produto_tipo === p.produto_tipo)).length > 0 && (
+        <div style={{ marginTop: 32 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.07em', textTransform: 'uppercase' as const, marginBottom: 12 }}>
+            Compras sem registro de lead
+          </div>
+          {purchases
+            .filter(p => !leads.some(l => l.user_id === p.user_id && l.produto_tipo === p.produto_tipo))
+            .map(p => (
+              <div key={p.id} style={{
+                background: 'rgba(8,12,24,0.7)', border: '1px solid rgba(59,91,219,0.12)',
+                borderRadius: 10, padding: '12px 16px', marginBottom: 6, fontSize: 12, color: '#7A8AAE',
+                display: 'flex', gap: 24, alignItems: 'center',
+              }}>
+                <span style={{ color: '#C5CCEE' }}>{produtoLabel(p.produto_tipo, p.curso_id)}</span>
+                <span>{metodoLabel(p.metodo_pagamento)}</span>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', color: '#10b981' }}>{fmt(Number(p.valor))}</span>
+                <span style={{ color: p.status === 'pago' ? '#10b981' : '#f59e0b' }}>{p.status}</span>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace' }}>{fmtDate(p.created_at)}</span>
+              </div>
+            ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main Page ─────────────────────────────────────────────────
 export default function AdminPage() {
   const router = useRouter()
@@ -207,6 +506,12 @@ export default function AdminPage() {
   const [search, setSearch] = useState('')
   const [notAdmin, setNotAdmin] = useState(false)
   const [rlsBlocked, setRlsBlocked] = useState(false)
+  const [activeTab, setActiveTab] = useState<'alunos' | 'vendas'>(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#vendas') return 'vendas'
+    return 'alunos'
+  })
+  const [leads, setLeads] = useState<CheckoutLead[]>([])
+  const [purchases, setPurchases] = useState<Purchase[]>([])
 
   useEffect(() => {
     async function load() {
@@ -248,6 +553,21 @@ export default function AdminPage() {
       }))
 
       setUsers(userData)
+
+      // Busca dados de vendas via API (service role)
+      try {
+        const salesRes = await fetch('/api/admin/sales', {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        })
+        if (salesRes.ok) {
+          const salesData = await salesRes.json()
+          setLeads(salesData.leads ?? [])
+          setPurchases(salesData.purchases ?? [])
+        }
+      } catch {
+        // silencioso — vendas não bloqueiam o carregamento do painel
+      }
+
       setLoading(false)
     }
     load()
@@ -341,82 +661,118 @@ USING (
     <div style={{ padding: '40px 48px' }}>
 
       {/* Header */}
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 28 }}>
         <span className="section-label" style={{ marginBottom: 12, display: 'inline-block' }}>ADMINISTRADOR</span>
         <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 6 }}>
-          Painel de Alunos
+          Painel de Gestão
         </h1>
         <p style={{ color: '#6B7A9E', fontSize: 14 }}>
-          Acompanhe o progresso e engajamento de cada aluno em tempo real.
+          Acompanhe alunos, vendas e leads em tempo real.
         </p>
       </div>
 
-      {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
-        {[
-          { label: 'Total de Alunos', value: users.length, Icon: Users, color: '#3B5BDB' },
-          { label: 'XP Distribuído', value: totalXP.toLocaleString('pt-BR'), Icon: Award, color: '#7C3AED' },
-          { label: 'Módulos Completos', value: totalCompleted, Icon: BookOpen, color: '#10b981' },
-          { label: 'Ativos Hoje', value: activeToday, Icon: Activity, color: '#f59e0b' },
-        ].map(stat => (
-          <div key={stat.label} className="glass-card" style={{ padding: '18px 20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-              <div style={{
-                width: 32, height: 32, borderRadius: 8,
-                background: `${stat.color}15`, border: `1px solid ${stat.color}25`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <stat.Icon size={15} color={stat.color} strokeWidth={1.8} />
-              </div>
-              <span style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-                {stat.label}
-              </span>
-            </div>
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700, color: stat.color }}>
-              {stat.value}
-            </div>
-          </div>
+      {/* Tabs */}
+      <div style={{ display: 'flex', borderBottom: '1px solid rgba(59,91,219,0.15)', marginBottom: 28, gap: 0 }}>
+        {([
+          { id: 'alunos', label: 'Alunos', Icon: Users },
+          { id: 'vendas', label: 'Análise de Vendas', Icon: BarChart2 },
+        ] as const).map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '10px 20px',
+              fontSize: 13, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif',
+              background: 'none', border: 'none',
+              borderBottom: activeTab === tab.id ? '2px solid #3B5BDB' : '2px solid transparent',
+              color: activeTab === tab.id ? '#5B7BFF' : '#6B7A9E',
+              cursor: 'pointer', transition: 'all 0.15s',
+              marginBottom: -1,
+            }}
+          >
+            <tab.Icon size={15} strokeWidth={2} />
+            {tab.label}
+          </button>
         ))}
       </div>
 
-      {/* Search */}
-      <div style={{ position: 'relative', marginBottom: 20, maxWidth: 360 }}>
-        <Search size={15} color="#6B7A9E" strokeWidth={2} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
-        <input
-          className="input-field"
-          placeholder="Buscar aluno..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={{ paddingLeft: 36, width: '100%' }}
-        />
-      </div>
-
-      {/* Table header */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 16,
-        padding: '8px 20px', marginBottom: 8,
-        fontSize: 10, fontWeight: 700, color: '#6B7A9E',
-        fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase',
-      }}>
-        <div style={{ flex: '0 0 40px' }}></div>
-        <div style={{ flex: '0 0 200px' }}>Aluno</div>
-        <div style={{ flex: '0 0 140px' }}>Nível</div>
-        <div style={{ flex: 1 }}>Progresso</div>
-        <div style={{ flex: '0 0 220px' }}>Estudando</div>
-        <div style={{ flex: '0 0 90px', textAlign: 'right' }}>Atividade</div>
-        <div style={{ flex: '0 0 16px' }}></div>
-      </div>
-
-      {/* Users list */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {filtered.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: 40, color: '#6B7A9E' }}>
-            Nenhum aluno encontrado.
+      {/* ── ABA ALUNOS ── */}
+      {activeTab === 'alunos' && (
+        <>
+          {/* Stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
+            {[
+              { label: 'Total de Alunos', value: users.length, Icon: Users, color: '#3B5BDB' },
+              { label: 'XP Distribuído', value: totalXP.toLocaleString('pt-BR'), Icon: Award, color: '#7C3AED' },
+              { label: 'Módulos Completos', value: totalCompleted, Icon: BookOpen, color: '#10b981' },
+              { label: 'Ativos Hoje', value: activeToday, Icon: Activity, color: '#f59e0b' },
+            ].map(stat => (
+              <div key={stat.label} className="glass-card" style={{ padding: '18px 20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 8,
+                    background: `${stat.color}15`, border: `1px solid ${stat.color}25`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <stat.Icon size={15} color={stat.color} strokeWidth={1.8} />
+                  </div>
+                  <span style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                    {stat.label}
+                  </span>
+                </div>
+                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700, color: stat.color }}>
+                  {stat.value}
+                </div>
+              </div>
+            ))}
           </div>
-        ) : (
-          filtered.map(user => <UserRow key={user.profile.id} user={user} />)
-        )}
-      </div>
+
+          {/* Search */}
+          <div style={{ position: 'relative', marginBottom: 20, maxWidth: 360 }}>
+            <Search size={15} color="#6B7A9E" strokeWidth={2} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+            <input
+              className="input-field"
+              placeholder="Buscar aluno..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{ paddingLeft: 36, width: '100%' }}
+            />
+          </div>
+
+          {/* Table header */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 16,
+            padding: '8px 20px', marginBottom: 8,
+            fontSize: 10, fontWeight: 700, color: '#6B7A9E',
+            fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase',
+          }}>
+            <div style={{ flex: '0 0 40px' }}></div>
+            <div style={{ flex: '0 0 200px' }}>Aluno</div>
+            <div style={{ flex: '0 0 140px' }}>Nível</div>
+            <div style={{ flex: 1 }}>Progresso</div>
+            <div style={{ flex: '0 0 220px' }}>Estudando</div>
+            <div style={{ flex: '0 0 90px', textAlign: 'right' }}>Atividade</div>
+            <div style={{ flex: '0 0 16px' }}></div>
+          </div>
+
+          {/* Users list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {filtered.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: 40, color: '#6B7A9E' }}>
+                Nenhum aluno encontrado.
+              </div>
+            ) : (
+              filtered.map(user => <UserRow key={user.profile.id} user={user} />)
+            )}
+          </div>
+        </>
+      )}
+
+      {/* ── ABA VENDAS ── */}
+      {activeTab === 'vendas' && (
+        <SalesTab leads={leads} purchases={purchases} />
+      )}
     </div>
   )
 }
