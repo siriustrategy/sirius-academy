@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import { CURSOS } from '@/lib/curso-data'
 import {
   Megaphone, TrendingUp, BarChart2, ArrowRight,
-  BookOpen, Zap, Award, ChevronRight, ChevronDown, ChevronUp,
+  BookOpen, Zap, Award, ChevronRight, ChevronDown, ChevronUp, X,
 } from 'lucide-react'
 
 // ── Sirius Logo ───────────────────────────────────────────────
@@ -44,7 +45,7 @@ const AREAS = [
     Icon: Megaphone,
     title: 'Marketing',
     color: '#3B5BDB',
-    modules: 12,
+    cursoId: 'ia-conteudo',
     desc: 'Criação de conteúdo, campanhas, SEO, copy e automação de marketing com IA.',
     tags: ['Copy com IA', 'Conteúdo em escala', 'Estratégia digital'],
   },
@@ -52,7 +53,7 @@ const AREAS = [
     Icon: TrendingUp,
     title: 'Vendas',
     color: '#059669',
-    modules: 15,
+    cursoId: 'vendas-crm',
     desc: 'Prospecção inteligente, scripts personalizados, follow-up e fechamento de negócios com IA.',
     tags: ['Cold email com IA', 'Scripts de vendas', 'Preparação de reuniões'],
   },
@@ -60,11 +61,28 @@ const AREAS = [
     Icon: BarChart2,
     title: 'Financeiro',
     color: '#D97706',
-    modules: 15,
+    cursoId: 'dados-bi',
     desc: 'Análise de dados, relatórios executivos, automação de tarefas e decisões financeiras com IA.',
     tags: ['Análise de planilhas', 'Relatórios em minutos', 'Detecção de anomalias'],
   },
 ]
+
+const LEVEL_LABELS: Record<string, string> = {
+  basico: 'Básico',
+  intermediario: 'Intermediário',
+  avancado: 'Avançado',
+}
+const LEVEL_COLORS: Record<string, string> = {
+  basico: '#10b981',
+  intermediario: '#3B5BDB',
+  avancado: '#7C3AED',
+}
+const TYPE_LABELS: Record<string, string> = {
+  leitura: 'Leitura',
+  exercicio: 'Exercício',
+  quiz: 'Quiz',
+  pratica: 'Prática',
+}
 
 const HOW_IT_WORKS = [
   {
@@ -129,6 +147,9 @@ export default function Home() {
   const router = useRouter()
   const [checking, setChecking] = useState(true)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [trilhaAberta, setTrilhaAberta] = useState<string | null>(null)
+
+  const cursoAberto = trilhaAberta ? CURSOS.find(c => c.id === trilhaAberta) : null
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -148,6 +169,22 @@ export default function Home() {
 
   return (
     <main style={{ minHeight: '100vh', fontFamily: 'DM Sans, sans-serif' }}>
+      <style>{`
+        @keyframes neon-badge {
+          0%, 100% {
+            box-shadow: 0 0 6px rgba(59,91,219,0.3), 0 0 16px rgba(59,91,219,0.15);
+            border-color: rgba(59,91,219,0.25);
+          }
+          50% {
+            box-shadow: 0 0 14px rgba(59,91,219,0.7), 0 0 32px rgba(59,91,219,0.35), 0 0 60px rgba(59,91,219,0.15);
+            border-color: rgba(59,91,219,0.6);
+          }
+        }
+        @keyframes modal-in {
+          from { opacity: 0; transform: translateY(20px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      `}</style>
 
       {/* ── Navbar ── */}
       <nav style={{
@@ -212,6 +249,7 @@ export default function Home() {
           border: '1px solid rgba(59,91,219,0.25)',
           borderRadius: 20, padding: '6px 16px',
           marginBottom: 32,
+          animation: 'neon-badge 2.8s ease-in-out infinite',
         }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3B5BDB', boxShadow: '0 0 8px #3B5BDB' }} />
           <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 11, color: '#7B9FFF', letterSpacing: '0.12em' }}>
@@ -247,7 +285,7 @@ export default function Home() {
           lineHeight: 1.65,
           marginBottom: 20,
         }}>
-          A plataforma de aprendizado de IA feita para profissionais de Marketing, Vendas e Financeiro que querem resultados reais — não só teoria.
+          A plataforma de aprendizado de IA feita para profissionais de todas as áreas de uma empresa que querem resultados reais — não só teoria.
         </p>
         <p style={{
           color: '#6B7A9E',
@@ -349,7 +387,7 @@ export default function Home() {
                     {area.title}
                   </div>
                   <div style={{ fontSize: 12, color: area.color, fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif' }}>
-                    {area.modules} módulos · 3 níveis
+                    {CURSOS.find(c => c.id === area.cursoId)?.fases.reduce((acc, f) => acc + f.modules.length, 0) || 0} módulos · {CURSOS.find(c => c.id === area.cursoId)?.fases.length || 0} fases
                   </div>
                 </div>
               </div>
@@ -372,9 +410,16 @@ export default function Home() {
                 ))}
               </div>
 
-              <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: 6, color: area.color, fontSize: 13, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700 }}>
+              <button
+                onClick={() => setTrilhaAberta(area.cursoId)}
+                style={{
+                  marginTop: 'auto', display: 'flex', alignItems: 'center', gap: 6,
+                  color: area.color, fontSize: 13, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,
+                  background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                }}
+              >
                 Ver trilha completa <ChevronRight size={14} strokeWidth={2.5} />
-              </div>
+              </button>
             </div>
           ))}
         </div>
@@ -559,6 +604,151 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── Modal Trilha ── */}
+      {cursoAberto && (
+        <div
+          onClick={() => setTrilhaAberta(null)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 200,
+            background: 'rgba(4,6,15,0.85)',
+            backdropFilter: 'blur(10px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '20px 16px',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: 'linear-gradient(145deg, #0D1225 0%, #111827 100%)',
+              border: `1px solid ${cursoAberto.color}35`,
+              borderRadius: 20,
+              width: '100%', maxWidth: 640,
+              maxHeight: '85vh',
+              overflowY: 'auto',
+              padding: '32px 28px',
+              position: 'relative',
+              animation: 'modal-in 0.22s ease',
+              boxShadow: `0 0 60px ${cursoAberto.color}18, 0 30px 80px rgba(0,0,0,0.5)`,
+            }}
+          >
+            {/* Fechar */}
+            <button
+              onClick={() => setTrilhaAberta(null)}
+              style={{
+                position: 'absolute', top: 16, right: 16,
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8, width: 36, height: 36,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', color: '#6B7A9E',
+              }}
+            >
+              <X size={16} />
+            </button>
+
+            {/* Header */}
+            <div style={{ marginBottom: 24, paddingRight: 40 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: cursoAberto.color, fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.12em', marginBottom: 8 }}>
+                TRILHA COMPLETA
+              </div>
+              <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 800, color: '#E8EEFF', marginBottom: 8 }}>
+                {cursoAberto.title}
+              </h2>
+              <p style={{ color: '#8B9CC8', fontSize: 14, lineHeight: 1.65 }}>
+                {cursoAberto.description}
+              </p>
+            </div>
+
+            <div style={{ height: 1, background: `${cursoAberto.color}20`, marginBottom: 24 }} />
+
+            {/* Fases e módulos */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              {cursoAberto.fases.map((fase, fi) => (
+                <div key={fase.id}>
+                  {/* Fase header */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <div style={{
+                      background: `${LEVEL_COLORS[fase.level]}18`,
+                      border: `1px solid ${LEVEL_COLORS[fase.level]}35`,
+                      borderRadius: 6, padding: '3px 10px',
+                      fontSize: 10, fontWeight: 700,
+                      color: LEVEL_COLORS[fase.level],
+                      fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.08em',
+                    }}>
+                      {LEVEL_LABELS[fase.level]}
+                    </div>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: '#C5CCEE' }}>
+                      Fase {fi + 1} — {fase.title}
+                    </div>
+                  </div>
+
+                  {/* Módulos */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 4 }}>
+                    {fase.modules.map((mod, mi) => (
+                      <div
+                        key={mod.id}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 12,
+                          padding: '10px 14px',
+                          background: 'rgba(255,255,255,0.02)',
+                          border: '1px solid rgba(255,255,255,0.05)',
+                          borderRadius: 8,
+                        }}
+                      >
+                        <div style={{
+                          width: 22, height: 22, borderRadius: 6, flexShrink: 0,
+                          background: `${cursoAberto.color}15`,
+                          border: `1px solid ${cursoAberto.color}25`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontFamily: 'Space Grotesk, sans-serif', fontSize: 10, fontWeight: 700,
+                          color: cursoAberto.color,
+                        }}>
+                          {mi + 1}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: '#C5CCEE', lineHeight: 1.3 }}>
+                            {mod.title}
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                          <span style={{ fontSize: 10, color: '#4A5680', fontFamily: 'Space Grotesk, sans-serif' }}>
+                            {mod.duration}
+                          </span>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4,
+                            background: 'rgba(59,91,219,0.1)', color: '#7B9FFF',
+                            fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.06em',
+                          }}>
+                            {TYPE_LABELS[mod.type]}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div style={{ marginTop: 28, paddingTop: 24, borderTop: `1px solid ${cursoAberto.color}18` }}>
+              <Link href="/cadastro" style={{ textDecoration: 'none' }} onClick={() => setTrilhaAberta(null)}>
+                <button style={{
+                  width: '100%',
+                  background: `linear-gradient(135deg, ${cursoAberto.color} 0%, ${cursoAberto.color}CC 100%)`,
+                  border: 'none', borderRadius: 10, padding: '13px 20px',
+                  color: '#fff', fontWeight: 700, fontSize: 15,
+                  fontFamily: 'Space Grotesk, sans-serif', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                }}>
+                  Começar essa trilha — é grátis
+                  <ArrowRight size={16} strokeWidth={2.5} />
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Footer ── */}
       <footer style={{
