@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import {
   Megaphone, TrendingUp, BarChart2, ArrowRight,
-  BookOpen, Zap, Award, ChevronRight,
+  BookOpen, Zap, Award, ChevronRight, ChevronDown, ChevronUp,
 } from 'lucide-react'
 
 // ── Sirius Logo ───────────────────────────────────────────────
@@ -87,6 +87,37 @@ const HOW_IT_WORKS = [
   },
 ]
 
+const FAQ_ITEMS = [
+  {
+    q: 'O que é a Sirius Academy?',
+    a: 'É uma plataforma de aprendizado de IA feita para profissionais de Marketing, Vendas e Financeiro. Você aprende a usar ferramentas de IA no seu trabalho real — com módulos práticos de 10 minutos, prompts prontos para usar e exercícios do dia a dia.',
+  },
+  {
+    q: 'Preciso saber programar ou entender de tecnologia?',
+    a: 'Não. Zero. A Sirius Academy foi construída para quem nunca usou IA antes. Tudo é explicado de forma simples, com exemplos práticos direto para a sua área de atuação.',
+  },
+  {
+    q: 'O acesso é gratuito?',
+    a: 'Sim. Você cria sua conta grátis e já tem acesso ao conteúdo. Algumas ferramentas extras, como o Mapeamento de Zona de Genialidade, têm um custo avulso de R$ 12,90 — mas os cursos principais são gratuitos.',
+  },
+  {
+    q: 'Quanto tempo preciso dedicar por dia?',
+    a: 'Cada módulo leva em média 10 minutos. Você aprende no seu ritmo, quando quiser. Não tem prazo, não tem aula ao vivo obrigatória.',
+  },
+  {
+    q: 'Para quem é a Sirius Academy?',
+    a: 'Para profissionais que trabalham com Marketing, Vendas ou Financeiro e querem usar IA para trabalhar mais rápido e com mais qualidade. Não importa o nível — do analista ao gestor, todos saem aplicando.',
+  },
+  {
+    q: 'O que é o Mapeamento de Zona de Genialidade?',
+    a: 'É uma ferramenta exclusiva que analisa seu perfil com base em 7 metodologias usadas por coaches e empresas Fortune 500 (Gay Hendricks, CliftonStrengths, Kolbe e outras). No final, você recebe um relatório personalizado com sua zona de gênio, forças naturais e um plano de 90 dias com IA.',
+  },
+  {
+    q: 'O conteúdo é atualizado com frequência?',
+    a: 'Sim. A IA evolui rápido — e a Sirius Academy também. Novos módulos e atualizações são adicionados regularmente para refletir as ferramentas e técnicas mais recentes do mercado.',
+  },
+]
+
 const DIFFERENTIALS = [
   { Icon: BookOpen, label: '45+ módulos práticos', sub: 'Conteúdo direto ao ponto, sem enrolação', color: '#3B5BDB' },
   { Icon: Zap,      label: 'Aprenda em 10 min/dia', sub: 'Módulos curtos para quem tem pouco tempo', color: '#7C3AED' },
@@ -97,6 +128,7 @@ const DIFFERENTIALS = [
 export default function Home() {
   const router = useRouter()
   const [checking, setChecking] = useState(true)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -412,6 +444,77 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section style={{ padding: '80px 24px', maxWidth: 760, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <span className="section-label" style={{ marginBottom: 16, display: 'inline-block' }}>PERGUNTAS FREQUENTES</span>
+          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>
+            Ficou alguma dúvida?
+          </h2>
+          <p style={{ color: '#6B7A9E', fontSize: 16 }}>
+            As perguntas mais comuns de quem está chegando agora.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {FAQ_ITEMS.map((item, i) => {
+            const isOpen = openFaq === i
+            return (
+              <div
+                key={i}
+                style={{
+                  background: isOpen ? 'rgba(59,91,219,0.06)' : 'rgba(255,255,255,0.02)',
+                  border: `1px solid ${isOpen ? 'rgba(59,91,219,0.25)' : 'rgba(255,255,255,0.06)'}`,
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  transition: 'border-color 0.2s, background 0.2s',
+                }}
+              >
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : i)}
+                  style={{
+                    width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                    padding: '20px 24px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+                    textAlign: 'left',
+                  }}
+                >
+                  <span style={{
+                    fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 15,
+                    color: isOpen ? '#E8EEFF' : '#C5CCEE',
+                    lineHeight: 1.4,
+                  }}>
+                    {item.q}
+                  </span>
+                  <div style={{
+                    width: 28, height: 28, flexShrink: 0,
+                    background: isOpen ? 'rgba(59,91,219,0.2)' : 'rgba(255,255,255,0.04)',
+                    border: `1px solid ${isOpen ? 'rgba(59,91,219,0.35)' : 'rgba(255,255,255,0.08)'}`,
+                    borderRadius: 8,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transition: 'all 0.2s',
+                  }}>
+                    {isOpen
+                      ? <ChevronUp size={14} color="#7B9FFF" strokeWidth={2.5} />
+                      : <ChevronDown size={14} color="#6B7A9E" strokeWidth={2.5} />
+                    }
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div style={{ padding: '0 24px 20px' }}>
+                    <div style={{ height: 1, background: 'rgba(59,91,219,0.12)', marginBottom: 16 }} />
+                    <p style={{ color: '#8B9CC8', fontSize: 14, lineHeight: 1.75, margin: 0 }}>
+                      {item.a}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       </section>
 
