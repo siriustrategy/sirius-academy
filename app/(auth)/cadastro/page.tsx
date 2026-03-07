@@ -76,10 +76,11 @@ export default function CadastroPage() {
   async function handleGoogleSignUp() {
     setGoogleLoading(true)
     setError('')
+    const base = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${base}/auth/callback`,
       },
     })
   }
