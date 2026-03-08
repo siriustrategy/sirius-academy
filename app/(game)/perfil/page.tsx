@@ -53,8 +53,8 @@ export default function PerfilPage() {
   const totalModules = PHASES.reduce((acc, p) => acc + p.modules.length, 0)
 
   return (
-    <div style={{ padding: '40px', maxWidth: 700, margin: '0 auto' }}>
-      <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 32 }}>
+    <div style={{ padding: '40px 48px' }}>
+      <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 700, marginBottom: 32 }}>
         Seu Perfil
       </h1>
 

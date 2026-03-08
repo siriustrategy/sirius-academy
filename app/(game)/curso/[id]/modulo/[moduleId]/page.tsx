@@ -231,7 +231,7 @@ export default function CursoModuloPage() {
   const { content } = mod
 
   return (
-    <div style={{ padding: '36px 48px', maxWidth: 800, margin: '0 auto' }}>
+    <div style={{ padding: '36px 48px' }}>
 
       {/* Back */}
       <Link href={`/curso/${cursoId}`} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: '#6B7A9E', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>

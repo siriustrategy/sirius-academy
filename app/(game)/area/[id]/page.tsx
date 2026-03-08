@@ -93,7 +93,7 @@ export default function AreaPage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px', maxWidth: 900, margin: '0 auto' }}>
+    <div style={{ padding: '40px 48px' }}>
 
       {/* Back */}
       <Link href="/dashboard" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: '#6B7A9E', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
@@ -111,11 +111,11 @@ export default function AreaPage() {
             borderRadius: 14,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <AreaIcon size={26} color={area.color} strokeWidth={1.7} />
+            <AreaIcon size={30} color={area.color} strokeWidth={1.7} />
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 800, color: '#E8EEFF', margin: 0 }}>
+              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 30, fontWeight: 800, color: '#E8EEFF', margin: 0 }}>
                 {area.title}
               </h1>
               <span className="section-label" style={{ color: area.color, borderColor: `${area.color}30`, background: `${area.color}10` }}>

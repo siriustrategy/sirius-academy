@@ -38,7 +38,7 @@ export default function EspecializacoesPage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px', maxWidth: 960, margin: '0 auto' }}>
+    <div style={{ padding: '40px 48px' }}>
 
       {/* Header */}
       <div style={{ marginBottom: 40 }}>

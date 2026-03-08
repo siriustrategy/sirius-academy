@@ -119,14 +119,14 @@ export default function DashboardPage() {
   const quote = motivationalQuotes[new Date().getDate() % motivationalQuotes.length]
 
   return (
-    <div style={{ padding: '40px 48px', maxWidth: 980, margin: '0 auto' }}>
+    <div style={{ padding: '40px 48px' }}>
 
       {/* ── Greeting ── */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
           <span className="section-label">MEU PAINEL</span>
         </div>
-        <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 6, lineHeight: 1.2 }}>
+        <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 700, marginBottom: 6, lineHeight: 1.2 }}>
           Olá, <span style={{ color: '#3B5BDB' }}>{displayName}</span>! Bem-vindo de volta.
         </h1>
         <p style={{ color: '#6B7A9E', fontSize: 14, fontStyle: 'italic' }}>
@@ -193,20 +193,20 @@ export default function DashboardPage() {
           { label: 'Nível', value: `${profile?.level ?? 1} — ${profile?.title ?? 'Iniciante'}`, Icon: Award, color: levelInfo?.color ?? '#6B7A9E' },
           { label: 'Módulos', value: `${totalCompleted}/${totalModules}`, Icon: Layers, color: '#10b981' },
         ].map(stat => (
-          <div key={stat.label} className="glass-card" style={{ padding: '18px 20px' }}>
+          <div key={stat.label} className="glass-card" style={{ padding: '24px 28px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
               <div style={{
-                width: 34, height: 34, borderRadius: 8,
+                width: 40, height: 40, borderRadius: 8,
                 background: `${stat.color}15`, border: `1px solid ${stat.color}25`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <stat.Icon size={16} color={stat.color} strokeWidth={1.8} />
+                <stat.Icon size={20} color={stat.color} strokeWidth={1.8} />
               </div>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
                 {stat.label}
               </div>
             </div>
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 700, color: stat.color }}>
+            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 30, fontWeight: 700, color: stat.color }}>
               {stat.value}
             </div>
           </div>

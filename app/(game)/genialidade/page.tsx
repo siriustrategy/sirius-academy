@@ -311,7 +311,7 @@ export default function GenialidadePage() {
       )}
 
       {/* ── Page content ── */}
-      <div style={{ padding: '40px 24px', maxWidth: 900, margin: '0 auto' }}>
+      <div style={{ padding: '40px 48px' }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
           <div style={{
