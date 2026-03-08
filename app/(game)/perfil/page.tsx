@@ -62,7 +62,7 @@ export default function PerfilPage() {
       <div className="glass-card" style={{
         padding: '36px',
         marginBottom: 24,
-        background: 'linear-gradient(135deg, rgba(59,91,219,0.08) 0%, rgba(10,10,20,0.9) 100%)',
+        background: 'linear-gradient(135deg, rgba(59,91,219,0.08) 0%, var(--bg-elevated) 100%)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
           {/* Avatar com botão de trocar */}
@@ -77,7 +77,7 @@ export default function PerfilPage() {
               style={{
                 position: 'absolute', bottom: -4, right: -4,
                 width: 26, height: 26, borderRadius: '50%',
-                background: '#3B5BDB', border: '2px solid #0a0a14',
+                background: '#3B5BDB', border: '2px solid var(--card-bg)',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
@@ -135,8 +135,8 @@ export default function PerfilPage() {
                     onClick={() => handleAvatarChange(avatar.id)}
                     disabled={savingAvatar}
                     style={{
-                      background: isSelected ? `${avatar.color}18` : 'rgba(10,10,20,0.6)',
-                      border: `2px solid ${isSelected ? avatar.color : 'rgba(12,21,102,0.5)'}`,
+                      background: isSelected ? `${avatar.color}18` : 'var(--progress-track)',
+                      border: `2px solid ${isSelected ? avatar.color : 'var(--border)'}`,
                       borderRadius: 12, padding: '12px 8px',
                       cursor: savingAvatar ? 'wait' : 'pointer',
                       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
@@ -225,8 +225,8 @@ export default function PerfilPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: '50%',
-                    background: reached ? `${lvl.color}20` : 'rgba(12,21,102,0.4)',
-                    border: `2px solid ${reached ? lvl.color : 'rgba(12,21,102,0.6)'}`,
+                    background: reached ? `${lvl.color}20` : 'var(--progress-track)',
+                    border: `2px solid ${reached ? lvl.color : 'var(--border)'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 14, fontWeight: 700,
                     color: reached ? lvl.color : '#6B7A9E',
@@ -238,7 +238,7 @@ export default function PerfilPage() {
                   {i < LEVELS.length - 1 && (
                     <div style={{
                       width: 2, height: 32,
-                      background: reached ? `${lvl.color}40` : 'rgba(12,21,102,0.4)',
+                      background: reached ? `${lvl.color}40` : 'var(--border)',
                     }} />
                   )}
                 </div>
@@ -247,7 +247,7 @@ export default function PerfilPage() {
                 <div style={{ paddingBottom: i < LEVELS.length - 1 ? 24 : 0 }}>
                   <div style={{
                     fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 15,
-                    color: reached ? '#E8EEFF' : '#6B7A9E',
+                    color: reached ? 'var(--text-primary)' : 'var(--text-secondary)',
                     display: 'flex', alignItems: 'center', gap: 8,
                   }}>
                     {lvl.title}
