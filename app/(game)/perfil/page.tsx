@@ -90,7 +90,7 @@ export default function PerfilPage() {
           <div>
             <div style={{
               fontFamily: 'Space Grotesk, sans-serif',
-              fontSize: 22, fontWeight: 700, color: '#E8EEFF', marginBottom: 4,
+              fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4,
             }}>
               {profile.display_name || profile.username}
             </div>
@@ -110,7 +110,7 @@ export default function PerfilPage() {
                 style={{
                   background: 'transparent', border: '1px solid rgba(59,91,219,0.3)',
                   borderRadius: 8, padding: '5px 12px',
-                  color: '#6B7A9E', fontSize: 12, cursor: 'pointer',
+                  color: 'var(--text-secondary)', fontSize: 12, cursor: 'pointer',
                   fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600,
                 }}
               >
@@ -123,7 +123,7 @@ export default function PerfilPage() {
         {/* Avatar picker */}
         {showAvatarPicker && (
           <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 12, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', marginBottom: 12 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', marginBottom: 12 }}>
               ESCOLHA SEU AVATAR
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
@@ -171,7 +171,7 @@ export default function PerfilPage() {
               {profile.xp} XP
             </span>
           </div>
-          <div style={{ background: 'rgba(12,21,102,0.6)', borderRadius: 6, height: 10, overflow: 'hidden', marginBottom: 8 }}>
+          <div style={{ background: 'var(--progress-track)', borderRadius: 6, height: 10, overflow: 'hidden', marginBottom: 8 }}>
             <div style={{
               height: '100%', borderRadius: 6,
               background: `linear-gradient(90deg, #3B5BDB, #7C3AED)`,
@@ -181,7 +181,7 @@ export default function PerfilPage() {
             }} />
           </div>
           {profile.level < 5 ? (
-            <div style={{ color: '#6B7A9E', fontSize: 13 }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>
               Faltam {xpInfo.needed - xpInfo.current} XP para Nível {profile.level + 1}
             </div>
           ) : (
@@ -198,14 +198,14 @@ export default function PerfilPage() {
           <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 900, color: '#3B5BDB', marginBottom: 4 }}>
             {completedCount}
           </div>
-          <div style={{ color: '#6B7A9E', fontSize: 14 }}>Módulos completados</div>
-          <div style={{ color: '#6B7A9E', fontSize: 12, marginTop: 4 }}>de {totalModules} totais</div>
+          <div style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Módulos completados</div>
+          <div style={{ color: 'var(--text-secondary)', fontSize: 12, marginTop: 4 }}>de {totalModules} totais</div>
         </div>
         <div className="glass-card" style={{ padding: '20px 24px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 900, color: '#7C3AED', marginBottom: 4 }}>
             {Math.round((completedCount / totalModules) * 100)}%
           </div>
-          <div style={{ color: '#6B7A9E', fontSize: 14 }}>Progresso total</div>
+          <div style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Progresso total</div>
         </div>
       </div>
 
@@ -261,7 +261,7 @@ export default function PerfilPage() {
                       </span>
                     )}
                   </div>
-                  <div style={{ color: '#6B7A9E', fontSize: 13, marginTop: 2 }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: 13, marginTop: 2 }}>
                     {lvl.min === 0 ? 'Início' : `${lvl.min} XP`} — {lvl.max >= 99999 ? 'Mestre' : `${lvl.max} XP`}
                   </div>
                 </div>

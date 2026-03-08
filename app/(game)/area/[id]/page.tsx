@@ -96,7 +96,7 @@ export default function AreaPage() {
     <div style={{ padding: '40px 48px' }}>
 
       {/* Back */}
-      <Link href="/dashboard" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: '#6B7A9E', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
+      <Link href="/dashboard" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
         <ArrowLeft size={15} strokeWidth={2} />
         Voltar ao Painel
       </Link>
@@ -115,18 +115,18 @@ export default function AreaPage() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 30, fontWeight: 800, color: '#E8EEFF', margin: 0 }}>
+              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 30, fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                 {area.title}
               </h1>
               <span className="section-label" style={{ color: area.color, borderColor: `${area.color}30`, background: `${area.color}10` }}>
                 {allPhases.length} FASES
               </span>
             </div>
-            <p style={{ color: '#6B7A9E', fontSize: 14, margin: '0 0 16px 0', lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 14, margin: '0 0 16px 0', lineHeight: 1.5 }}>
               {area.description}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ flex: 1, background: 'rgba(12,21,102,0.5)', borderRadius: 4, height: 6, overflow: 'hidden' }}>
+              <div style={{ flex: 1, background: 'var(--progress-track)', borderRadius: 4, height: 6, overflow: 'hidden' }}>
                 <div style={{
                   height: '100%', borderRadius: 4,
                   background: `linear-gradient(90deg, ${area.color}, ${area.color}bb)`,
@@ -138,7 +138,7 @@ export default function AreaPage() {
                 {overallProg.percent}% completo
               </span>
             </div>
-            <div style={{ fontSize: 11, color: '#6B7A9E', marginTop: 6 }}>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 6 }}>
               {overallProg.done} de {overallProg.total} módulos concluídos
             </div>
           </div>
@@ -171,16 +171,16 @@ export default function AreaPage() {
               </div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 16, color: unlocked ? '#E8EEFF' : '#6B7A9E' }}>
+                  <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 16, color: unlocked ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                     {LEVEL_LABELS[level]}
                   </span>
                   {levelDone && <span className="section-label green">COMPLETO ✓</span>}
-                  {!unlocked && <span className="section-label" style={{ color: '#6B7A9E', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)' }}>BLOQUEADO</span>}
+                  {!unlocked && <span className="section-label" style={{ color: 'var(--text-secondary)', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)' }}>BLOQUEADO</span>}
                   {unlocked && !levelDone && levelProg.total > 0 && (
-                    <span style={{ fontSize: 11, color: '#6B7A9E' }}>{levelProg.done}/{levelProg.total} módulos</span>
+                    <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{levelProg.done}/{levelProg.total} módulos</span>
                   )}
                 </div>
-                <div style={{ fontSize: 12, color: '#6B7A9E', marginTop: 2 }}>
+                <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
                   {LEVEL_DESCRIPTIONS[level]}
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default function AreaPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <Lock size={18} color="#6B7A9E" strokeWidth={1.8} />
                   <div>
-                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: '#6B7A9E' }}>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: 'var(--text-secondary)' }}>
                       Em breve
                     </div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
@@ -241,17 +241,17 @@ export default function AreaPage() {
 
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: '#E8EEFF' }}>
+                            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>
                               {phase.title}
                             </span>
                             {phaseDone && <span className="section-label green" style={{ fontSize: 9 }}>COMPLETA</span>}
                           </div>
-                          <div style={{ color: '#6B7A9E', fontSize: 12, marginBottom: unlocked ? 8 : 0 }}>
+                          <div style={{ color: 'var(--text-secondary)', fontSize: 12, marginBottom: unlocked ? 8 : 0 }}>
                             {phase.subtitle}
                           </div>
                           {unlocked && (
                             <div>
-                              <div style={{ background: 'rgba(12,21,102,0.5)', borderRadius: 3, height: 3, overflow: 'hidden', maxWidth: 200 }}>
+                              <div style={{ background: 'var(--progress-track)', borderRadius: 3, height: 3, overflow: 'hidden', maxWidth: 200 }}>
                                 <div style={{
                                   height: '100%', borderRadius: 3,
                                   background: `linear-gradient(90deg, ${area.color}, ${area.color}bb)`,
@@ -259,7 +259,7 @@ export default function AreaPage() {
                                   transition: 'width 0.8s ease',
                                 }} />
                               </div>
-                              <div style={{ fontSize: 10, color: '#6B7A9E', marginTop: 3 }}>
+                              <div style={{ fontSize: 10, color: 'var(--text-secondary)', marginTop: 3 }}>
                                 {phaseProg.done}/{phaseProg.total} módulos
                               </div>
                             </div>
@@ -267,7 +267,7 @@ export default function AreaPage() {
                         </div>
 
                         <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                          <div style={{ fontSize: 10, color: '#6B7A9E', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, marginBottom: 2 }}>BÔNUS</div>
+                          <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, marginBottom: 2 }}>BÔNUS</div>
                           <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13, fontWeight: 700, color: area.color }}>
                             +{phase.xpBonus}XP
                           </div>

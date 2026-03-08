@@ -103,7 +103,7 @@ export default function CursoPage() {
     <div style={{ padding: '40px 48px' }}>
 
       {/* Back */}
-      <Link href="/especializacoes" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: '#6B7A9E', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
+      <Link href="/especializacoes" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
         <ArrowLeft size={15} strokeWidth={2} />
         Especializacoes
       </Link>
@@ -135,7 +135,7 @@ export default function CursoPage() {
               {!isFullyLocked && totalModules > 0 && (
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ flex: 1, background: 'rgba(12,21,102,0.5)', borderRadius: 4, height: 5, overflow: 'hidden', maxWidth: 300 }}>
+                    <div style={{ flex: 1, background: 'var(--progress-track)', borderRadius: 4, height: 5, overflow: 'hidden', maxWidth: 300 }}>
                       <div style={{
                         height: '100%', borderRadius: 4,
                         background: `linear-gradient(90deg, ${curso.color}, ${curso.color}bb)`,
@@ -222,7 +222,7 @@ export default function CursoPage() {
                     {LEVEL_LABELS[level]}
                   </span>
                   {!accessible && (
-                    <span className="section-label" style={{ color: '#6B7A9E', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <span className="section-label" style={{ color: 'var(--text-secondary)', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)', display: 'flex', alignItems: 'center', gap: 4 }}>
                       <Lock size={9} />
                       PAGO
                     </span>

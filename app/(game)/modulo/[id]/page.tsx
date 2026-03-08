@@ -76,7 +76,7 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
           <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 6 }}>
             {score}/{total}
           </div>
-          <div style={{ color: '#6B7A9E', fontSize: 14, marginBottom: 16 }}>
+          <div style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 16 }}>
             {pct >= 80 ? 'Excelente! Você dominou o conteúdo.' : pct >= 50 ? 'Bom trabalho! Continue praticando.' : 'Continue estudando e tente novamente.'}
           </div>
           <div style={{
@@ -100,7 +100,7 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
         <span className="section-label">QUIZ</span>
-        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: '#6B7A9E' }}>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: 'var(--text-secondary)' }}>
           {current + 1} / {questions.length}
         </span>
       </div>
@@ -108,7 +108,7 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
       {/* Question */}
       <p style={{
         fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 16,
-        lineHeight: 1.55, marginBottom: 20, color: '#E8EEFF',
+        lineHeight: 1.55, marginBottom: 20, color: 'var(--text-primary)',
       }}>
         {q.question}
       </p>
@@ -372,7 +372,7 @@ export default function ModuloPage() {
           <div style={{
             fontFamily: 'JetBrains Mono, monospace',
             fontSize: 32, fontWeight: 700,
-            color: '#E8EEFF', lineHeight: 1,
+            color: 'var(--text-primary)', lineHeight: 1,
             marginBottom: 10,
           }}>
             +{xpGained}<span style={{ fontSize: 16, color: '#3B5BDB', marginLeft: 4 }}>XP</span>
@@ -391,7 +391,7 @@ export default function ModuloPage() {
       {/* Back nav */}
       <Link href={`/fase/${phaseId}`} style={{
         textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6,
-        color: '#6B7A9E', fontSize: 13, marginBottom: 32,
+        color: 'var(--text-secondary)', fontSize: 13, marginBottom: 32,
         fontFamily: 'Space Grotesk, sans-serif',
         transition: 'color 0.15s',
       }}>
@@ -404,7 +404,7 @@ export default function ModuloPage() {
           <span className={`section-label ${typeLabelClass[module.type]}`}>
             {typeLabel[module.type]}
           </span>
-          <span style={{ color: '#6B7A9E', fontSize: 12, fontFamily: 'Space Grotesk, sans-serif' }}>
+          <span style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'Space Grotesk, sans-serif' }}>
             {module.duration}
           </span>
           {completed && (
@@ -414,7 +414,7 @@ export default function ModuloPage() {
         <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>
           {module.title}
         </h1>
-        <p style={{ color: '#6B7A9E', fontSize: 15, lineHeight: 1.6 }}>{module.subtitle}</p>
+        <p style={{ color: 'var(--text-secondary)', fontSize: 15, lineHeight: 1.6 }}>{module.subtitle}</p>
       </div>
 
       {/* Intro — card de destaque com borda lateral */}
@@ -504,16 +504,16 @@ export default function ModuloPage() {
       {/* Module-level prompts */}
       {'prompts' in module.content && (module.content as any).prompts?.map((prompt: any, pi: number) => (
         <div key={pi} style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#6B7A9E', marginBottom: 12, fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.05em' }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 12, fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.05em' }}>
             {prompt.label}
           </div>
           <TerminalBlock label="PROMPT MODELO">{prompt.good}</TerminalBlock>
           <div style={{
-            background: 'rgba(10,10,20,0.7)', border: '1px solid rgba(12,21,102,0.35)',
+            background: 'var(--callout-bg)', border: '1px solid var(--callout-border)',
             borderRadius: 8, padding: '12px 16px', marginTop: 4,
           }}>
-            <p style={{ color: '#6B7A9E', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-              <strong style={{ color: '#E8EEFF' }}>Por que funciona: </strong>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
+              <strong style={{ color: 'var(--text-primary)' }}>Por que funciona: </strong>
               {prompt.explanation}
             </p>
           </div>
@@ -558,16 +558,16 @@ export default function ModuloPage() {
       {/* Quiz - new one-at-a-time with neon/shake */}
       {module.content.quiz && !quizDone && (
         <div style={{
-          background: 'rgba(10,10,20,0.8)',
-          border: '1px solid rgba(12,21,102,0.55)',
+          background: 'var(--callout-bg)',
+          border: '1px solid var(--callout-border)',
           borderRadius: 14, padding: '24px 28px',
           marginBottom: 32,
         }}>
           <div style={{ marginBottom: 20 }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 700, marginBottom: 4, color: '#E8EEFF' }}>
+            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 700, marginBottom: 4, color: 'var(--text-primary)' }}>
               Teste seu Conhecimento
             </h2>
-            <p style={{ color: '#6B7A9E', fontSize: 13 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 13 }}>
               Resolva os cenários abaixo para consolidar o aprendizado.
             </p>
           </div>
@@ -584,13 +584,13 @@ export default function ModuloPage() {
       {/* Quiz done state */}
       {module.content.quiz && quizDone && quizScore !== null && (
         <div style={{
-          background: 'rgba(10,10,20,0.8)',
-          border: '1px solid rgba(12,21,102,0.55)',
+          background: 'var(--callout-bg)',
+          border: '1px solid var(--callout-border)',
           borderRadius: 14, padding: '24px 28px',
           marginBottom: 32,
         }}>
           <div style={{ marginBottom: 16 }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 700, color: '#E8EEFF', marginBottom: 4 }}>
+            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
               Teste seu Conhecimento
             </h2>
           </div>
@@ -609,7 +609,7 @@ export default function ModuloPage() {
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700, marginBottom: 6 }}>
               {quizScore}/{module.content.quiz.length} corretas
             </div>
-            <div style={{ color: '#6B7A9E', fontSize: 13, marginBottom: 16 }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 16 }}>
               Quiz finalizado — bom trabalho!
             </div>
             <div style={{
@@ -632,7 +632,7 @@ export default function ModuloPage() {
           borderRadius: 14, padding: '28px',
           textAlign: 'center', marginTop: 8,
         }}>
-          <p style={{ color: '#6B7A9E', fontSize: 14, marginBottom: 20, lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: 14, marginBottom: 20, lineHeight: 1.6 }}>
             Completou a leitura e os exercícios? Clique para registrar seu progresso.
           </p>
           <button

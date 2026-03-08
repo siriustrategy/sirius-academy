@@ -143,7 +143,7 @@ function CursoCard({ curso, isAdmin }: { curso: CursoDef; isAdmin: boolean }) {
               {curso.tag}
             </span>
             {isFullyLocked && (
-              <span className="section-label" style={{ color: '#6B7A9E', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)' }}>
+              <span className="section-label" style={{ color: 'var(--text-secondary)', borderColor: 'rgba(107,122,158,0.2)', background: 'rgba(107,122,158,0.06)' }}>
                 PREMIUM
               </span>
             )}

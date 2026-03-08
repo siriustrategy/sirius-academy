@@ -9,8 +9,9 @@ import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
 import {
   LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone,
-  BookOpen, ShieldCheck, Sparkles, Zap, Menu, X, DollarSign,
+  BookOpen, ShieldCheck, Sparkles, Zap, Menu, X, DollarSign, Sun, Moon,
 } from 'lucide-react'
+import { useTheme } from '@/contexts/ThemeContext'
 import dynamic from 'next/dynamic'
 
 const StarfieldCanvas = dynamic(() => import('@/components/StarfieldCanvas'), { ssr: false })
@@ -56,6 +57,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
   const [isAdmin, setIsAdmin] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme()
 
   // Detecta mobile
   useEffect(() => {
@@ -308,6 +310,16 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
 
       <div style={{ height: 1, background: 'var(--border)', margin: '14px 0' }} />
 
+      <button onClick={toggleTheme} className="nav-pill" style={{ border: 'none' }}>
+        <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
+          {theme === 'dark'
+            ? <Sun size={14} color="var(--text-secondary)" strokeWidth={2} />
+            : <Moon size={14} color="var(--text-secondary)" strokeWidth={2} />
+          }
+        </div>
+        <span>{theme === 'dark' ? 'Tema Claro' : 'Tema Escuro'}</span>
+      </button>
+
       <button onClick={handleLogout} className="nav-pill" style={{ border: 'none' }}>
         <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
           <LogOut size={14} color="var(--text-secondary)" strokeWidth={2} />
@@ -337,7 +349,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
       {!isMobile && (
         <aside style={{
           width: 220,
-          background: 'rgba(8,12,24,0.9)',
+          background: 'var(--overlay-bg)',
           borderRight: '1px solid var(--sidebar-border)',
           display: 'flex',
           flexDirection: 'column',
@@ -356,10 +368,10 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
       {isMobile && (
         <>
           {/* Top bar mobile */}
-          <div style={{
+          <div className="mobile-topbar" style={{
             position: 'fixed', top: 0, left: 0, right: 0, zIndex: 80,
             height: 56,
-            background: 'rgba(8,12,24,0.95)',
+            background: 'var(--overlay-nav)',
             borderBottom: '1px solid var(--sidebar-border)',
             backdropFilter: 'blur(12px)',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -402,7 +414,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           <div style={{
             position: 'fixed', top: 56, left: 0, bottom: 0, zIndex: 95,
             width: 240,
-            background: 'rgba(8,12,24,0.98)',
+            background: 'var(--overlay-drawer)',
             borderRight: '1px solid var(--sidebar-border)',
             backdropFilter: 'blur(16px)',
             display: 'flex', flexDirection: 'column',
@@ -415,10 +427,10 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* ── Bottom Navigation mobile ── */}
-          <nav style={{
+          <nav className="mobile-bottom-nav" style={{
             position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 80,
             height: 64,
-            background: 'rgba(8,12,24,0.97)',
+            background: 'var(--overlay-nav)',
             borderTop: '1px solid var(--sidebar-border)',
             backdropFilter: 'blur(16px)',
             display: 'flex', alignItems: 'stretch',

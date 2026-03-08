@@ -234,7 +234,7 @@ export default function CursoModuloPage() {
     <div style={{ padding: '36px 48px' }}>
 
       {/* Back */}
-      <Link href={`/curso/${cursoId}`} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: '#6B7A9E', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
+      <Link href={`/curso/${cursoId}`} style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
         <ArrowLeft size={15} strokeWidth={2} />
         {fase.title}
       </Link>

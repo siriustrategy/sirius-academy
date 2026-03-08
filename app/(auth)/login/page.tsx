@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { Sun, Moon } from 'lucide-react'
+import { useTheme } from '@/contexts/ThemeContext'
 
 function GoogleIcon() {
   return (
@@ -18,6 +20,7 @@ function GoogleIcon() {
 
 export default function LoginPage() {
   const router = useRouter()
+  const { theme, toggleTheme } = useTheme()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -47,6 +50,23 @@ export default function LoginPage() {
       justifyContent: 'center',
       padding: 24,
     }}>
+      {/* Theme toggle */}
+      <button
+        onClick={toggleTheme}
+        style={{
+          position: 'fixed', top: 20, right: 20, zIndex: 10,
+          background: 'var(--muted-bg)', border: '1px solid var(--border)',
+          borderRadius: 8, width: 36, height: 36,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        {theme === 'dark'
+          ? <Sun size={16} color="var(--text-secondary)" strokeWidth={2} />
+          : <Moon size={16} color="var(--text-secondary)" strokeWidth={2} />
+        }
+      </button>
+
       <div style={{
         position: 'fixed', top: '40%', left: '50%',
         transform: 'translate(-50%, -50%)',

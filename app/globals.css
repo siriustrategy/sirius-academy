@@ -42,7 +42,100 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-body:    'DM Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
+
+  /* Overlay / nav backgrounds */
+  --overlay-bg:      rgba(8,12,24,0.90);
+  --overlay-nav:     rgba(8,12,24,0.95);
+  --overlay-drawer:  rgba(8,12,24,0.98);
+
+  /* Progress bar track */
+  --progress-track:  rgba(12,21,102,0.45);
+
+  /* Callout/card with dark tint */
+  --callout-bg:      rgba(10,10,20,0.70);
+  --callout-border:  rgba(12,21,102,0.35);
+
+  /* Landing navbar */
+  --nav-bg:          rgba(5,7,16,0.85);
 }
+
+/* =================== LIGHT THEME =================== */
+[data-theme="light"] {
+  --bg:              #EEF1FB;
+  --bg-elevated:     #FFFFFF;
+  --surface:         #FFFFFF;
+  --surface-2:       #F4F7FF;
+
+  --border:          rgba(59,91,219,0.20);
+  --border-strong:   rgba(59,91,219,0.35);
+
+  --text-primary:    #0D1225;
+  --text-secondary:  #3A4A6B;
+  --text-muted:      #6B7A9E;
+
+  --accent:          #3B5BDB;
+  --accent-light:    #4C6EF5;
+  --accent-glow:     rgba(59,91,219,0.20);
+
+  --success:         #059669;
+  --error:           #dc2626;
+  --warning:         #d97706;
+
+  --card-bg:         rgba(255,255,255,0.97);
+  --card-border:     rgba(59,91,219,0.16);
+  --card-hover:      rgba(59,91,219,0.28);
+
+  --sidebar-bg:      rgba(255,255,255,0.95);
+  --sidebar-border:  rgba(59,91,219,0.14);
+  --muted-bg:        rgba(59,91,219,0.06);
+
+  --overlay-bg:      rgba(255,255,255,0.92);
+  --overlay-nav:     rgba(255,255,255,0.96);
+  --overlay-drawer:  rgba(255,255,255,0.98);
+
+  --progress-track:  rgba(59,91,219,0.10);
+  --callout-bg:      rgba(59,91,219,0.05);
+  --callout-border:  rgba(59,91,219,0.18);
+  --nav-bg:          rgba(255,255,255,0.96);
+}
+
+/* ── Light theme structural overrides ── */
+
+/* Hide starfield in light mode */
+[data-theme="light"] .starfield-canvas {
+  display: none;
+}
+
+/* Sidebar shadow in light mode */
+[data-theme="light"] aside {
+  box-shadow: 2px 0 16px rgba(59,91,219,0.08);
+}
+
+/* Mobile topbar shadow in light mode */
+[data-theme="light"] .mobile-topbar {
+  box-shadow: 0 2px 12px rgba(59,91,219,0.08);
+}
+
+/* Bottom nav shadow in light mode */
+[data-theme="light"] .mobile-bottom-nav {
+  box-shadow: 0 -2px 12px rgba(59,91,219,0.06);
+}
+
+/* Terminal always stays dark */
+[data-theme="light"] .terminal-block {
+  background: #040810 !important;
+  border-color: rgba(59,91,219,0.22) !important;
+}
+[data-theme="light"] .terminal-body {
+  color: #a5b4fc !important;
+}
+[data-theme="light"] .terminal-label {
+  color: rgba(165,180,252,0.6) !important;
+}
+
+/* Scrollbar in light mode */
+[data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: var(--border-strong); }
 
 * { box-sizing: border-box; padding: 0; margin: 0; }
 
@@ -81,6 +174,23 @@ body > * { position: relative; z-index: 1; }
 .sirius-logo { animation: star-pulse 3s ease-in-out infinite; }
 
 /* ===================== ANIMATIONS ===================== */
+
+/* Hero entrance — stagger via CSS animation-delay */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-item {
+  opacity: 0;
+  animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-item-0 { animation-delay: 0.05s; }
+.hero-item-1 { animation-delay: 0.19s; }
+.hero-item-2 { animation-delay: 0.33s; }
+.hero-item-3 { animation-delay: 0.47s; }
+.hero-item-4 { animation-delay: 0.61s; }
+.hero-item-5 { animation-delay: 0.75s; }
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-5px); }

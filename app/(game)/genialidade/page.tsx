@@ -224,7 +224,7 @@ export default function GenialidadePage() {
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 8, width: 36, height: 36,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: '#6B7A9E',
+                cursor: 'pointer', color: 'var(--text-secondary)',
               }}
             >
               <X size={16} />
@@ -245,7 +245,7 @@ export default function GenialidadePage() {
                 <div style={{ fontSize: 11, fontWeight: 700, color: selected.color, fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.1em', marginBottom: 4 }}>
                   {selected.desc.toUpperCase()} · {selected.year}
                 </div>
-                <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color: '#E8EEFF', lineHeight: 1.25, marginRight: 44 }}>
+                <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.25, marginRight: 44 }}>
                   {selected.fullTitle}
                 </h2>
               </div>
@@ -302,7 +302,7 @@ export default function GenialidadePage() {
                 <Lightbulb size={14} color='#D97706' />
                 <span style={{ fontSize: 11, fontWeight: 700, color: '#D97706', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.1em' }}>PERGUNTA-CHAVE</span>
               </div>
-              <p style={{ color: '#E8EEFF', fontSize: 15, lineHeight: 1.7, fontStyle: 'italic' }}>
+              <p style={{ color: 'var(--text-primary)', fontSize: 15, lineHeight: 1.7, fontStyle: 'italic' }}>
                 "{selected.keyQuestion}"
               </p>
             </div>
