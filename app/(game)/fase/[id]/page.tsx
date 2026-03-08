@@ -66,7 +66,7 @@ export default function FasePage() {
 
       {/* Phase header */}
       <div style={{
-        background: 'rgba(10,10,20,0.8)',
+        background: 'var(--card-bg)',
         border: `1px solid ${phase.color}30`,
         borderRadius: 16,
         padding: '32px 36px',
@@ -131,15 +131,15 @@ export default function FasePage() {
                 opacity: unlocked ? 1 : 0.5,
                 cursor: unlocked ? 'pointer' : 'default',
                 transition: 'all 0.2s',
-                borderColor: done ? `${phase.color}40` : 'rgba(12,21,102,0.6)',
+                borderColor: done ? `${phase.color}40` : 'var(--border)',
               }}>
                 {/* Status icon */}
                 <div style={{
                   width: 40, height: 40, borderRadius: '50%',
                   background: done
                     ? `${phase.color}20`
-                    : 'rgba(12,21,102,0.4)',
-                  border: `2px solid ${done ? phase.color : 'rgba(12,21,102,0.6)'}`,
+                    : 'var(--progress-track)',
+                  border: `2px solid ${done ? phase.color : 'var(--border)'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 16, flexShrink: 0,
                   fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,

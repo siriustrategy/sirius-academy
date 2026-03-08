@@ -129,11 +129,11 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
             >
               <span style={{
                 width: 26, height: 26, borderRadius: 6, flexShrink: 0,
-                background: isCorrectOpt ? 'rgba(16,185,129,0.25)' : isWrongOpt ? 'rgba(239,68,68,0.2)' : 'rgba(12,21,102,0.6)',
-                border: `1px solid ${isCorrectOpt ? 'rgba(16,185,129,0.5)' : isWrongOpt ? 'rgba(239,68,68,0.4)' : 'rgba(12,21,102,0.8)'}`,
+                background: isCorrectOpt ? 'rgba(16,185,129,0.25)' : isWrongOpt ? 'rgba(239,68,68,0.2)' : 'var(--progress-track)',
+                border: `1px solid ${isCorrectOpt ? 'rgba(16,185,129,0.5)' : isWrongOpt ? 'rgba(239,68,68,0.4)' : 'var(--border)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 11, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif',
-                color: isCorrectOpt ? '#34d399' : isWrongOpt ? '#f87171' : '#6B7A9E',
+                color: isCorrectOpt ? '#34d399' : isWrongOpt ? '#f87171' : 'var(--text-secondary)',
               }}>
                 {letters[oi]}
               </span>
@@ -158,7 +158,7 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
             }}>
               {isCorrect ? '✓ CORRETO!' : '✗ ERRADO!'}
             </div>
-            <p style={{ color: '#C5CCEE', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
               {q.explanation}
             </p>
           </div>
@@ -328,12 +328,12 @@ export default function ModuloPage() {
     return text
       .split('\n')
       .map((line, i) => {
-        const bold = line.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#E8EEFF">$1</strong>')
+        const bold = line.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-primary)">$1</strong>')
         if (line.startsWith('- ') || line.match(/^\d+\./)) {
-          return `<li style="margin-bottom:6px;color:#C5CCEE">${bold.replace(/^[-\d+.]+\s/, '')}</li>`
+          return `<li style="margin-bottom:6px;color:var(--text-secondary)">${bold.replace(/^[-\d+.]+\s/, '')}</li>`
         }
         if (line === '') return '<br/>'
-        return `<p style="margin-bottom:10px;color:#C5CCEE">${bold}</p>`
+        return `<p style="margin-bottom:10px;color:var(--text-secondary)">${bold}</p>`
       })
       .join('')
   }
@@ -530,10 +530,10 @@ export default function ModuloPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
             <span className="section-label purple">EXERCÍCIO PRÁTICO</span>
           </div>
-          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 17, color: '#C4B5FD', marginBottom: 10 }}>
+          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 17, color: 'var(--text-primary)', marginBottom: 10 }}>
             {module.content.exercise.title}
           </h3>
-          <p style={{ color: '#A78BFA', fontSize: 14, lineHeight: 1.6, marginBottom: 18 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, marginBottom: 18 }}>
             {module.content.exercise.description}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -543,12 +543,12 @@ export default function ModuloPage() {
                   width: 26, height: 26, borderRadius: '50%',
                   background: 'rgba(124,58,237,0.2)', border: '1px solid rgba(124,58,237,0.35)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 11, fontWeight: 700, color: '#A78BFA',
+                  fontSize: 11, fontWeight: 700, color: '#7C3AED',
                   fontFamily: 'Space Grotesk, sans-serif', flexShrink: 0,
                 }}>
                   {i + 1}
                 </div>
-                <p style={{ color: '#C4B5FD', fontSize: 14, lineHeight: 1.6, margin: 0 }}>{step}</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>{step}</p>
               </div>
             ))}
           </div>
@@ -627,8 +627,8 @@ export default function ModuloPage() {
       {/* Complete button */}
       {!completed && (
         <div style={{
-          background: 'rgba(10,10,20,0.8)',
-          border: '1px solid rgba(59,91,219,0.2)',
+          background: 'var(--card-bg)',
+          border: '1px solid var(--border)',
           borderRadius: 14, padding: '28px',
           textAlign: 'center', marginTop: 8,
         }}>
