@@ -80,7 +80,7 @@ export default function GeniusQuizPage() {
         completed_at: new Date().toISOString(),
       }, { onConflict: 'user_id' })
 
-      if (error) throw error
+      if (error) throw new Error(`Supabase (assessment): ${error.message}`)
 
       // Call analysis API
       const res = await fetch('/api/genius-analysis', {
@@ -89,11 +89,15 @@ export default function GeniusQuizPage() {
         body: JSON.stringify({ answers, userId }),
       })
 
-      if (!res.ok) throw new Error('Erro na análise')
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(`API ${res.status}: ${body?.error || res.statusText}`)
+      }
       router.push('/genialidade/resultado')
-    } catch (e) {
-      console.error(e)
-      alert('Erro ao salvar. Tente novamente.')
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('handleSubmit error:', msg)
+      alert(`Erro: ${msg}`)
       setSubmitting(false)
     }
   }

@@ -199,7 +199,7 @@ export default function ResultadoPage() {
           .from('academy_purchases')
           .select('id')
           .eq('user_id', session.user.id)
-          .eq('produto', 'genialidade')
+          .eq('produto_tipo', 'genialidade')
           .eq('status', 'pago')
           .maybeSingle()
         setHasPaid(!!purchase)

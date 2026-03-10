@@ -145,3 +145,37 @@ BEGIN
   WHERE id = p_user_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================================================
+-- GENIUS ZONE — RESPOSTAS DO QUIZ
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS genius_assessments (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  answers JSONB NOT NULL,
+  completed_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id)
+);
+
+ALTER TABLE genius_assessments ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users manage own assessment" ON genius_assessments
+  FOR ALL USING (auth.uid() = user_id);
+
+-- ============================================================================
+-- GENIUS ZONE — BLUEPRINTS GERADOS PELA IA
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS genius_blueprints (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  blueprint_md TEXT NOT NULL,
+  generated_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id)
+);
+
+ALTER TABLE genius_blueprints ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users manage own blueprint" ON genius_blueprints
+  FOR ALL USING (auth.uid() = user_id);
