@@ -138,7 +138,8 @@ IMPORTANTE: Seja específico e baseado nas respostas. Evite generalidades. Cada 
 
     return NextResponse.json({ success: true, blueprint })
   } catch (err) {
-    console.error('Analysis error:', err)
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('Analysis error:', msg)
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
