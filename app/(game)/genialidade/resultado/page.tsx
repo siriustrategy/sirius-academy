@@ -236,7 +236,7 @@ export default function ResultadoPage() {
   const dateStr = generatedAt ? new Date(generatedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : ''
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
       <style>{`@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}</style>
 
       {/* Header */}

@@ -119,14 +119,14 @@ export default function DashboardPage() {
   const quote = motivationalQuotes[new Date().getDate() % motivationalQuotes.length]
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* ── Greeting ── */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
           <span className="section-label">MEU PAINEL</span>
         </div>
-        <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 700, marginBottom: 6, lineHeight: 1.2 }}>
+        <h1 className="dash-h1" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 700, marginBottom: 6, lineHeight: 1.2 }}>
           Olá, <span style={{ color: '#3B5BDB' }}>{displayName}</span>! Bem-vindo de volta.
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: 14, fontStyle: 'italic' }}>
@@ -179,7 +179,8 @@ export default function DashboardPage() {
               fontSize: 13,
               color: '#fff',
               flexShrink: 0,
-            }}>
+            }}
+            className="continue-btn-hide">
               Continuar
             </div>
           </div>
@@ -187,7 +188,7 @@ export default function DashboardPage() {
       )}
 
       {/* ── Stats ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 36 }}>
+      <div className="grid-3" style={{ gap: 12, marginBottom: 36 }}>
         {[
           { label: 'XP Total', value: `${profile?.xp ?? 0}`, Icon: Activity, color: '#3B5BDB' },
           { label: 'Nível', value: `${profile?.level ?? 1} — ${profile?.title ?? 'Iniciante'}`, Icon: Award, color: levelInfo?.color ?? '#6B7A9E' },
@@ -344,7 +345,7 @@ export default function DashboardPage() {
         <span className="section-label">EM ALTA NA SIRIUS ACADEMY</span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 36 }}>
+      <div className="grid-3" style={{ gap: 12, marginBottom: 36 }}>
         {PHASES.slice(0, 3).map(phase => {
           const prog = getModuleProgress(phase.modules.map(m => m.id))
           const done = prog.done === prog.total && prog.total > 0

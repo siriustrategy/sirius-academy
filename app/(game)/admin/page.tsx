@@ -282,7 +282,7 @@ function SalesTab({ leads, purchases }: { leads: CheckoutLead[]; purchases: Purc
   return (
     <div>
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 32 }}>
+      <div className="grid-3" style={{ gap: 12, marginBottom: 32 }}>
         {card('Leads no carrinho', totalLeads, ShoppingCart, '#3B5BDB')}
         {card('Pagamentos confirmados', totalPaid, Award, '#10b981')}
         {card('Aguardando pagamento', totalPending, Activity, '#f59e0b')}
@@ -658,7 +658,7 @@ USING (
   }).length
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
@@ -701,7 +701,7 @@ USING (
       {activeTab === 'alunos' && (
         <>
           {/* Stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
+          <div className="grid-2-collapse" style={{ gap: 12, marginBottom: 32 }}>
             {[
               { label: 'Total de Alunos', value: users.length, Icon: Users, color: '#3B5BDB' },
               { label: 'XP Distribuído', value: totalXP.toLocaleString('pt-BR'), Icon: Award, color: '#7C3AED' },

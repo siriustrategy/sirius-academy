@@ -114,7 +114,7 @@ function QuizGame({ questions, onComplete }: { questions: QuizQuestion[]; onComp
       </p>
 
       {/* Options 2x2 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+      <div className="quiz-opts-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
         {q.options.map((opt, oi) => {
           const isCorrectOpt = answered && oi === q.correct
           const isWrongOpt = answered && selected === oi && oi !== q.correct
@@ -346,7 +346,7 @@ export default function ModuloPage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* XP Notification — futurista, slide-in direita */}
       {showXpPopup && (
@@ -460,13 +460,14 @@ export default function ModuloPage() {
 
           {/* Body */}
           <div
+            className="module-body-indent"
             style={{ fontSize: 15, lineHeight: 1.85, color: 'var(--text-secondary)', paddingLeft: 48 }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(section.body) }}
           />
 
           {/* Tip */}
           {section.tip && (
-            <div className="tip-callout" style={{ marginLeft: 48 }}>
+            <div className="tip-callout module-tip-indent" style={{ marginLeft: 48 }}>
               <div style={{
                 width: 28, height: 28, borderRadius: 6, flexShrink: 0,
                 background: 'rgba(245,158,11,0.15)',
@@ -481,7 +482,7 @@ export default function ModuloPage() {
 
           {/* Section prompts */}
           {section.prompts?.map((prompt, pi) => (
-            <div key={pi} style={{ marginTop: 24, paddingLeft: 48 }}>
+            <div key={pi} className="module-prompt-indent" style={{ marginTop: 24, paddingLeft: 48 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 12, fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 {prompt.label}
               </div>
@@ -647,7 +648,7 @@ export default function ModuloPage() {
       )}
 
       {completed && (
-        <div style={{
+        <div className="module-done-card" style={{
           background: 'rgba(16,185,129,0.05)',
           border: '1px solid rgba(16,185,129,0.18)',
           borderRadius: 14, padding: '28px 32px',

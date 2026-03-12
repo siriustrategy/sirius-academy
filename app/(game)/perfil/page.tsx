@@ -53,7 +53,7 @@ export default function PerfilPage() {
   const totalModules = PHASES.reduce((acc, p) => acc + p.modules.length, 0)
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
       <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 700, marginBottom: 32 }}>
         Seu Perfil
       </h1>
@@ -64,7 +64,7 @@ export default function PerfilPage() {
         marginBottom: 24,
         background: 'linear-gradient(135deg, rgba(59,91,219,0.08) 0%, var(--bg-elevated) 100%)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
+        <div className="player-card-header" style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 28 }}>
           {/* Avatar com botão de trocar */}
           <div style={{ position: 'relative', flexShrink: 0 }}>
             {profile.avatar_id ? (
@@ -126,7 +126,7 @@ export default function PerfilPage() {
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, letterSpacing: '0.07em', marginBottom: 12 }}>
               ESCOLHA SEU AVATAR
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+            <div className="avatar-picker-5" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
               {AVATARS.map(avatar => {
                 const isSelected = profile.avatar_id === avatar.id
                 return (

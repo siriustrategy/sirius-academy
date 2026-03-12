@@ -58,7 +58,7 @@ export default function FasePage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
       {/* Back */}
       <Link href="/dashboard" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 14, marginBottom: 32 }}>
         ← Voltar ao Hub
@@ -72,7 +72,7 @@ export default function FasePage() {
         padding: '32px 36px',
         marginBottom: 32,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
+        <div className="fase-phase-header" style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
           {(() => {
             const PhaseIcon = PHASE_ICONS[phase.id] || Sparkles
             return (
@@ -162,7 +162,7 @@ export default function FasePage() {
                 </div>
 
                 {/* Meta */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+                <div className="fase-mod-meta" style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
                   <span style={{
                     background: `${typeColors[module.type]}15`,
                     border: `1px solid ${typeColors[module.type]}30`,

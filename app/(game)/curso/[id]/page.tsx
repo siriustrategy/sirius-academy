@@ -100,7 +100,7 @@ export default function CursoPage() {
   const overallPct = totalModules ? Math.round((doneModules / totalModules) * 100) : 0
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* Back */}
       <Link href="/especializacoes" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>

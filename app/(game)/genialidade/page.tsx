@@ -311,7 +311,7 @@ export default function GenialidadePage() {
       )}
 
       {/* ── Page content ── */}
-      <div style={{ padding: '40px 48px' }}>
+      <div className="page-wrap">
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
           <div style={{
@@ -357,7 +357,7 @@ export default function GenialidadePage() {
             return (
               <div
                 key={i}
-                className="framework-card"
+                className="framework-card framework-card-item"
                 onClick={() => setSelected(f)}
                 style={{
                   background: 'var(--card-bg)',

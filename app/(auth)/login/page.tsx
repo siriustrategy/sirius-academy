@@ -82,7 +82,7 @@ export default function LoginPage() {
           <div className="phase-badge" style={{ display: 'inline-flex' }}>SIRIUS ACADEMY</div>
         </div>
 
-        <div className="glass-card" style={{ padding: '40px 36px' }}>
+        <div className="glass-card auth-card-inner" style={{ padding: '40px 36px' }}>
           <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>
             Bem-vindo de volta
           </h1>

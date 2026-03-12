@@ -93,7 +93,7 @@ export default function AreaPage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* Back */}
       <Link href="/dashboard" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: 13, marginBottom: 28, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600 }}>
@@ -103,7 +103,7 @@ export default function AreaPage() {
 
       {/* Area Header */}
       <div className="glass-card" style={{ padding: '24px 28px', marginBottom: 36 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
+        <div className="area-header-flex" style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
           <div style={{
             width: 56, height: 56, flexShrink: 0,
             background: `${area.color}18`,

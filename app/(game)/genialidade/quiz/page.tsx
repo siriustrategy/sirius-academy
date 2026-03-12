@@ -127,7 +127,7 @@ export default function GeniusQuizPage() {
       `}</style>
 
       {/* Top progress bar */}
-      <div style={{ height: 4, background: 'var(--border)', position: 'fixed', top: 0, left: 220, right: 0, zIndex: 100 }}>
+      <div className="quiz-top-bar" style={{ background: 'var(--border)' }}>
         <div style={{
           height: '100%', background: `linear-gradient(90deg, ${color}, ${color}cc)`,
           width: `${progress.percent}%`, transition: 'width 0.4s ease',
@@ -135,7 +135,7 @@ export default function GeniusQuizPage() {
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 24px 40px' }}>
+      <div className="quiz-content-wrap" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ width: '100%', maxWidth: 640 }}>
 
           {/* Section badge */}
@@ -158,7 +158,7 @@ export default function GeniusQuizPage() {
           {/* Question card */}
           <div
             key={`${sectionIdx}-${questionIdx}`}
-            className="quiz-fade"
+            className="quiz-fade quiz-question-card"
             style={{
               background: 'rgba(8,12,24,0.7)',
               border: `1px solid ${color}25`,

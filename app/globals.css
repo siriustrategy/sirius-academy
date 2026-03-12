@@ -435,3 +435,195 @@ body > * { position: relative; z-index: 1; }
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ===================== RESPONSIVE ===================== */
+
+/* Page container padrão — padding responsivo */
+.page-wrap {
+  padding: 40px 48px;
+}
+
+/* Grid 3 colunas — colapsa para 1 no mobile */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Grid 2 colunas — colapsa para 1 em telas muito pequenas */
+.grid-2-collapse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Barra de progresso do quiz (desktoop: começa após sidebar 220px) */
+.quiz-top-bar {
+  position: fixed;
+  top: 0;
+  left: 220px;
+  right: 0;
+  height: 4px;
+  z-index: 100;
+}
+
+@media (max-width: 767px) {
+  /* ── Padding geral ── */
+  .page-wrap {
+    padding: 20px 16px !important;
+  }
+
+  /* ── Grids ── */
+  .grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Quiz progress bar (sem sidebar no mobile) ── */
+  .quiz-top-bar {
+    left: 0 !important;
+    top: 56px !important; /* abaixo da topbar mobile */
+  }
+
+  /* ── Landing: navbar ── */
+  .landing-nav {
+    padding: 0 16px !important;
+  }
+  .landing-nav-entrar {
+    display: none !important;
+  }
+  /* ── Landing: seções com grids de 3 colunas ── */
+  .landing-how-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .landing-diff-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* ── Landing: footer ── */
+  .landing-footer {
+    padding: 24px 16px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+  /* ── Landing: CTA box ── */
+  .landing-cta-box {
+    padding: 36px 20px !important;
+  }
+  /* ── Landing: hero stats ── */
+  .landing-hero-stats {
+    gap: 24px !important;
+  }
+
+  /* ── Dashboard: heading ── */
+  .dash-h1 {
+    font-size: 26px !important;
+  }
+  /* ── Dashboard: botão "Continuar" no card — esconder no mobile pequeno ── */
+  .continue-btn-hide {
+    display: none !important;
+  }
+
+  /* ── Perfil: avatar picker 5→3 colunas ── */
+  .avatar-picker-5 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  /* ── Perfil: player card header ── */
+  .player-card-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* ── Especializacoes: CursoCard ── */
+  .curso-card-inner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .curso-card-cta {
+    width: 100% !important;
+  }
+  .curso-cta-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* ── Genialidade: framework cards ── */
+  .framework-card-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+  }
+
+  /* ── Quiz genialidade: question card ── */
+  .quiz-question-card {
+    padding: 24px 18px !important;
+  }
+
+  /* ── Módulo: indentação de conteúdo ── */
+  .module-body-indent {
+    padding-left: 0 !important;
+  }
+  .module-tip-indent {
+    margin-left: 0 !important;
+  }
+  .module-prompt-indent {
+    padding-left: 0 !important;
+  }
+  /* ── Módulo: quiz 2 colunas → 1 ── */
+  .quiz-opts-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* ── Módulo: card de completado ── */
+  .module-done-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  /* ── Fase: header ── */
+  .fase-phase-header {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  /* ── Fase: módulo meta (tipo/duração/xp) ── */
+  .fase-mod-meta {
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* ── Auth (login/cadastro) ── */
+  .auth-card-inner {
+    padding: 28px 20px !important;
+  }
+
+  /* ── Area: header ── */
+  .area-header-flex {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* ── AI image grid (módulo) ── */
+  .ai-image-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Content section (módulo): padding menor ── */
+  .content-section {
+    padding: 20px 18px !important;
+  }
+}
+
+/* Quiz content wrapper */
+.quiz-content-wrap {
+  padding: 60px 24px 40px;
+}
+
+@media (max-width: 767px) {
+  .quiz-content-wrap {
+    padding: 16px 16px 80px !important; /* bottom padding para a bottom nav */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Grid 2 colunas colapsa para 1 */
+  .grid-2-collapse {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -38,7 +38,7 @@ export default function EspecializacoesPage() {
   }
 
   return (
-    <div style={{ padding: '40px 48px' }}>
+    <div className="page-wrap">
 
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
@@ -113,7 +113,7 @@ function CursoCard({ curso, isAdmin }: { curso: CursoDef; isAdmin: boolean }) {
         background: curso.color,
       }} />
 
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, paddingLeft: 8 }}>
+      <div className="curso-card-inner" style={{ display: 'flex', alignItems: 'flex-start', gap: 20, paddingLeft: 8 }}>
 
         {/* Ícone */}
         <div style={{
@@ -181,10 +181,10 @@ function CursoCard({ curso, isAdmin }: { curso: CursoDef; isAdmin: boolean }) {
         </div>
 
         {/* CTA */}
-        <div style={{ flexShrink: 0 }}>
+        <div className="curso-card-cta" style={{ flexShrink: 0 }}>
           {isFullyLocked ? (
             <Link href={`/checkout?produto=curso&id=${curso.id}`} style={{ textDecoration: 'none' }}>
-              <button style={{
+              <button className="curso-cta-btn" style={{
                 background: `linear-gradient(135deg, ${curso.color}, ${curso.color}bb)`,
                 border: 'none',
                 borderRadius: 9, padding: '10px 18px',
@@ -198,7 +198,7 @@ function CursoCard({ curso, isAdmin }: { curso: CursoDef; isAdmin: boolean }) {
             </Link>
           ) : (
             <Link href={`/curso/${curso.id}`} style={{ textDecoration: 'none' }}>
-              <button style={{
+              <button className="curso-cta-btn" style={{
                 background: `linear-gradient(135deg, ${curso.color}, ${curso.color}cc)`,
                 border: 'none',
                 borderRadius: 9, padding: '10px 20px',

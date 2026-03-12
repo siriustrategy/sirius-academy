@@ -192,7 +192,7 @@ export default function Home() {
       `}</style>
 
       {/* ── Navbar ── */}
-      <nav style={{
+      <nav className="landing-nav" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         background: 'var(--nav-bg)',
         borderBottom: '1px solid var(--border)',
@@ -223,7 +223,7 @@ export default function Home() {
               : <Moon size={16} color="var(--text-secondary)" strokeWidth={2} />
             }
           </button>
-          <Link href="/login" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 14, padding: '8px 16px' }}>
+          <Link href="/login" className="landing-nav-entrar" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 14, padding: '8px 16px' }}>
             Entrar
           </Link>
           <Link href="/cadastro" style={{ textDecoration: 'none' }}>
@@ -342,7 +342,7 @@ export default function Home() {
         </div>
 
         {/* Numbers */}
-        <StaggerSection className="hero-item hero-item-5" style={{
+        <StaggerSection className="hero-item hero-item-5 landing-hero-stats" style={{
           display: 'flex', gap: 56, flexWrap: 'wrap', justifyContent: 'center',
           paddingTop: 40,
           borderTop: '1px solid rgba(59,91,219,0.12)',
@@ -461,7 +461,7 @@ export default function Home() {
           </p>
         </div>
 
-        <StaggerSection style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+        <StaggerSection className="landing-how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
           {HOW_IT_WORKS.map((step, i) => (
             <StaggerItem key={step.n} style={{ position: 'relative' }}>
               {i < HOW_IT_WORKS.length - 1 && (
@@ -492,7 +492,7 @@ export default function Home() {
 
       {/* ── Diferenciais ── */}
       <section style={{ padding: '60px 24px', maxWidth: 900, margin: '0 auto' }}>
-        <StaggerSection style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <StaggerSection className="landing-diff-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {DIFFERENTIALS.map(d => (
             <StaggerItem key={d.label}>
             <div className="glass-card" style={{ padding: '22px 20px', display: 'flex', alignItems: 'flex-start', gap: 14 }}>
@@ -592,7 +592,7 @@ export default function Home() {
       {/* ── CTA Final ── */}
       <section style={{ padding: '80px 24px 100px', textAlign: 'center' }}>
         <FadeInSection>
-        <div style={{
+        <div className="landing-cta-box" style={{
           maxWidth: 640, margin: '0 auto',
           background: 'linear-gradient(135deg, rgba(59,91,219,0.12) 0%, rgba(124,58,237,0.08) 100%)',
           border: '1px solid rgba(59,91,219,0.28)',
@@ -779,7 +779,7 @@ export default function Home() {
       )}
 
       {/* ── Footer ── */}
-      <footer style={{
+      <footer className="landing-footer" style={{
         borderTop: '1px solid rgba(59,91,219,0.1)',
         padding: '24px 48px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
