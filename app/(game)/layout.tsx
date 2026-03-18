@@ -9,7 +9,7 @@ import { AvatarIcon, InitialsAvatar, type AvatarId } from '@/components/Avatars'
 import OnboardingModal from '@/components/OnboardingModal'
 import {
   LayoutDashboard, User, LogOut, TrendingUp, BarChart2, Megaphone,
-  BookOpen, ShieldCheck, Sparkles, Zap, Menu, X, DollarSign, Sun, Moon,
+  BookOpen, ShieldCheck, Sparkles, Zap, Menu, X, DollarSign, Sun, Moon, Library,
 } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import dynamic from 'next/dynamic'
@@ -55,6 +55,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
   const [loading, setLoading] = useState(true)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isHrManager, setIsHrManager] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
@@ -98,6 +99,7 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
     setProfile(data)
     if (!data.onboarding_complete) setShowOnboarding(true)
     if (session.user.email === 'breno.nobre@gruporiomais.com.br') setIsAdmin(true)
+    if (data.role === 'hr_manager') setIsHrManager(true)
     setLoading(false)
   }, [router])
 
@@ -247,31 +249,50 @@ export default function GameLayout({ children }: { children: React.ReactNode }) 
         })}
       </nav>
 
-      {isAdmin && (
+      {(isAdmin || isHrManager) && (
         <>
           <div style={{ height: 1, background: 'var(--border)', margin: '14px 0 8px 0' }} />
           <div style={{ fontSize: 9, fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '0.14em', textTransform: 'uppercase', padding: '0 6px', marginBottom: 6 }}>
-            Admin
+            {isAdmin ? 'Admin' : 'Gestão'}
           </div>
-          <Link href="/admin" style={{ textDecoration: 'none' }}>
-            <div className={`nav-pill ${pathname === '/admin' ? 'active' : ''}`}>
+
+          {/* Biblioteca — visível para admin e gestor de RH */}
+          <Link href="/biblioteca-genialidade" style={{ textDecoration: 'none' }}>
+            <div className={`nav-pill ${pathname === '/biblioteca-genialidade' ? 'active' : ''}`}>
               <div className="nav-icon" style={{
-                background: pathname === '/admin' ? 'rgba(245,158,11,0.18)' : 'var(--muted-bg)',
-                border: `1px solid ${pathname === '/admin' ? 'rgba(245,158,11,0.3)' : 'var(--border)'}`,
+                background: pathname === '/biblioteca-genialidade' ? 'rgba(124,58,237,0.18)' : 'var(--muted-bg)',
+                border: `1px solid ${pathname === '/biblioteca-genialidade' ? 'rgba(124,58,237,0.3)' : 'var(--border)'}`,
               }}>
-                <ShieldCheck size={15} color={pathname === '/admin' ? '#f59e0b' : 'var(--text-secondary)'} strokeWidth={2} />
+                <Library size={15} color={pathname === '/biblioteca-genialidade' ? '#7C3AED' : 'var(--text-secondary)'} strokeWidth={2} />
               </div>
-              <span>Alunos</span>
+              <span>Biblioteca Genialidade</span>
             </div>
           </Link>
-          <Link href="/admin#vendas" style={{ textDecoration: 'none' }}>
-            <div className="nav-pill">
-              <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
-                <DollarSign size={15} color="var(--text-secondary)" strokeWidth={2} />
-              </div>
-              <span>Vendas</span>
-            </div>
-          </Link>
+
+          {/* Links exclusivos do admin */}
+          {isAdmin && (
+            <>
+              <Link href="/admin" style={{ textDecoration: 'none' }}>
+                <div className={`nav-pill ${pathname === '/admin' ? 'active' : ''}`}>
+                  <div className="nav-icon" style={{
+                    background: pathname === '/admin' ? 'rgba(245,158,11,0.18)' : 'var(--muted-bg)',
+                    border: `1px solid ${pathname === '/admin' ? 'rgba(245,158,11,0.3)' : 'var(--border)'}`,
+                  }}>
+                    <ShieldCheck size={15} color={pathname === '/admin' ? '#f59e0b' : 'var(--text-secondary)'} strokeWidth={2} />
+                  </div>
+                  <span>Alunos</span>
+                </div>
+              </Link>
+              <Link href="/admin#vendas" style={{ textDecoration: 'none' }}>
+                <div className="nav-pill">
+                  <div className="nav-icon" style={{ background: 'var(--muted-bg)', border: '1px solid var(--border)' }}>
+                    <DollarSign size={15} color="var(--text-secondary)" strokeWidth={2} />
+                  </div>
+                  <span>Vendas</span>
+                </div>
+              </Link>
+            </>
+          )}
         </>
       )}
 

@@ -179,3 +179,40 @@ ALTER TABLE genius_blueprints ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users manage own blueprint" ON genius_blueprints
   FOR ALL USING (auth.uid() = user_id);
+
+-- ============================================================================
+-- MIGRATION: Perfil de Gestor de RH
+-- Execute no Supabase SQL Editor
+-- ============================================================================
+
+-- 1. Adicionar coluna role (student | hr_manager)
+ALTER TABLE academy_profiles
+  ADD COLUMN IF NOT EXISTS role TEXT DEFAULT 'student'
+  CHECK (role IN ('student', 'hr_manager'));
+
+-- 2. Função auxiliar — verifica se usuário logado é admin ou gestor de RH
+--    (SECURITY DEFINER evita loop circular no RLS da tabela academy_profiles)
+CREATE OR REPLACE FUNCTION is_hr_manager_or_admin()
+RETURNS boolean AS $$
+  SELECT
+    auth.jwt() ->> 'email' = 'breno.nobre@gruporiomais.com.br'
+    OR EXISTS (
+      SELECT 1 FROM academy_profiles
+      WHERE id = auth.uid() AND role = 'hr_manager'
+    )
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
+-- 3. RLS: Gestores de RH e admin podem ver todos os blueprints
+DROP POLICY IF EXISTS "HR managers view all blueprints" ON genius_blueprints;
+CREATE POLICY "HR managers view all blueprints" ON genius_blueprints
+  FOR SELECT USING (is_hr_manager_or_admin());
+
+-- 4. RLS: Gestores de RH e admin podem ver todos os perfis (nome/avatar)
+DROP POLICY IF EXISTS "HR managers view all profiles" ON academy_profiles;
+CREATE POLICY "HR managers view all profiles" ON academy_profiles
+  FOR SELECT USING (is_hr_manager_or_admin());
+
+-- 5. Configurar gestoras de RH
+--    (execute somente APÓS cada uma criar o perfil no sistema)
+-- UPDATE academy_profiles SET role = 'hr_manager'
+--   WHERE email IN ('vanessa.duarte@gruporiomais.com.br', 'gestorteste@gmail.com');

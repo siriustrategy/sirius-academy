@@ -15,6 +15,7 @@ export type Profile = {
   level: number
   title: string
   onboarding_complete: boolean
+  role?: string
   created_at: string
 }
 
