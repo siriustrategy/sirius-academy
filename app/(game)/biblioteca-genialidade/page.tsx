@@ -210,7 +210,7 @@ function BlueprintExpandido({ entry }: { entry: BlueprintEntry }) {
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div style={{
                   width: 22, height: 22, borderRadius: 6,
-                  background: 'rgba(59,91,219,0.12)', border: '1px solid rgba(59,91,219,0.2)',
+                  background: 'var(--muted-bg)', border: '1px solid rgba(59,91,219,0.3)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 11, fontWeight: 800, color: '#3B5BDB', fontFamily: 'Space Grotesk, sans-serif',
                   flexShrink: 0,
@@ -270,7 +270,7 @@ function BlueprintExpandido({ entry }: { entry: BlueprintEntry }) {
             const Icon = meta.icon
             return (
               <div key={sec.key} style={{
-                background: 'var(--card-bg)', border: `1px solid ${meta.color}18`,
+                background: 'var(--card-bg)', border: `1px solid ${meta.color}25`,
                 borderRadius: 10, padding: '14px 18px',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
@@ -304,8 +304,8 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
 
   return (
     <div style={{
-      background: 'rgba(8,12,24,0.7)',
-      border: `1px solid ${expanded ? 'rgba(124,58,237,0.3)' : 'rgba(59,91,219,0.12)'}`,
+      background: 'var(--card-bg)',
+      border: `1px solid ${expanded ? 'rgba(124,58,237,0.35)' : 'var(--border)'}`,
       borderRadius: 14,
       overflow: 'hidden',
       transition: 'border-color 0.2s',
@@ -329,11 +329,11 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
           {/* Arquétipo badge */}
           {cd?.arquetipo && (
             <div style={{
-              background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)',
+              background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.3)',
               borderRadius: 8, padding: '5px 10px',
               fontSize: 11, fontWeight: 700, color: '#7C3AED',
               fontFamily: 'Space Grotesk, sans-serif',
-              flexShrink: 0, maxWidth: 120, textAlign: 'center',
+              flexShrink: 0, maxWidth: 140, textAlign: 'center',
             }}>
               {cd.arquetipo}
             </div>
@@ -345,11 +345,13 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
           <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
             {[
               { label: 'Alinhamento', value: cd.alinhamento_pct, color: '#7C3AED' },
-              { label: 'Zona Atual', value: cd.zona_atual_pct, color: '#3B5BDB' },
-              { label: 'Potencial', value: cd.potencial_pct, color: '#059669' },
+              { label: 'Zona Atual',  value: cd.zona_atual_pct,  color: '#3B5BDB' },
+              { label: 'Potencial',   value: cd.potencial_pct,   color: '#059669' },
             ].map(m => (
               <div key={m.label} style={{
-                flex: 1, background: `${m.color}08`, border: `1px solid ${m.color}18`,
+                flex: 1,
+                background: 'var(--muted-bg)',
+                border: `1px solid ${m.color}25`,
                 borderRadius: 8, padding: '10px 12px', textAlign: 'center',
               }}>
                 <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 20, color: m.color, lineHeight: 1 }}>
@@ -372,9 +374,9 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {cd.clifton_top5.slice(0, 3).map((c, i) => (
                 <span key={i} style={{
-                  background: 'rgba(59,91,219,0.1)', border: '1px solid rgba(59,91,219,0.2)',
+                  background: 'rgba(59,91,219,0.1)', border: '1px solid rgba(59,91,219,0.3)',
                   borderRadius: 6, padding: '3px 8px',
-                  fontSize: 11, color: '#7A9BFF', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600,
+                  fontSize: 11, color: '#3B5BDB', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,
                 }}>
                   {c.nome}
                 </span>
@@ -392,11 +394,11 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
             onClick={() => setExpanded(e => !e)}
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
-              background: expanded ? 'rgba(124,58,237,0.15)' : 'rgba(59,91,219,0.08)',
-              border: `1px solid ${expanded ? 'rgba(124,58,237,0.3)' : 'rgba(59,91,219,0.18)'}`,
+              background: expanded ? 'rgba(124,58,237,0.12)' : 'var(--muted-bg)',
+              border: `1px solid ${expanded ? 'rgba(124,58,237,0.35)' : 'var(--border)'}`,
               borderRadius: 8, padding: '6px 14px',
               fontSize: 12, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif',
-              color: expanded ? '#7C3AED' : '#5B7BFF',
+              color: expanded ? '#7C3AED' : '#3B5BDB',
               cursor: 'pointer', transition: 'all 0.15s',
             }}
           >
@@ -408,7 +410,7 @@ function ColaboradorCard({ entry }: { entry: BlueprintEntry }) {
 
       {/* Blueprint expandido */}
       {expanded && (
-        <div style={{ borderTop: '1px solid rgba(124,58,237,0.15)', background: 'rgba(5,8,20,0.5)' }}>
+        <div style={{ borderTop: '1px solid var(--border)', background: 'var(--muted-bg)' }}>
           <BlueprintExpandido entry={entry} />
         </div>
       )}
