@@ -235,7 +235,7 @@ export default function DashboardPage() {
             borderRadius: 12,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            {isAdmin ? <Sparkles size={24} color="#7C3AED" /> : <Lock size={22} color="#7C3AED" />}
+            <Sparkles size={24} color="#7C3AED" />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 10, fontWeight: 700, color: '#7C3AED', letterSpacing: '0.1em', marginBottom: 4, fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -245,23 +245,21 @@ export default function DashboardPage() {
               {hasBlueprint ? 'Meu Blueprint de Gênio' : 'Descobrir minha Zona de Gênio'}
             </div>
             <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              {isAdmin
-                ? hasBlueprint
-                  ? '7 frameworks analisados — Blueprint disponível'
-                  : 'Gay Hendricks · CliftonStrengths · Wealth Dynamics · e mais 4'
-                : 'Premium · Em breve disponível para todos'
+              {hasBlueprint
+                ? '7 frameworks analisados — Blueprint disponível'
+                : 'Gay Hendricks · CliftonStrengths · Wealth Dynamics · e mais 4'
               }
             </div>
           </div>
           <div style={{
-            background: isAdmin ? '#7C3AED' : 'rgba(124,58,237,0.3)',
+            background: '#7C3AED',
             borderRadius: 8, padding: '8px 16px',
             fontFamily: 'Space Grotesk, sans-serif',
             fontWeight: 700, fontSize: 13, color: '#fff',
             flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6,
           }}>
-            {isAdmin ? (hasBlueprint ? 'Ver Blueprint' : 'Iniciar') : 'Em Breve'}
-            {isAdmin && <ChevronRight size={14} />}
+            {hasBlueprint ? 'Ver Blueprint' : 'Fazer Teste'}
+            <ChevronRight size={14} />
           </div>
         </div>
       </Link>
